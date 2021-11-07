@@ -11,6 +11,14 @@
                 serviceImplementation="com.github.tcpgnl.thoughtworkscodereviewtools.services.MyApplicationService"/>
         <projectService
                 serviceImplementation="com.github.tcpgnl.thoughtworkscodereviewtools.services.MyProjectService"/>
+        <!--  显示提示框  -->
+        <notificationGroup id="Custom Notification Group" displayType="BALLOON"/>
+        <applicationConfigurable parentId="root"
+                                 instance="net.lihui.app.plugin.thoughtworkscodereviewtools.store.TwCodeReviewSettingsConfigurable"
+                                 id="net.lihui.app.plugin.thoughtworkscodereviewtools.store.TwCodeReviewSettingsConfigurable"
+                                 displayName="Tw Code Review Tools"/>
+        <applicationService
+                serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.store.TwCodeReviewSettingsState"/>
     </extensions>
 
     <applicationListeners>
@@ -27,10 +35,5 @@
             <keyboard-shortcut keymap="$default" first-keystroke="meta alt I"/>
         </action>
     </actions>
-
-    <!--  显示提示框  -->
-    <extensions defaultExtensionNs="com.intellij">
-        <notificationGroup id="Custom Notification Group" displayType="BALLOON"/>
-    </extensions>
 
 </idea-plugin>
