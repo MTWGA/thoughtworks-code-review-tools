@@ -5,7 +5,6 @@ import com.ibm.icu.text.SimpleDateFormat;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -33,13 +32,13 @@ import java.util.Optional;
 import static com.intellij.openapi.actionSystem.CommonDataKeys.VIRTUAL_FILE;
 
 public class MessageTools extends AnAction {
-    private final static Logger log = LoggerFactory.getLogger(MessageTools.class);
+    private final Logger log = LoggerFactory.getLogger(MessageTools.class);
 
     @Override
     public void actionPerformed(AnActionEvent e) {
         String trelloKey = "5539a8fe5e55167267f18ea549372f0c";
         String trelloAccessToken = "c7c2dfc44d8fcea5884d1d7abf1f608eaee1313e6586687f7c252b1e27be7a1e";
-        Project project = e.getData(PlatformDataKeys.PROJECT);
+        Project project = e.getData(CommonDataKeys.PROJECT);
         log.info("project info : {}", project);
         PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
         log.info("PSIFile : {}", psiFile);
@@ -90,12 +89,12 @@ public class MessageTools extends AnAction {
             } catch (UnirestException ex) {
                 ex.printStackTrace();
             }
-            System.out.println(response.getBody());
+            log.info("response data: {}", response.getBody());
         }
 
         tLists = board.fetchLists();
         todayCard = tLists.stream().filter(tList -> tList.getName().equals(formatData)).findAny();
-        Editor editor = e.getData(PlatformDataKeys.EDITOR);
+        Editor editor = e.getData(CommonDataKeys.EDITOR);
         String selectedText = editor.getSelectionModel().getSelectedText();
         if (selectedText == null) {
             selectedText = "";

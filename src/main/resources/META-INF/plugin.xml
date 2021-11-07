@@ -18,15 +18,17 @@
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 
+    <!--  设置Action  -->
     <actions>
         <action id="net.lihui.app.plugin.thoughtworkscodereviewtools.MessageTools"
-                class="net.lihui.app.plugin.thoughtworkscodereviewtools.MessageTools" text="messageTools"
-                description="提交框">
+                class="net.lihui.app.plugin.thoughtworkscodereviewtools.MessageTools" text="MessageTools"
+                description="Submit code review message">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="meta alt I"/>
         </action>
     </actions>
 
+    <!--  显示提示框  -->
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="Custom Notification Group" displayType="BALLOON"/>
     </extensions>
