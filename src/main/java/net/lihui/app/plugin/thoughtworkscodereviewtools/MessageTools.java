@@ -90,6 +90,7 @@ public class MessageTools extends AnAction {
             }
             if (response == null) {
                 log.error("请求获取trello board list失败");
+                MyNotifier.notifyError(project, "请求获取trello board list失败");
                 return;
             }
             log.info("response data: {}", response.getBody());
@@ -139,6 +140,10 @@ public class MessageTools extends AnAction {
         final String filePath = canonicalPath.substring(
                 index + projectName.length() + 1
         );
+
+        if (selectedText == null) {
+            selectedText = "";
+        }
         return "### " + projectName + '\n' + filePath + "\n" + "\n> " + selectedText;
     }
 }
