@@ -4,6 +4,7 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.store;
 
 import com.intellij.openapi.options.Configurable;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.TwCodeReviewSettingsComponent;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
