@@ -21,6 +21,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +36,12 @@ public class MessageTools extends AnAction {
     private final Logger log = LoggerFactory.getLogger(MessageTools.class);
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
+    public void actionPerformed(AnActionEvent actionEvent) {
         String trelloKey = "5539a8fe5e55167267f18ea549372f0c";
         String trelloAccessToken = "c7c2dfc44d8fcea5884d1d7abf1f608eaee1313e6586687f7c252b1e27be7a1e";
-        Project project = e.getData(CommonDataKeys.PROJECT);
+        Project project = actionEvent.getData(CommonDataKeys.PROJECT);
         log.info("project info : {}", project);
-        PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
+        PsiFile psiFile = actionEvent.getData(CommonDataKeys.PSI_FILE);
         log.info("PSIFile : {}", psiFile);
         if (psiFile == null || project == null) {
             return;
@@ -89,27 +90,15 @@ public class MessageTools extends AnAction {
 
         tLists = board.fetchLists();
         todayCard = tLists.stream().filter(tList -> tList.getName().equals(formatData)).findAny();
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
+        Editor editor = actionEvent.getData(CommonDataKeys.EDITOR);
         String selectedText = editor != null ? editor.getSelectionModel().getSelectedText() : "";
         // deal with the input data  get member and get data title
 
         String memberName = input.split(" ")[0];
 
         String projectName = project.getName();
-        final VirtualFile file = e.getData(VIRTUAL_FILE);
-        String canonicalPath = null;
-        if (file != null) {
-            canonicalPath = file.getCanonicalPath();
-        }
-        if (canonicalPath == null) {
-            log.error("canonicalPath should not be null");
-            return;
-        }
-        final int index = canonicalPath.indexOf(projectName);
-        final String filePath = canonicalPath.substring(
-                index + projectName.length() + 1
-        );
-        String cardDesc = "### " + projectName + '\n' + filePath + "\n" + "\n> " + selectedText;
+        String cardDesc = getCardDesc(actionEvent, selectedText, projectName);
+        if (cardDesc == null) return;
 
         Card card = new Card();
         card.setName(input);
@@ -123,8 +112,27 @@ public class MessageTools extends AnAction {
         if (todayCard.isPresent()) {
             card = trelloApi.createCard(todayCard.get().getId(), card);
             if (card.getName().equals(input)) {
-                MyNotifier.notifyInfo(e.getProject(), "信息发送成功" + card.getName() + ":" + card.getDesc());
+                MyNotifier.notifyInfo(actionEvent.getProject(), "信息发送成功" + card.getName() + ":" + card.getDesc());
             }
         }
+    }
+
+    @Nullable
+    private String getCardDesc(AnActionEvent actionEvent, String selectedText, String projectName) {
+        final VirtualFile file = actionEvent.getData(VIRTUAL_FILE);
+        String canonicalPath = null;
+        if (file != null) {
+            canonicalPath = file.getCanonicalPath();
+        }
+        if (canonicalPath == null) {
+            log.error("canonicalPath should not be null");
+            return null;
+        }
+        final int index = canonicalPath.indexOf(projectName);
+        final String filePath = canonicalPath.substring(
+                index + projectName.length() + 1
+        );
+        String cardDesc = "### " + projectName + '\n' + filePath + "\n" + "\n> " + selectedText;
+        return cardDesc;
     }
 }
