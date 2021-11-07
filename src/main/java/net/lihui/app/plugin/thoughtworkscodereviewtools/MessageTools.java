@@ -55,12 +55,6 @@ public class MessageTools extends AnAction {
             return;
         }
 
-//        ToolWindow toolWindow = ToolWindowManager.getInstance(e.getProject()).getToolWindow("MyPlugin");
-//        ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(e.getProject()).getConsole();
-//        Content content = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), "MyPlugin Output", false);
-//        toolWindow.getContentManager().addContent(content);
-//        consoleView.print("Hello from MyPlugin!", ConsoleViewContentType.NORMAL_OUTPUT);
-
         Trello trelloApi = new TrelloImpl(trelloKey, trelloAccessToken, new JDKTrelloHttpClient());
         String boardId = "OpTkznTN";
         Board board = trelloApi.getBoard(boardId);
