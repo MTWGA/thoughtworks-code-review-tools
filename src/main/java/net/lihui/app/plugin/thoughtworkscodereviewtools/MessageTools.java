@@ -55,9 +55,11 @@ public class MessageTools extends AnAction {
         if (trelloKey.isBlank() || trelloAccessToken.isBlank() || boardId.isBlank()) {
             MyNotifier.notifyError(project, "您尚未配置 Trello 信息，请补全 Trello 配置信息 设置路径 Preferences -> Tw Code Review Tools 中设置");
         }
-        String classPath = psiFile.getVirtualFile().getPath();
+        String projectName = project.getName();
         String title = "提交 Code Review 信息";
-        String input = Messages.showInputDialog(project, classPath, title, null);
+        String filePath = getFilePath(actionEvent, projectName);
+
+        String input = Messages.showInputDialog(project, filePath, title, null);
         log.info(input);
 
         if (input == null || input.isEmpty()) {
@@ -104,7 +106,7 @@ public class MessageTools extends AnAction {
 
         String memberName = input.split(" ")[0];
 
-        String projectName = project.getName();
+
         String cardDesc = getCardDesc(actionEvent, selectedText, projectName);
         if (cardDesc == null) return;
 
