@@ -127,6 +127,17 @@ public class MessageTools extends AnAction {
 
     @Nullable
     private String getCardDesc(AnActionEvent actionEvent, String selectedText, String projectName) {
+        final String filePath = getFilePath(actionEvent, projectName);
+        if (filePath == null) return null;
+
+        if (selectedText == null) {
+            selectedText = "";
+        }
+        return "### " + projectName + '\n' + filePath + "\n" + "\n> " + selectedText;
+    }
+
+    @Nullable
+    private String getFilePath(AnActionEvent actionEvent, String projectName) {
         final VirtualFile file = actionEvent.getData(VIRTUAL_FILE);
         String canonicalPath = null;
         if (file != null) {
@@ -137,13 +148,8 @@ public class MessageTools extends AnAction {
             return null;
         }
         final int index = canonicalPath.indexOf(projectName);
-        final String filePath = canonicalPath.substring(
+        return canonicalPath.substring(
                 index + projectName.length() + 1
         );
-
-        if (selectedText == null) {
-            selectedText = "";
-        }
-        return "### " + projectName + '\n' + filePath + "\n" + "\n> " + selectedText;
     }
 }
