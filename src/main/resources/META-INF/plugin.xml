@@ -1,0 +1,34 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>net.lihui.app.plugin.thoughtworkscodereviewtools</id>
+    <name>Thoughtworks Code Review Tools</name>
+    <vendor>lihui</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService
+                serviceImplementation="com.github.tcpgnl.thoughtworkscodereviewtools.services.MyApplicationService"/>
+        <projectService
+                serviceImplementation="com.github.tcpgnl.thoughtworkscodereviewtools.services.MyProjectService"/>
+    </extensions>
+
+    <applicationListeners>
+        <listener class="com.github.tcpgnl.thoughtworkscodereviewtools.listeners.MyProjectManagerListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
+
+    <actions>
+        <action id="net.lihui.app.plugin.thoughtworkscodereviewtools.MessageTools"
+                class="net.lihui.app.plugin.thoughtworkscodereviewtools.MessageTools" text="messageTools"
+                description="提交框">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="meta alt I"/>
+        </action>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="Custom Notification Group" displayType="BALLOON"/>
+    </extensions>
+
+</idea-plugin>
