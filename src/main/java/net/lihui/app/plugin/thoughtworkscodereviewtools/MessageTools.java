@@ -67,11 +67,8 @@ public class MessageTools extends AnAction {
         log.info("tlist: {}", JSON.toJSONString(tLists));
 
         Optional<TList> todayCard = tLists.stream().filter(tList -> tList.getName().equals(formatData)).findAny();
-
+        // TODO：this request should been solved by sdk
         if (todayCard.isEmpty()) {
-            // create the t list and get the t list data
-            // This code sample uses the  'Unirest' library:
-            // http://unirest.io/java.html
             HttpResponse<JsonNode> response = null;
             try {
                 response = Unirest.post("https://api.trello.com/1/boards/" + boardId + "/lists")
@@ -81,7 +78,11 @@ public class MessageTools extends AnAction {
                         .queryString("token", trelloAccessToken)
                         .asJson();
             } catch (UnirestException ex) {
-                ex.printStackTrace();
+                log.error("请求获取trello board list失败", ex);
+            }
+            if (response == null) {
+                log.error("请求获取trello board list失败");
+                return;
             }
             log.info("response data: {}", response.getBody());
         }
@@ -89,17 +90,17 @@ public class MessageTools extends AnAction {
         tLists = board.fetchLists();
         todayCard = tLists.stream().filter(tList -> tList.getName().equals(formatData)).findAny();
         Editor editor = e.getData(CommonDataKeys.EDITOR);
-        String selectedText = editor.getSelectionModel().getSelectedText();
-        if (selectedText == null) {
-            selectedText = "";
-        }
+        String selectedText = editor != null ? editor.getSelectionModel().getSelectedText() : "";
         // deal with the input data  get member and get data title
 
         String memberName = input.split(" ")[0];
 
         String projectName = project.getName();
         final VirtualFile file = e.getData(VIRTUAL_FILE);
-        String canonicalPath = file.getCanonicalPath();
+        String canonicalPath = null;
+        if (file != null) {
+            canonicalPath = file.getCanonicalPath();
+        }
         if (canonicalPath == null) {
             log.error("canonicalPath should not be null");
             return;
