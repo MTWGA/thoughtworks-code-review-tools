@@ -21,6 +21,8 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.notification.MyNotifier;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.store.TwCodeReviewSettingsState;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +39,6 @@ public class MessageTools extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent actionEvent) {
-        String trelloKey = "5539a8fe5e55167267f18ea549372f0c";
-        String trelloAccessToken = "c7c2dfc44d8fcea5884d1d7abf1f608eaee1313e6586687f7c252b1e27be7a1e";
         Project project = actionEvent.getData(CommonDataKeys.PROJECT);
         log.info("project info : {}", project);
         PsiFile psiFile = actionEvent.getData(CommonDataKeys.PSI_FILE);
@@ -46,10 +46,18 @@ public class MessageTools extends AnAction {
         if (psiFile == null || project == null) {
             return;
         }
-        String classPath = psiFile.getVirtualFile().getPath();
 
-        String title = "Hello World!";
-        String input = Messages.showInputDialog(project, classPath, title, Messages.getInformationIcon());
+        TwCodeReviewSettingsState settings = TwCodeReviewSettingsState.getInstance();
+        String trelloKey = settings.trelloApiKey;
+        String trelloAccessToken = settings.trelloApiToken;
+        String boardId = settings.trelloBoardId;
+
+        if (trelloKey.isBlank() || trelloAccessToken.isBlank() || boardId.isBlank()) {
+            MyNotifier.notifyError(project, "您尚未配置 Trello 信息，请补全 Trello 配置信息 设置路径 Preferences -> Tw Code Review Tools 中设置");
+        }
+        String classPath = psiFile.getVirtualFile().getPath();
+        String title = "提交 Code Review 信息";
+        String input = Messages.showInputDialog(project, classPath, title, null);
         log.info(input);
 
         if (input == null || input.isEmpty()) {
@@ -57,7 +65,6 @@ public class MessageTools extends AnAction {
         }
 
         Trello trelloApi = new TrelloImpl(trelloKey, trelloAccessToken, new JDKTrelloHttpClient());
-        String boardId = "OpTkznTN";
         Board board = trelloApi.getBoard(boardId);
         List<TList> tLists = board.fetchLists();
         SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
@@ -132,7 +139,6 @@ public class MessageTools extends AnAction {
         final String filePath = canonicalPath.substring(
                 index + projectName.length() + 1
         );
-        String cardDesc = "### " + projectName + '\n' + filePath + "\n" + "\n> " + selectedText;
-        return cardDesc;
+        return "### " + projectName + '\n' + filePath + "\n" + "\n> " + selectedText;
     }
 }
