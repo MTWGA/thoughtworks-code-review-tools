@@ -1,3 +1,4 @@
 <root>
-    <a1>Foo</a1>
+    <a1
+    <caret>>Foo</a1>
 </root>
