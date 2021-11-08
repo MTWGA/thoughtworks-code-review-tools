@@ -4,7 +4,10 @@
 
 ## [Unreleased]
 
-### Added
+## [0.0.2]
 
-- Initial scaffold created
-  from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- 加快提交速度
+
+## [0.0.1]
+
+- 初始化项目提交
