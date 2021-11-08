@@ -42,8 +42,8 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
     public boolean isModified() {
         TwCodeReviewSettingsState settings = TwCodeReviewSettingsState.getInstance();
         return !twCodeReviewSettingsComponent.getTrelloApiKey().equals(settings.trelloApiKey)
-                && !twCodeReviewSettingsComponent.getTrelloApiToken().equals(settings.trelloApiToken)
-                && !twCodeReviewSettingsComponent.getTrelloBoardId().equals(settings.trelloBoardId);
+                || !twCodeReviewSettingsComponent.getTrelloApiToken().equals(settings.trelloApiToken)
+                || !twCodeReviewSettingsComponent.getTrelloBoardId().equals(settings.trelloBoardId);
     }
 
     @Override
