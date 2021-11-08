@@ -91,7 +91,6 @@ public class MessageTools extends AnAction {
 
         String memberName = input.split(" ")[0];
 
-
         String cardDesc = getCardDesc(actionEvent, selectedText, projectName);
         if (cardDesc == null) return;
 

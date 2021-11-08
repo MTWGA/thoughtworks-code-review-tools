@@ -21,12 +21,9 @@
   about releases containing new features and fixes.
 
 <!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
-
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be
-extracted by the [Gradle](/build.gradle.kts) during the build process.
-
-To keep everything working, do not remove `<!-- ... -->` sections.
+开发本插件的目的是为 Code Review 提高工作效率，提高Code Review 的愉悦度，本软件近期会快速迭代更新，请及时更新至最新版本。 The purpose of developing this plug-in is to
+improve the work efficiency of Code Review and the joy of Code Review. The software will be updated quickly in the near
+future. Please update to the latest version in time.
 <!-- Plugin description end -->
 
 ## Installation
