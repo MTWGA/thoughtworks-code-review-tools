@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>net.lihui.app.plugin.thoughtworkscodereviewtools</id>
     <name>Thoughtworks Code Review Tools</name>
-    <vendor>lihui</vendor>
+    <vendor url="https://lihui.net" email="me@lihui.net">lihui</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
