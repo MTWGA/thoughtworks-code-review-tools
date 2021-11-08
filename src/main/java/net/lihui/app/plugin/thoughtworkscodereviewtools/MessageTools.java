@@ -17,16 +17,16 @@ import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.notification.MyNotifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.store.TwCodeReviewSettingsState;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -77,29 +77,14 @@ public class MessageTools extends AnAction {
         log.info("tlist: {}", JSON.toJSONString(tLists));
 
         Optional<TList> todayCard = tLists.stream().filter(tList -> tList.getName().equals(formatData)).findAny();
-        // TODO：this request should been solved by sdk
+
+        String todayListId;
         if (todayCard.isEmpty()) {
-            HttpResponse<JsonNode> response = null;
-            try {
-                response = Unirest.post("https://api.trello.com/1/boards/" + boardId + "/lists")
-                        .header("Accept", "application/json")
-                        .queryString("name", formatData)
-                        .queryString("key", trelloKey)
-                        .queryString("token", trelloAccessToken)
-                        .asJson();
-            } catch (UnirestException ex) {
-                log.error("请求获取trello board list失败", ex);
-            }
-            if (response == null) {
-                log.error("请求获取trello board list失败");
-                MyNotifier.notifyError(project, "请求获取trello board list失败");
-                return;
-            }
-            log.info("response data: {}", response.getBody());
+            todayListId = createTodayList(trelloKey, trelloAccessToken, boardId, formatData);
+        } else {
+            todayListId = todayCard.get().getId();
         }
 
-        tLists = board.fetchLists();
-        todayCard = tLists.stream().filter(tList -> tList.getName().equals(formatData)).findAny();
         Editor editor = actionEvent.getData(CommonDataKeys.EDITOR);
         String selectedText = editor != null ? editor.getSelectionModel().getSelectedText() : "";
         // deal with the input data  get member and get data title
@@ -119,12 +104,23 @@ public class MessageTools extends AnAction {
         if (member.isPresent()) {
             card.setIdMembers(Collections.singletonList(member.get().getId()));
         }
-        if (todayCard.isPresent()) {
-            card = trelloApi.createCard(todayCard.get().getId(), card);
-            if (card.getName().equals(input)) {
-                MyNotifier.notifyInfo(actionEvent.getProject(), "信息发送成功" + card.getName() + ":" + card.getDesc());
-            }
+        card = trelloApi.createCard(todayListId, card);
+        if (card.getName().equals(input)) {
+            MyNotifier.notifyInfo(actionEvent.getProject(), "信息发送成功" + card.getName() + ":" + card.getDesc());
         }
+    }
+
+    private String createTodayList(String trelloKey, String trelloAccessToken, String boardId, String formatData) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://api.trello.com/1/boards/" + boardId + "/lists";
+        URI fullUri = UriComponentsBuilder.fromUriString(url)
+                .queryParam("name", formatData)
+                .queryParam("key", trelloKey)
+                .queryParam("token", trelloAccessToken)
+                .buildAndExpand().toUri();
+        TrelloList trelloList = restTemplate.postForObject(fullUri, null, TrelloList.class);
+        System.out.println("create new list id: " + trelloList.getId());
+        return trelloList.getId();
     }
 
     @Nullable
