@@ -17,10 +17,10 @@ import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.notification.MyNotifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.store.TwCodeReviewSettingsState;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
@@ -30,7 +30,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Function;
 
 import static com.intellij.openapi.actionSystem.CommonDataKeys.VIRTUAL_FILE;
 
@@ -47,12 +47,10 @@ public class MessageTools extends AnAction {
             return;
         }
 
-        TwCodeReviewSettingsState settings = TwCodeReviewSettingsState.getInstance();
-        String trelloKey = settings.trelloApiKey;
-        String trelloAccessToken = settings.trelloApiToken;
-        String boardId = settings.trelloBoardId;
+        TwCodeReviewSettingsState trelloSettings = TwCodeReviewSettingsState.getInstance();
+        TrelloConfiguration trelloConfiguration = new TrelloConfiguration(trelloSettings.trelloApiKey, trelloSettings.trelloApiToken, trelloSettings.trelloBoardId);
 
-        if (trelloKey.isBlank() || trelloAccessToken.isBlank() || boardId.isBlank()) {
+        if (trelloConfiguration.isInvalid()) {
             MyNotifier.notifyError(project, "您尚未配置 Trello 信息，请补全 Trello 配置信息 设置路径 Preferences -> Tw Code Review Tools 中设置");
         }
         String projectName = project.getName();
@@ -66,74 +64,86 @@ public class MessageTools extends AnAction {
             return;
         }
 
-        Trello trelloApi = new TrelloImpl(trelloKey, trelloAccessToken, new JDKTrelloHttpClient());
-        Board board = trelloApi.getBoard(boardId);
-        List<TList> tLists = board.fetchLists();
-        SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
-        sdf.applyPattern("yyyy-MM-dd");// a为am/pm的标记
-        Date date = new Date();
-        String formatData = sdf.format(date);
-        log.info(formatData);
-        log.info("tlist: {}", JSON.toJSONString(tLists));
+        Trello trelloApi = new TrelloImpl(trelloConfiguration.getTrelloApiKey(), trelloConfiguration.getTrelloApiToken(), new JDKTrelloHttpClient());
+        List<TList> boardListCollection = getBoardListCollection(trelloConfiguration.getTrelloBoardId(), trelloApi::getBoard);
+        String codeReviewListName = buildTodayCodeReviewListName();
+        String todayCodeReviewListId = getTodayCodeReviewListId(trelloConfiguration, boardListCollection, codeReviewListName);
 
-        Optional<TList> todayCard = tLists.stream().filter(tList -> tList.getName().equals(formatData)).findAny();
-
-        String todayListId;
-        if (todayCard.isEmpty()) {
-            todayListId = createTodayList(trelloKey, trelloAccessToken, boardId, formatData);
-        } else {
-            todayListId = todayCard.get().getId();
+        String cardDesc = buildCardDesc(actionEvent, projectName);
+        if (cardDesc == null) {
+            return;
         }
 
-        Editor editor = actionEvent.getData(CommonDataKeys.EDITOR);
-        String selectedText = editor != null ? editor.getSelectionModel().getSelectedText() : "";
-        // deal with the input data  get member and get data title
+        Card codeReviewCard = createCodeReviewCard(trelloApi, todayCodeReviewListId, trelloConfiguration.getTrelloBoardId(), cardDesc, input);
+        if (codeReviewCard.getName().equals(input)) {
+            MyNotifier.notifyInfo(actionEvent.getProject(), "信息发送成功" + codeReviewCard.getName() + ":" + codeReviewCard.getDesc());
+        }
+    }
 
-        String memberName = input.split(" ")[0];
+    private String getTodayCodeReviewListId(TrelloConfiguration trelloConfiguration, List<TList> boardListCollection, String codeReviewListName) {
+        return boardListCollection.stream()
+                .filter(list -> list.getName().equals(codeReviewListName))
+                .findFirst()
+                .map(TList::getId)
+                .orElseGet(() -> createTodayCodeReviewList(trelloConfiguration, codeReviewListName));
+    }
 
-        String cardDesc = getCardDesc(actionEvent, selectedText, projectName);
-        if (cardDesc == null) return;
-
+    private Card createCodeReviewCard(Trello trelloApi, String todayCodeReviewListId, String boardId, String cardDesc, String input) {
+        String currentMemberName = input.split(" ")[0];
         Card card = new Card();
         card.setName(input);
         card.setDesc(cardDesc);
         log.info("card info: {}", card);
         List<Member> memberList = trelloApi.getBoardMembers(boardId);
-        Optional<Member> member = memberList.stream().filter(member1 -> member1.getFullName().equals(memberName)).findAny();
-        if (member.isPresent()) {
-            card.setIdMembers(Collections.singletonList(member.get().getId()));
-        }
-        card = trelloApi.createCard(todayListId, card);
-        if (card.getName().equals(input)) {
-            MyNotifier.notifyInfo(actionEvent.getProject(), "信息发送成功" + card.getName() + ":" + card.getDesc());
-        }
+        memberList.stream()
+                .filter(member -> member.getFullName().equals(currentMemberName))
+                .findFirst()
+                .ifPresent(member -> card.setIdMembers(Collections.singletonList(member.getId())));
+
+        return trelloApi.createCard(todayCodeReviewListId, card);
     }
 
-    private String createTodayList(String trelloKey, String trelloAccessToken, String boardId, String formatData) {
+    private List<TList> getBoardListCollection(String boardId, Function<String, Board> getBoardFunction) {
+        Board board = getBoardFunction.apply(boardId);
+        List<TList> trelloListCollection = board.fetchLists();
+        log.info("tlist: {}", JSON.toJSONString(trelloListCollection));
+        return trelloListCollection;
+    }
+
+    private String buildTodayCodeReviewListName() {
+        SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
+        sdf.applyPattern("yyyy-MM-dd");// a为am/pm的标记
+        Date date = new Date();
+        String trelloListName = sdf.format(date);
+        log.info(trelloListName);
+        return trelloListName;
+    }
+
+    private String createTodayCodeReviewList(TrelloConfiguration trelloConfiguration, String trelloListName) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "https://api.trello.com/1/boards/" + boardId + "/lists";
+        String url = "https://api.trello.com/1/boards/" + trelloConfiguration.getTrelloBoardId() + "/lists";
         URI fullUri = UriComponentsBuilder.fromUriString(url)
-                .queryParam("name", formatData)
-                .queryParam("key", trelloKey)
-                .queryParam("token", trelloAccessToken)
+                .queryParam("name", trelloListName)
+                .queryParam("key", trelloConfiguration.getTrelloApiKey())
+                .queryParam("token", trelloConfiguration.getTrelloApiToken())
                 .buildAndExpand().toUri();
         TrelloList trelloList = restTemplate.postForObject(fullUri, null, TrelloList.class);
-        System.out.println("create new list id: " + trelloList.getId());
         return trelloList.getId();
     }
 
-    @Nullable
-    private String getCardDesc(AnActionEvent actionEvent, String selectedText, String projectName) {
-        final String filePath = getFilePath(actionEvent, projectName);
-        if (filePath == null) return null;
-
+    private String buildCardDesc(AnActionEvent actionEvent, String projectName) {
+        Editor editor = actionEvent.getData(CommonDataKeys.EDITOR);
+        String selectedText = editor != null ? editor.getSelectionModel().getSelectedText() : "";
         if (selectedText == null) {
             selectedText = "";
         }
+
+        final String filePath = getFilePath(actionEvent, projectName);
+        if (filePath == null) return null;
+
         return "### " + projectName + '\n' + filePath + "\n" + "\n> " + selectedText;
     }
 
-    @Nullable
     private String getFilePath(AnActionEvent actionEvent, String projectName) {
         final VirtualFile file = actionEvent.getData(VIRTUAL_FILE);
         String canonicalPath = null;
