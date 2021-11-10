@@ -22,7 +22,7 @@ import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class MessageTools extends AnAction {
-    private static final String CARD_CONTENT_TEMPLATE = "### %s\\n%s\\n\\n> %s";
+    private static final String CARD_DESCRIPTION_TEMPLATE = "### %s%n%s%n%n> %s";
     private static final String DIALOG_TITLE = "提交 Code Review 信息";
     private static final String SET_UP_NOTIFICATION = "您尚未配置 Trello 信息，请补全 Trello 配置信息 设置路径 Preferences -> Tw Code Review Tools 中设置";
     private final Logger log = LoggerFactory.getLogger(MessageTools.class);
@@ -69,7 +69,7 @@ public class MessageTools extends AnAction {
 
         String filePath = getFilePath(actionEvent, projectName);
 
-        return String.format(CARD_CONTENT_TEMPLATE, projectName, defaultString(filePath), defaultString(selectedText));
+        return String.format(CARD_DESCRIPTION_TEMPLATE, projectName, defaultString(filePath), defaultString(selectedText));
     }
 
     private String getFilePath(AnActionEvent actionEvent, String projectName) {
