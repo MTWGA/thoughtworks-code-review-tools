@@ -16,8 +16,8 @@ import java.net.URI;
 import java.util.List;
 
 public class TrelloClient {
-    private TrelloConfiguration trelloConfiguration;
-    private Trello trelloApi;
+    private final TrelloConfiguration trelloConfiguration;
+    private final Trello trelloApi;
 
     public TrelloClient(TrelloConfiguration trelloConfiguration) {
         this.trelloConfiguration = trelloConfiguration;
@@ -26,8 +26,7 @@ public class TrelloClient {
 
     public List<TList> getBoardListCollection() {
         Board board = trelloApi.getBoard(trelloConfiguration.getTrelloBoardId());
-        List<TList> trelloListCollection = board.fetchLists();
-        return trelloListCollection;
+        return board.fetchLists();
     }
 
 

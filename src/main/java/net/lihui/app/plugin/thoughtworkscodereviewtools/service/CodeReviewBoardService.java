@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 public class CodeReviewBoardService {
-    private TrelloClient trelloClient;
+    private final TrelloClient trelloClient;
 
     public CodeReviewBoardService(TrelloClient trelloClient) {
         this.trelloClient = trelloClient;
