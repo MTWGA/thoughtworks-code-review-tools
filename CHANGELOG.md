@@ -4,9 +4,17 @@
 
 ## [Unreleased]
 
+## [0.0.5]
+
+- adjust plugin description
+
+## [0.0.4]
+
+- 修改 README
+
 ## [0.0.3]
 
-- 增加CHANGELOG
+- 增加 CHANGELOG
 
 ## [0.0.2]
 
