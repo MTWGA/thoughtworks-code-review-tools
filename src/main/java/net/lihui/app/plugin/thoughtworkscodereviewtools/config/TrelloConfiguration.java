@@ -1,4 +1,4 @@
-package net.lihui.app.plugin.thoughtworkscodereviewtools.entity;
+package net.lihui.app.plugin.thoughtworkscodereviewtools.config;
 
 public class TrelloConfiguration {
     private String trelloApiKey;

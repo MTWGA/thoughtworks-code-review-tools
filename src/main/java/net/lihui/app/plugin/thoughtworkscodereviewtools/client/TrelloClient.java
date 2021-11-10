@@ -7,7 +7,7 @@ import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.config.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloList;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
