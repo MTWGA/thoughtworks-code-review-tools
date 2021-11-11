@@ -27,8 +27,6 @@ dependencies {
     implementation("com.taskadapter:trello-java-wrapper:0.14") {
         exclude("org.slf4j", "slf4j-api")
     }
-    implementation("com.alibaba:fastjson:1.2.78")
-    implementation("org.projectlombok:lombok:1.18.20")
     implementation("org.springframework:spring-web:3.1.4.RELEASE")
 }
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
