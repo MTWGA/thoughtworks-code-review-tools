@@ -17,11 +17,11 @@ import org.slf4j.LoggerFactory;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
-public class RecordCodeReviewAction extends AnAction {
+public class CodeReviewFeedbackAction extends AnAction {
     private static final String CARD_DESCRIPTION_TEMPLATE = "### %s%n%s%n%n> %s";
     private static final String DIALOG_TITLE = "提交 Code Review 信息";
     private static final String SET_UP_NOTIFICATION = "您尚未配置 Trello 信息，请补全 Trello 配置信息 设置路径 Preferences -> Tw Code Review Tools 中设置";
-    private final Logger log = LoggerFactory.getLogger(RecordCodeReviewAction.class);
+    private final Logger log = LoggerFactory.getLogger(CodeReviewFeedbackAction.class);
 
     @Override
     public void actionPerformed(AnActionEvent actionEvent) {
