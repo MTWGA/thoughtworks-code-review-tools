@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.6]
+
+- 修复提交后报错的问题
+
 ## [0.0.5]
 
 - adjust plugin description
