@@ -28,8 +28,8 @@
 
     <!--  设置Action  -->
     <actions>
-        <action id="net.lihui.app.plugin.thoughtworkscodereviewtools.MessageTools"
-                class="net.lihui.app.plugin.thoughtworkscodereviewtools.MessageTools" text="MessageTools"
+        <action id="net.lihui.app.plugin.thoughtworkscodereviewtools.RecordCodeReviewAction"
+                class="net.lihui.app.plugin.thoughtworkscodereviewtools.RecordCodeReviewAction" text="MessageTools"
                 description="Submit code review message">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="control alt I"/>
