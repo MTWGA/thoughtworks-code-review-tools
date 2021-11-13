@@ -45,3 +45,9 @@ software will be updated quickly in the near future. Please update to the latest
 Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
+
+## Contributors
+
+<a href="https://github.com/tcpgnl/thoughtworks-code-review-tools/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=tcpgnl/thoughtworks-code-review-tools" />
+</a>
