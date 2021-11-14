@@ -27,17 +27,21 @@ public class CodeReviewBoardService {
                 .orElseGet(() -> trelloClient.createListIfNotExist(codeReviewListName));
     }
 
-    public Card createCodeReviewCard(String userInput, String cardDesc, String todayCodeReviewListId ) {
+    public Card createCodeReviewCard(String userInput, String cardDesc, String todayCodeReviewListId) {
         String currentMemberName = userInput.split(" ")[0];
         Card card = new Card();
         card.setName(userInput);
         card.setDesc(cardDesc);
-        List<Member> memberList = trelloClient.getBoardMembers();
-        memberList.stream()
-                .filter(member -> member.getFullName().equals(currentMemberName))
-                .findFirst()
-                .ifPresent(member -> card.setIdMembers(Collections.singletonList(member.getId())));
-
+        if (currentMemberName.equals("me")) {
+            Member authorMember = trelloClient.getAuthorMember();
+            card.setIdMembers(Collections.singletonList(authorMember.getId()));
+        } else {
+            List<Member> memberList = trelloClient.getBoardMembers();
+            memberList.stream()
+                    .filter(member -> member.getFullName().equals(currentMemberName))
+                    .findFirst()
+                    .ifPresent(member -> card.setIdMembers(Collections.singletonList(member.getId())));
+        }
         return trelloClient.createCard(todayCodeReviewListId, card);
     }
 

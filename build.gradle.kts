@@ -28,6 +28,7 @@ dependencies {
         exclude("org.slf4j", "slf4j-api")
     }
     implementation("org.springframework:spring-web:3.1.4.RELEASE")
+    implementation("com.google.code.gson:gson:2.7")
 }
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {

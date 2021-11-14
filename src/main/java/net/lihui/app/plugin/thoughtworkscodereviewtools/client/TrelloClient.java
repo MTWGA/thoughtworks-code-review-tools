@@ -1,5 +1,6 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.client;
 
+import com.google.gson.Gson;
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.Board;
 import com.julienvey.trello.domain.Card;
@@ -9,6 +10,8 @@ import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.config.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -18,6 +21,8 @@ import java.util.List;
 public class TrelloClient {
     private final TrelloConfiguration trelloConfiguration;
     private final Trello trelloApi;
+    private static Logger log = LoggerFactory.getLogger(TrelloClient.class);
+    Gson gson = new Gson();
 
     public TrelloClient(TrelloConfiguration trelloConfiguration) {
         this.trelloConfiguration = trelloConfiguration;
@@ -48,5 +53,18 @@ public class TrelloClient {
 
     public Card createCard(String todayCodeReviewListId, Card card) {
         return trelloApi.createCard(todayCodeReviewListId, card);
+    }
+
+    public Member getAuthorMember() {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://api.trello.com/1/tokens/" + trelloConfiguration.getTrelloApiToken() + "/member";
+        URI fullUri = UriComponentsBuilder.fromUriString(url)
+                .queryParam("key", trelloConfiguration.getTrelloApiKey())
+                .queryParam("token", trelloConfiguration.getTrelloApiToken())
+                .queryParam("fields", "id")
+                .buildAndExpand().toUri();
+        Member authorMember = restTemplate.getForObject(fullUri, Member.class);
+        log.info("AuthorMember Data: {}", gson.toJson(authorMember));
+        return authorMember;
     }
 }
