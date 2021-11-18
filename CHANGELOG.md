@@ -6,10 +6,12 @@
 
 ## [0.0.7]
 
+- add `me` as the nickname of author full name
 - 增加`me`作为自己名称的代名词
 
 ## [0.0.6]
 
+- Fix the problem of reporting errors after submission
 - 修复提交后报错的问题
 
 ## [0.0.5]
