@@ -4,7 +4,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.julienvey.trello.NotAuthorizedException;
 import com.julienvey.trello.domain.Card;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
@@ -12,6 +11,7 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.config.TrelloConfigurati
 import net.lihui.app.plugin.thoughtworkscodereviewtools.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.store.TwCodeReviewSettingsState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDialog;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.vo.UserSelectedInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +38,13 @@ public class CodeReviewFeedbackAction extends AnAction {
         }
 
         UserSelectedInfo userSelectedInfo = new UserSelectedInfo(actionEvent);
-        String userInput = Messages.showInputDialog(project, userSelectedInfo.getSelectedFilePath(), DIALOG_TITLE, null);
-        if (isEmpty(userInput)) {
+        CodeReviewFeedbackDialog codeReviewFeedbackDialog = new CodeReviewFeedbackDialog(project);
+        boolean isCommitFeedback = codeReviewFeedbackDialog.showAndGet();
+        if (!isCommitFeedback) {
+            return;
+        }
+        String codeReviewFeedback = codeReviewFeedbackDialog.getCodeReviewFeedback();
+        if (isEmpty(codeReviewFeedback)) {
             return;
         }
 
@@ -54,9 +59,9 @@ public class CodeReviewFeedbackAction extends AnAction {
             Notifier.notifyError(project, AUTHORIZED_FAIL_EXCEPTION);
             return;
         }
-        Card codeReviewCard = codeReviewBoardService.createCodeReviewCard(userInput, cardDesc, todayCodeReviewListId);
+        Card codeReviewCard = codeReviewBoardService.createCodeReviewCard(codeReviewFeedback, cardDesc, todayCodeReviewListId);
 
-        if (codeReviewCard.getName().equals(userInput)) {
+        if (codeReviewCard.getName().equals(codeReviewFeedback)) {
             Notifier.notifyInfo(project, "信息发送成功" + codeReviewCard.getName() + ":" + codeReviewCard.getDesc());
         }
     }

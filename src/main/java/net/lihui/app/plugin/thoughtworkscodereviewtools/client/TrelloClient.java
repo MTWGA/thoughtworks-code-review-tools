@@ -29,6 +29,7 @@ public class TrelloClient {
         this.trelloApi = new TrelloImpl(trelloConfiguration.getTrelloApiKey(), trelloConfiguration.getTrelloApiToken(), new JDKTrelloHttpClient());
     }
 
+    // TODO add cache
     public List<TList> getBoardListCollection() {
         Board board = trelloApi.getBoard(trelloConfiguration.getTrelloBoardId());
         return board.fetchLists();
@@ -47,6 +48,7 @@ public class TrelloClient {
         return trelloList.getId();
     }
 
+    // TODO add cache
     public List<Member> getBoardMembers() {
         return trelloApi.getBoardMembers(trelloConfiguration.getTrelloBoardId());
     }
