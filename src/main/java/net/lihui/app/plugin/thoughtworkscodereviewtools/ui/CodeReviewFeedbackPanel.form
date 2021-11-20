@@ -75,6 +75,7 @@
               <component id="dbe8d" class="javax.swing.JTable" binding="ownerListTable">
                 <constraints/>
                 <properties>
+                  <rowHeight value="30"/>
                   <showHorizontalLines value="false"/>
                   <showVerticalLines value="false"/>
                   <updateSelectionOnSort value="true"/>
