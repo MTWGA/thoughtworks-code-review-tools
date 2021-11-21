@@ -14,8 +14,9 @@ public class CodeReviewFeedbackPanel {
     private JTextField feedbackTextField;
 
     public CodeReviewFeedbackPanel() {
-        ownerListTable.setDefaultRenderer(JCheckBox.class, new TableCheckboxCellRenderer());
         ownerListTable.setModel(new OwnerCheckboxTableModel());
+        ownerListTable.setDefaultRenderer(JCheckBox.class, new TableCheckboxCellRenderer());
+        ownerListTable.setDefaultEditor(JCheckBox.class, new TableCheckboxCellEditor());
     }
 
     public JPanel getMainPanel() {

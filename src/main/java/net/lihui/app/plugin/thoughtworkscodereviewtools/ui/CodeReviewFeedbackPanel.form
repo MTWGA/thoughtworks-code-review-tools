@@ -76,6 +76,7 @@
                 <constraints/>
                 <properties>
                   <rowHeight value="30"/>
+                  <rowSelectionAllowed value="false"/>
                   <showHorizontalLines value="false"/>
                   <showVerticalLines value="false"/>
                   <updateSelectionOnSort value="true"/>
