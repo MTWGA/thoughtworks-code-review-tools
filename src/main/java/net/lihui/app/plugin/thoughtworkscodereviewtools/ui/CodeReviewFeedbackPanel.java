@@ -4,9 +4,9 @@ import javax.swing.*;
 
 public class CodeReviewFeedbackPanel {
     private JPanel mainPanel;
-    private JLabel ownerLabel;
-    private JPanel ownerCheckListPanel;
-    private JScrollPane ownerCheckboxAreaPanel;
+    private JLabel ownerSelectionLabel;
+    private JPanel ownerSelectionPanel;
+    private JScrollPane ownerCheckboxScrollPanel;
     private JTable ownerListTable;
     private JPanel refreshOwnerListButtonPanel;
     private JButton refreshOwnerListButton;

@@ -8,14 +8,14 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="91f04" class="javax.swing.JLabel" binding="ownerLabel">
+      <component id="91f04" class="javax.swing.JLabel" binding="ownerSelectionLabel">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="82" height="287"/>
           </grid>
         </constraints>
         <properties>
-          <text value="select owner:"/>
+          <text value="choose owner:"/>
         </properties>
       </component>
       <component id="e9151" class="javax.swing.JLabel" binding="feedbackLabel">
@@ -34,7 +34,7 @@
         </constraints>
         <properties/>
       </component>
-      <grid id="49500" binding="ownerCheckListPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="49500" binding="ownerSelectionPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="3" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -63,18 +63,20 @@
               </component>
             </children>
           </grid>
-          <scrollpane id="7c640" binding="ownerCheckboxAreaPanel">
+          <scrollpane id="7c640" binding="ownerCheckboxScrollPanel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <focusable value="true"/>
               <horizontalScrollBarPolicy value="31"/>
             </properties>
-            <border type="none"/>
+            <border type="line"/>
             <children>
               <component id="dbe8d" class="javax.swing.JTable" binding="ownerListTable">
                 <constraints/>
                 <properties>
+                  <fillsViewportHeight value="true"/>
                   <rowHeight value="30"/>
                   <rowSelectionAllowed value="false"/>
                   <showHorizontalLines value="false"/>
