@@ -6,6 +6,7 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.idea.ui;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
 
 import javax.swing.*;
 
@@ -61,4 +62,9 @@ public class TwCodeReviewSettingsComponent {
         this.trelloBoardId.setText(trelloBoardId);
     }
 
+    public boolean isConfigurationChanged(TrelloConfiguration trelloConfiguration) {
+        return !trelloApiKey.equals(trelloConfiguration.getTrelloApiKey())
+                || !trelloApiToken.equals(trelloConfiguration.getTrelloApiToken())
+                || !trelloBoardId.equals(trelloConfiguration.getTrelloBoardId());
+    }
 }

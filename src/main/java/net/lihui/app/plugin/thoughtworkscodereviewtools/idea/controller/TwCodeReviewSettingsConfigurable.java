@@ -45,9 +45,7 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
         TrelloState settings = TrelloState.getInstance();
         TrelloConfiguration trelloConfiguration = settings.getTrelloConfiguration();
 
-        return !twCodeReviewSettingsComponent.getTrelloApiKey().equals(trelloConfiguration.getTrelloApiKey())
-                || !twCodeReviewSettingsComponent.getTrelloApiToken().equals(trelloConfiguration.getTrelloApiToken())
-                || !twCodeReviewSettingsComponent.getTrelloBoardId().equals(trelloConfiguration.getTrelloBoardId());
+        return twCodeReviewSettingsComponent.isConfigurationChanged(trelloConfiguration);
     }
 
     @Override
@@ -58,6 +56,8 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
         trelloConfiguration.setTrelloApiKey( twCodeReviewSettingsComponent.getTrelloApiKey());
         trelloConfiguration.setTrelloApiToken(twCodeReviewSettingsComponent.getTrelloApiToken());
         trelloConfiguration.setTrelloBoardId(twCodeReviewSettingsComponent.getTrelloBoardId());
+
+        // TODO call service to get user list
     }
 
     @Override
