@@ -1,4 +1,4 @@
-package net.lihui.app.plugin.thoughtworkscodereviewtools;
+package net.lihui.app.plugin.thoughtworkscodereviewtools.idea;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -7,10 +7,10 @@ import com.intellij.openapi.project.Project;
 import com.julienvey.trello.NotAuthorizedException;
 import com.julienvey.trello.domain.Card;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.config.TrelloConfiguration;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.notification.Notifier;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDialog;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.vo.UserSelectedInfo;
 import org.slf4j.Logger;

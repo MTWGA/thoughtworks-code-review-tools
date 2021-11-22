@@ -1,4 +1,4 @@
-package net.lihui.app.plugin.thoughtworkscodereviewtools.notification;
+package net.lihui.app.plugin.thoughtworkscodereviewtools.idea.notification;
 
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;

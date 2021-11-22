@@ -1,4 +1,4 @@
-package net.lihui.app.plugin.thoughtworkscodereviewtools.config;
+package net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store;
 
 import com.intellij.util.xmlb.annotations.Tag;
 

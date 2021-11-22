@@ -1,11 +1,12 @@
 // Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 // lihui change the file start 2021
 
-package net.lihui.app.plugin.thoughtworkscodereviewtools.store;
+package net.lihui.app.plugin.thoughtworkscodereviewtools.idea.controller;
 
 import com.intellij.openapi.options.Configurable;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.config.TrelloConfiguration;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.TwCodeReviewSettingsComponent;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.ui.TwCodeReviewSettingsComponent;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 

@@ -8,7 +8,7 @@ import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.config.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
