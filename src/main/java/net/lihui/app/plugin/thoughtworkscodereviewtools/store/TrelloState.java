@@ -8,6 +8,7 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.config.TrelloConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,28 +18,30 @@ import org.jetbrains.annotations.Nullable;
  * these persistent application settings are stored.
  */
 @State(
-        name = "net.lihui.app.plugin.thoughtworkscodereviewtools.settings.AppSettingsState",
+        name = "net.lihui.app.plugin.thoughtworkscodereviewtools.settings.TrelloState",
         storages = @Storage("$APP_CONFIG$/TwCodeReviewToolsSetting.xml")
 )
-public class TwCodeReviewSettingsState implements PersistentStateComponent<TwCodeReviewSettingsState> {
+public class TrelloState implements PersistentStateComponent<TrelloConfiguration> {
 
+    private TrelloConfiguration trelloConfiguration = new TrelloConfiguration();
 
-    public String trelloApiKey = "";
-    public String trelloApiToken = "";
-    public String trelloBoardId = "";
-
-    public static TwCodeReviewSettingsState getInstance() {
-        return ApplicationManager.getApplication().getService(TwCodeReviewSettingsState.class);
+    public static TrelloState getInstance() {
+        return ApplicationManager.getApplication().getService(TrelloState.class);
     }
 
     @Nullable
     @Override
-    public TwCodeReviewSettingsState getState() {
-        return this;
+    public TrelloConfiguration getState() { // idea 保存时调用，拿到数据，保存到文件中
+        return trelloConfiguration;
     }
 
     @Override
-    public void loadState(@NotNull TwCodeReviewSettingsState state) {
-        XmlSerializerUtil.copyBean(state, this);
+    public void loadState(@NotNull TrelloConfiguration state) {
+        XmlSerializerUtil.copyBean(state, trelloConfiguration);
     }
+
+    public TrelloConfiguration getTrelloConfiguration() {
+        return trelloConfiguration;
+    }
+
 }

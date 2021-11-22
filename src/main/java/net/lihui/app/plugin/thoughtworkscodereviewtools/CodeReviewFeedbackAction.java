@@ -10,7 +10,7 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.config.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.store.TwCodeReviewSettingsState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDialog;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.vo.UserSelectedInfo;
 import org.slf4j.Logger;
@@ -30,8 +30,8 @@ public class CodeReviewFeedbackAction extends AnAction {
         Project project = actionEvent.getData(CommonDataKeys.PROJECT);
         log.info("project info : {}", project);
 
-        TwCodeReviewSettingsState trelloSettings = TwCodeReviewSettingsState.getInstance();
-        TrelloConfiguration trelloConfiguration = new TrelloConfiguration(trelloSettings.trelloApiKey, trelloSettings.trelloApiToken, trelloSettings.trelloBoardId);
+        TrelloState trelloSettings = TrelloState.getInstance();
+        TrelloConfiguration trelloConfiguration = trelloSettings.getTrelloConfiguration();
         if (trelloConfiguration.isInvalid()) {
             Notifier.notifyError(project, SET_UP_NOTIFICATION);
             return;

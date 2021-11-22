@@ -4,6 +4,7 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.store;
 
 import com.intellij.openapi.options.Configurable;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.config.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.TwCodeReviewSettingsComponent;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -40,27 +41,32 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        TwCodeReviewSettingsState settings = TwCodeReviewSettingsState.getInstance();
-        return !twCodeReviewSettingsComponent.getTrelloApiKey().equals(settings.trelloApiKey)
-                || !twCodeReviewSettingsComponent.getTrelloApiToken().equals(settings.trelloApiToken)
-                || !twCodeReviewSettingsComponent.getTrelloBoardId().equals(settings.trelloBoardId);
+        TrelloState settings = TrelloState.getInstance();
+        TrelloConfiguration trelloConfiguration = settings.getTrelloConfiguration();
+
+        return !twCodeReviewSettingsComponent.getTrelloApiKey().equals(trelloConfiguration.getTrelloApiKey())
+                || !twCodeReviewSettingsComponent.getTrelloApiToken().equals(trelloConfiguration.getTrelloApiToken())
+                || !twCodeReviewSettingsComponent.getTrelloBoardId().equals(trelloConfiguration.getTrelloBoardId());
     }
 
     @Override
     public void apply() {
-        TwCodeReviewSettingsState settings = TwCodeReviewSettingsState.getInstance();
-        settings.trelloApiKey = twCodeReviewSettingsComponent.getTrelloApiKey();
-        settings.trelloApiToken = twCodeReviewSettingsComponent.getTrelloApiToken();
-        settings.trelloBoardId = twCodeReviewSettingsComponent.getTrelloBoardId();
+        TrelloState settings = TrelloState.getInstance();
+        TrelloConfiguration trelloConfiguration = settings.getTrelloConfiguration();
 
+        trelloConfiguration.setTrelloApiKey( twCodeReviewSettingsComponent.getTrelloApiKey());
+        trelloConfiguration.setTrelloApiToken(twCodeReviewSettingsComponent.getTrelloApiToken());
+        trelloConfiguration.setTrelloBoardId(twCodeReviewSettingsComponent.getTrelloBoardId());
     }
 
     @Override
     public void reset() {
-        TwCodeReviewSettingsState settings = TwCodeReviewSettingsState.getInstance();
-        twCodeReviewSettingsComponent.setTrelloApiKey(settings.trelloApiKey);
-        twCodeReviewSettingsComponent.setTrelloApiToken(settings.trelloApiToken);
-        twCodeReviewSettingsComponent.setTrelloBoardId(settings.trelloBoardId);
+        TrelloState settings = TrelloState.getInstance();
+        TrelloConfiguration trelloConfiguration = settings.getTrelloConfiguration();
+
+        twCodeReviewSettingsComponent.setTrelloApiKey(trelloConfiguration.getTrelloApiKey());
+        twCodeReviewSettingsComponent.setTrelloApiToken(trelloConfiguration.getTrelloApiToken());
+        twCodeReviewSettingsComponent.setTrelloBoardId(trelloConfiguration.getTrelloBoardId());
     }
 
     @Override

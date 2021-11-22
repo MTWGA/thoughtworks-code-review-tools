@@ -1,14 +1,16 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.config;
 
+import com.intellij.util.xmlb.annotations.Tag;
+
 public class TrelloConfiguration {
+    @Tag("trelloApiKey")
     private String trelloApiKey;
+    @Tag("trelloApiToken")
     private String trelloApiToken;
+    @Tag("trelloBoardId")
     private String trelloBoardId;
 
-    public TrelloConfiguration(String trelloApiKey, String trelloApiToken, String trelloBoardId) {
-        this.trelloApiKey = trelloApiKey;
-        this.trelloApiToken = trelloApiToken;
-        this.trelloBoardId = trelloBoardId;
+    public TrelloConfiguration() {
     }
 
     public boolean isInvalid() {
@@ -25,5 +27,17 @@ public class TrelloConfiguration {
 
     public String getTrelloBoardId() {
         return trelloBoardId;
+    }
+
+    public void setTrelloApiKey(String trelloApiKey) {
+        this.trelloApiKey = trelloApiKey;
+    }
+
+    public void setTrelloApiToken(String trelloApiToken) {
+        this.trelloApiToken = trelloApiToken;
+    }
+
+    public void setTrelloBoardId(String trelloBoardId) {
+        this.trelloBoardId = trelloBoardId;
     }
 }
