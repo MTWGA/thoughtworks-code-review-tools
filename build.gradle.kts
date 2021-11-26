@@ -29,6 +29,13 @@ dependencies {
     }
     implementation("org.springframework:spring-web:3.1.4.RELEASE")
     implementation("com.google.code.gson:gson:2.7")
+    compileOnly("org.projectlombok:lombok:1.18.22")
+    implementation("org.mapstruct:mapstruct:1.4.2.Final")
+    annotationProcessor("org.projectlombok:lombok:1.18.22")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.4.2.Final")
+
+    testCompileOnly("org.projectlombok:lombok:1.18.22")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.22")
 }
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {

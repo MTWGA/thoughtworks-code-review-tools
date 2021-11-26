@@ -4,13 +4,21 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.idea.controller;
 
 import com.intellij.openapi.options.Configurable;
+import com.julienvey.trello.domain.Member;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloMemberProperties;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.ui.TwCodeReviewSettingsComponent;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.List;
+
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 /**
  * Provides controller functionality for application settings.
@@ -42,28 +50,32 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        TrelloState settings = TrelloState.getInstance();
-        TrelloConfiguration trelloConfiguration = settings.getTrelloConfiguration();
+        TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
 
-        return twCodeReviewSettingsComponent.isConfigurationChanged(trelloConfiguration);
+        return !trelloConfiguration.equals(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
     }
 
     @Override
     public void apply() {
-        TrelloState settings = TrelloState.getInstance();
-        TrelloConfiguration trelloConfiguration = settings.getTrelloConfiguration();
+        TrelloState trelloState = TrelloState.getInstance();
 
-        trelloConfiguration.setTrelloApiKey( twCodeReviewSettingsComponent.getTrelloApiKey());
-        trelloConfiguration.setTrelloApiToken(twCodeReviewSettingsComponent.getTrelloApiToken());
-        trelloConfiguration.setTrelloBoardId(twCodeReviewSettingsComponent.getTrelloBoardId());
+        trelloState.setTrelloConfiguration(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
+        saveBoardMemberList();
+    }
 
-        // TODO call service to get user list
+    private void saveBoardMemberList() {
+        TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
+        TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
+
+        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(new TrelloClient(trelloConfiguration));
+        List<Member> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
+        boardMemberState.setTrelloMemberProperties(new TrelloMemberProperties(MEMBER_MAPPER.toStateList(trelloBoardMembers)));
     }
 
     @Override
     public void reset() {
         TrelloState settings = TrelloState.getInstance();
-        TrelloConfiguration trelloConfiguration = settings.getTrelloConfiguration();
+        TrelloConfiguration trelloConfiguration = settings.getState();
 
         twCodeReviewSettingsComponent.setTrelloApiKey(trelloConfiguration.getTrelloApiKey());
         twCodeReviewSettingsComponent.setTrelloApiToken(trelloConfiguration.getTrelloApiToken());

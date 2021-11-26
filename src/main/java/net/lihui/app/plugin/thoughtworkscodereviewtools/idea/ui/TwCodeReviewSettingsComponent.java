@@ -38,33 +38,20 @@ public class TwCodeReviewSettingsComponent {
         return trelloApiKey;
     }
 
-    public String getTrelloApiKey() {
-        return trelloApiKey.getText();
-    }
-
     public void setTrelloApiKey(String trelloApiKey) {
         this.trelloApiKey.setText(trelloApiKey);
-    }
-
-    public String getTrelloApiToken() {
-        return trelloApiToken.getText();
     }
 
     public void setTrelloApiToken(String trelloApiToken) {
         this.trelloApiToken.setText(trelloApiToken);
     }
 
-    public String getTrelloBoardId() {
-        return trelloBoardId.getText();
-    }
-
     public void setTrelloBoardId(String trelloBoardId) {
         this.trelloBoardId.setText(trelloBoardId);
     }
 
-    public boolean isConfigurationChanged(TrelloConfiguration trelloConfiguration) {
-        return !trelloApiKey.equals(trelloConfiguration.getTrelloApiKey())
-                || !trelloApiToken.equals(trelloConfiguration.getTrelloApiToken())
-                || !trelloBoardId.equals(trelloConfiguration.getTrelloBoardId());
+    public TrelloConfiguration getCurrentTrelloConfiguration() {
+        return new TrelloConfiguration(trelloApiKey.getText(), trelloApiToken.getText(), trelloBoardId.getText());
     }
+
 }

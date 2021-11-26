@@ -19,6 +19,8 @@
                                  displayName="Tw Code Review Tools"/>
         <applicationService
                 serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState"/>
+        <applicationService
+                serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMemberState"/>
     </extensions>
 
     <applicationListeners>

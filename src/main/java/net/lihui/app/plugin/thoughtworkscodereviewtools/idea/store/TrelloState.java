@@ -8,6 +8,7 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
         name = "net.lihui.app.plugin.thoughtworkscodereviewtools.settings.TrelloState",
         storages = @Storage("$APP_CONFIG$/TwCodeReviewToolsSetting.xml")
 )
+@Setter
 public class TrelloState implements PersistentStateComponent<TrelloConfiguration> {
 
     private TrelloConfiguration trelloConfiguration = new TrelloConfiguration();
@@ -38,9 +40,4 @@ public class TrelloState implements PersistentStateComponent<TrelloConfiguration
     public void loadState(@NotNull TrelloConfiguration state) {
         XmlSerializerUtil.copyBean(state, trelloConfiguration);
     }
-
-    public TrelloConfiguration getTrelloConfiguration() {
-        return trelloConfiguration;
-    }
-
 }

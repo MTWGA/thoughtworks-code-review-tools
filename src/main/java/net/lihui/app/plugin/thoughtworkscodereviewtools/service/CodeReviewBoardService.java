@@ -45,6 +45,10 @@ public class CodeReviewBoardService {
         return trelloClient.createCard(todayCodeReviewListId, card);
     }
 
+    public List<Member> getTrelloBoardMembers() {
+        return trelloClient.getBoardMembers();
+    }
+
     private String buildTodayCodeReviewListName() {
         SimpleDateFormat sdf = new SimpleDateFormat();
         sdf.applyPattern("yyyy-MM-dd");

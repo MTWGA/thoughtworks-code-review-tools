@@ -31,7 +31,7 @@ public class CodeReviewFeedbackAction extends AnAction {
         log.info("project info : {}", project);
 
         TrelloState trelloSettings = TrelloState.getInstance();
-        TrelloConfiguration trelloConfiguration = trelloSettings.getTrelloConfiguration();
+        TrelloConfiguration trelloConfiguration = trelloSettings.getState();
         if (trelloConfiguration.isInvalid()) {
             Notifier.notifyError(project, SET_UP_NOTIFICATION);
             return;
