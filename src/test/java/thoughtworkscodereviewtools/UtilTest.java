@@ -1,6 +1,7 @@
 package thoughtworkscodereviewtools;
 
 import com.julienvey.trello.domain.TList;
+import com.julienvey.trello.impl.TrelloUrl;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloList;
 import org.junit.Test;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,13 +14,14 @@ import static org.junit.Assert.assertEquals;
 public class UtilTest {
     @Test
     public void testUriBuilder() {
-        String url = "https://api.trello.com/1/boards/" + "boardId" + "/lists";
+        String url = TrelloUrl.API_URL + TrelloUrl.GET_BOARD_LISTS;
         URI uri = UriComponentsBuilder.fromUriString(url)
                 .queryParam("name", "name1")
                 .queryParam("key", "trelloKey")
                 .queryParam("token", "trelloAccessToken")
-                .buildAndExpand().toUri();
-        System.out.println(uri.toString());
+                .buildAndExpand("12312").toUri();
+
+        assertEquals("https://api.trello.com/1/boards/12312/lists?name=name1&key=trelloKey&token=trelloAccessToken", uri.toString());
     }
 
     @Test

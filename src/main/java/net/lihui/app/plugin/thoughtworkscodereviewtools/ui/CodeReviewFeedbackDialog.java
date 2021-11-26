@@ -7,12 +7,13 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 
 public class CodeReviewFeedbackDialog extends DialogWrapper {
+    public static final String DIALOG_TITLE = "code review feedback";
     private final CodeReviewFeedbackPanel codeReviewFeedbackPanel;
 
     public CodeReviewFeedbackDialog(@Nullable Project project) {
         super(project);
         codeReviewFeedbackPanel = new CodeReviewFeedbackPanel();
-        setTitle("code review feedback");
+        setTitle(DIALOG_TITLE);
         setOKButtonText("OK");
         init();
     }

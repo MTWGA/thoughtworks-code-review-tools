@@ -28,7 +28,6 @@ dependencies {
         exclude("org.slf4j", "slf4j-api")
     }
     implementation("org.springframework:spring-web:3.1.4.RELEASE")
-    implementation("com.google.code.gson:gson:2.7")
     compileOnly("org.projectlombok:lombok:1.18.22")
     implementation("org.mapstruct:mapstruct:1.4.2.Final")
     annotationProcessor("org.projectlombok:lombok:1.18.22")

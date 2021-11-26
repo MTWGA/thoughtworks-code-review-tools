@@ -10,7 +10,7 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMe
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloMemberProperties;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.ui.TwCodeReviewSettingsComponent;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.TwCodeReviewSettingsComponent;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -58,12 +58,12 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
     @Override
     public void apply() {
         TrelloState trelloState = TrelloState.getInstance();
-
         trelloState.setTrelloConfiguration(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
-        saveBoardMemberList();
+
+        fetchBoardMemberList();
     }
 
-    private void saveBoardMemberList() {
+    private void fetchBoardMemberList() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
         TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
 
