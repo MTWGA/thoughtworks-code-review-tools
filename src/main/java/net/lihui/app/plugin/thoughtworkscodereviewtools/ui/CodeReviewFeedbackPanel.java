@@ -1,6 +1,13 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMember;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMemberState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
+
 import javax.swing.*;
+import java.util.List;
+
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 public class CodeReviewFeedbackPanel {
     private JPanel mainPanel;
@@ -14,9 +21,12 @@ public class CodeReviewFeedbackPanel {
     private JTextField feedbackTextField;
 
     public CodeReviewFeedbackPanel() {
-        ownerListTable.setModel(new OwnerCheckboxTableModel());
-        ownerListTable.setDefaultRenderer(JCheckBox.class, new TableCheckboxCellRenderer());
-        ownerListTable.setDefaultEditor(JCheckBox.class, new TableCheckboxCellEditor());
+        List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
+        OwnerCheckboxTableModel tableModel = new OwnerCheckboxTableModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
+
+        ownerListTable.setModel(tableModel);
+        ownerListTable.setDefaultRenderer(OwnerCheckboxDTO.class, new TableCheckboxCellRenderer());
+        ownerListTable.setDefaultEditor(OwnerCheckboxDTO.class, new TableCheckboxCellEditor());
     }
 
     public JPanel getMainPanel() {

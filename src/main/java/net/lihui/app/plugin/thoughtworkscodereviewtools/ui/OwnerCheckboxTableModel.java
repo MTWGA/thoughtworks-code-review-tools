@@ -1,28 +1,35 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
+import lombok.AllArgsConstructor;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMember;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
 
+import javax.swing.table.AbstractTableModel;
+import java.util.List;
+
+@AllArgsConstructor
 public class OwnerCheckboxTableModel extends AbstractTableModel {
-    JCheckBox[][] checkBoxList = {
-            {new JCheckBox("user1", true), new JCheckBox("user1", true), new JCheckBox("user1", true)},
-            {new JCheckBox("user1", true), new JCheckBox("user1", true), new JCheckBox("user1", true)},
-            {new JCheckBox("user1", true), new JCheckBox("user1", true), new JCheckBox("user1", true)},
-    };
+
+    private final int COLUMN_COUNT = 3;
+    private List<OwnerCheckboxDTO> ownerCheckboxDTOList;
 
     @Override
     public int getRowCount() {
-        return checkBoxList.length;
+        return ownerCheckboxDTOList.size() % COLUMN_COUNT == 0 ?
+                ownerCheckboxDTOList.size() / COLUMN_COUNT : ownerCheckboxDTOList.size() / COLUMN_COUNT + 1;
     }
 
     @Override
     public int getColumnCount() {
-        return checkBoxList[0].length;
+        return COLUMN_COUNT;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return checkBoxList[rowIndex][columnIndex];
+        if (rowIndex * COLUMN_COUNT + columnIndex >= ownerCheckboxDTOList.size()) {
+            return new TrelloBoardMember();
+        }
+        return ownerCheckboxDTOList.get(rowIndex * COLUMN_COUNT + columnIndex);
     }
 
     @Override
@@ -42,7 +49,7 @@ public class OwnerCheckboxTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        checkBoxList[rowIndex][columnIndex] = (JCheckBox) aValue;
+        ownerCheckboxDTOList.set(rowIndex * COLUMN_COUNT + columnIndex, (OwnerCheckboxDTO) aValue);
         fireTableCellUpdated(rowIndex, columnIndex);
     }
 }

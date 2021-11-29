@@ -1,12 +1,14 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
+
 import javax.swing.*;
 import javax.swing.table.TableCellEditor;
 import java.awt.*;
 
 public class TableCheckboxCellEditor extends AbstractCellEditor implements TableCellEditor {
-    private String text;
-    private boolean isChecked;
+    private String fullName;
+    private boolean selected;
     private JCheckBox checkBox;
 
     public TableCheckboxCellEditor() {
@@ -18,17 +20,17 @@ public class TableCheckboxCellEditor extends AbstractCellEditor implements Table
 
     @Override
     public Object getCellEditorValue() {
-        return new JCheckBox(text, isChecked);
+        return new OwnerCheckboxDTO(fullName, selected);
     }
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        JCheckBox checkboxCell = (JCheckBox) value;
-        text = checkboxCell.getText();
-        isChecked = !checkboxCell.isSelected();
+        OwnerCheckboxDTO ownerCheckboxDTO = (OwnerCheckboxDTO) value;
+        fullName = ownerCheckboxDTO.getFullName();
+        selected = !ownerCheckboxDTO.isSelected();
 
-        checkBox.setText(text);
-        checkBox.setSelected(isChecked);
+        checkBox.setText(fullName);
+        checkBox.setSelected(selected);
         return checkBox; // return editor, not the edited data or result data
     }
 }
