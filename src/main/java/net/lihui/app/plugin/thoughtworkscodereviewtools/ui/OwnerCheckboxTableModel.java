@@ -1,7 +1,6 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
 import lombok.AllArgsConstructor;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
 
 import javax.swing.table.AbstractTableModel;
@@ -26,8 +25,9 @@ public class OwnerCheckboxTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+        // TODO should remove this and don't show checkbox
         if (rowIndex * COLUMN_COUNT + columnIndex >= ownerCheckboxDTOList.size()) {
-            return new TrelloBoardMember();
+            return new OwnerCheckboxDTO();
         }
         return ownerCheckboxDTOList.get(rowIndex * COLUMN_COUNT + columnIndex);
     }
