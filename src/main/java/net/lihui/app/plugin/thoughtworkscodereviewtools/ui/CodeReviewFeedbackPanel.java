@@ -29,7 +29,6 @@ public class CodeReviewFeedbackPanel {
         ownerListTable.setModel(tableModel);
         ownerListTable.setDefaultRenderer(OwnerCheckboxDTO.class, new TableCheckboxCellRenderer());
         ownerListTable.setDefaultEditor(OwnerCheckboxDTO.class, new TableCheckboxCellEditor());
-
     }
 
     public JPanel getMainPanel() {
