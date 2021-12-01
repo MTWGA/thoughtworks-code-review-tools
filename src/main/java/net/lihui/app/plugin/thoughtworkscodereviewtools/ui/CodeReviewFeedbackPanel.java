@@ -1,5 +1,6 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
+import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.FeedBackAndMemberList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
@@ -19,10 +20,11 @@ public class CodeReviewFeedbackPanel {
     private JButton refreshOwnerListButton;
     private JLabel feedbackLabel;
     private JTextField feedbackTextField;
+    List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
+    OwnerCheckboxTableModel tableModel = new OwnerCheckboxTableModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
 
     public CodeReviewFeedbackPanel() {
-        List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
-        OwnerCheckboxTableModel tableModel = new OwnerCheckboxTableModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
+
 
         ownerListTable.setModel(tableModel);
         ownerListTable.setDefaultRenderer(OwnerCheckboxDTO.class, new TableCheckboxCellRenderer());
@@ -33,7 +35,10 @@ public class CodeReviewFeedbackPanel {
         return mainPanel;
     }
 
-    public String getFeedback() {
-        return feedbackTextField.getText();
+    public FeedBackAndMemberList getFeedbackAndMemberList() {
+        return FeedBackAndMemberList.builder()
+                .feedback(feedbackTextField.getText())
+                .memberList(tableModel.getSelectMembers())
+                .build();
     }
 }

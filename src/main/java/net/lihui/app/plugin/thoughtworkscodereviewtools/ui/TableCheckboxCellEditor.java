@@ -7,6 +7,8 @@ import javax.swing.table.TableCellEditor;
 import java.awt.*;
 
 public class TableCheckboxCellEditor extends AbstractCellEditor implements TableCellEditor {
+    private String id;
+    private String userName;
     private String fullName;
     private boolean selected;
     private JCheckBox checkBox;
@@ -20,13 +22,15 @@ public class TableCheckboxCellEditor extends AbstractCellEditor implements Table
 
     @Override
     public Object getCellEditorValue() {
-        return new OwnerCheckboxDTO(fullName, selected);
+        return new OwnerCheckboxDTO(id, userName, fullName, selected);
     }
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         OwnerCheckboxDTO ownerCheckboxDTO = (OwnerCheckboxDTO) value;
+        id = ownerCheckboxDTO.getId();
         fullName = ownerCheckboxDTO.getFullName();
+        userName = ownerCheckboxDTO.getUsername();
         selected = !ownerCheckboxDTO.isSelected();
 
         checkBox.setText(fullName);

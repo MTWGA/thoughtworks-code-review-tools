@@ -1,10 +1,14 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
+import com.julienvey.trello.domain.Member;
 import lombok.AllArgsConstructor;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 @AllArgsConstructor
 public class OwnerCheckboxTableModel extends AbstractTableModel {
@@ -51,5 +55,12 @@ public class OwnerCheckboxTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         ownerCheckboxDTOList.set(rowIndex * COLUMN_COUNT + columnIndex, (OwnerCheckboxDTO) aValue);
         fireTableCellUpdated(rowIndex, columnIndex);
+    }
+
+    public List<Member> getSelectMembers() {
+        List<OwnerCheckboxDTO> selectedOwnerCheckboxDTOS = ownerCheckboxDTOList.stream()
+                .filter(OwnerCheckboxDTO::isSelected).collect(Collectors.toList());
+
+        return MEMBER_MAPPER.toMemberList(selectedOwnerCheckboxDTOS);
     }
 }

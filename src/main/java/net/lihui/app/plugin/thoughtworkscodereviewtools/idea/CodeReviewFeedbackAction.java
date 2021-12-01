@@ -7,9 +7,10 @@ import com.intellij.openapi.project.Project;
 import com.julienvey.trello.NotAuthorizedException;
 import com.julienvey.trello.domain.Card;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.FeedBackAndMemberList;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDialog;
 import org.slf4j.Logger;
@@ -40,8 +41,8 @@ public class CodeReviewFeedbackAction extends AnAction {
         if (!isCommitFeedback) {
             return;
         }
-        String codeReviewFeedback = codeReviewFeedbackDialog.getCodeReviewFeedback();
-        if (isEmpty(codeReviewFeedback)) {
+        FeedBackAndMemberList codeReviewFeedbackAndMemberList = codeReviewFeedbackDialog.getCodeReviewFeedbackAndMemberList();
+        if (isEmpty(codeReviewFeedbackAndMemberList.getFeedback())) {
             return;
         }
 
@@ -55,9 +56,9 @@ public class CodeReviewFeedbackAction extends AnAction {
             Notifier.notifyError(project, AUTHORIZED_FAIL_EXCEPTION);
             return;
         }
-        Card codeReviewCard = codeReviewBoardService.createCodeReviewCard(codeReviewFeedback, cardDesc, todayCodeReviewListId);
+        Card codeReviewCard = codeReviewBoardService.createCodeReviewCard(codeReviewFeedbackAndMemberList, cardDesc, todayCodeReviewListId);
 
-        if (codeReviewCard.getName().equals(codeReviewFeedback)) {
+        if (codeReviewCard.getName().equals(codeReviewFeedbackAndMemberList.getFeedback())) {
             Notifier.notifyInfo(project, "信息发送成功" + codeReviewCard.getName() + ":" + codeReviewCard.getDesc());
         }
     }

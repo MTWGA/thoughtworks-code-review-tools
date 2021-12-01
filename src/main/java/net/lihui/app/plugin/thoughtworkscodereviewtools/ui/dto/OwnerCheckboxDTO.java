@@ -10,6 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OwnerCheckboxDTO {
+    private String id;
+    private String username;
     private String fullName;
     private boolean selected = false;
 }
