@@ -29,9 +29,8 @@ public class OwnerCheckboxTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        // TODO should remove this and don't show checkbox
-        if (rowIndex * COLUMN_COUNT + columnIndex >= ownerCheckboxDTOList.size()) {
-            return new OwnerCheckboxDTO();
+        if (checkCellOutIndex(rowIndex, columnIndex)) {
+            return null;
         }
         return ownerCheckboxDTOList.get(rowIndex * COLUMN_COUNT + columnIndex);
     }
@@ -46,9 +45,16 @@ public class OwnerCheckboxTableModel extends AbstractTableModel {
         return "";
     }
 
+    private boolean checkCellOutIndex(int rowIndex, int columnIndex) {
+        if (rowIndex * COLUMN_COUNT + columnIndex >= ownerCheckboxDTOList.size()) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;
+        return !checkCellOutIndex(rowIndex, columnIndex);
     }
 
     @Override
