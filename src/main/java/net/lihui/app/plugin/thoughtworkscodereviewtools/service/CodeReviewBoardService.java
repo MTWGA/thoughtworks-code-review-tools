@@ -7,8 +7,6 @@ import com.julienvey.trello.domain.TList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.FeedBackAndMemberList;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,30 +29,15 @@ public class CodeReviewBoardService {
     }
 
     public Card createCodeReviewCard(FeedBackAndMemberList feedBackAndMemberList, String cardDesc, String todayCodeReviewListId) {
-        String currentMemberName = feedBackAndMemberList.getFeedback().split(" ")[0];
         Card card = new Card();
         card.setName(feedBackAndMemberList.getFeedback());
         card.setDesc(cardDesc);
         List<Member> submitMemberList = feedBackAndMemberList.getMemberList();
         List<String> submitMemberIdList = submitMemberList.stream()
-                .map(member -> member.getId())
+                .map(Member::getId)
                 .collect(Collectors.toList());
-        if (currentMemberName.equals("me")) {
-            Member authorMember = trelloClient.getAuthorMember();
-            card.setIdMembers(Collections.singletonList(authorMember.getId()));
-        } else {
-            List<Member> memberList = trelloClient.getBoardMembers();
-            memberList.stream()
-                    .filter(member -> member.getFullName().equals(currentMemberName))
-                    .findFirst()
-                    .ifPresent(member -> card.setIdMembers(Collections.singletonList(member.getId())));
-        }
 
-        // TODO: is there need reserve the old add person method?
-        //        card.setIdMembers(submitMemberIdList);
-        List<String> allSubmitMember = new ArrayList<>(card.getIdMembers());
-        allSubmitMember.addAll(submitMemberIdList);
-        card.setIdMembers(allSubmitMember);
+        card.setIdMembers(submitMemberIdList);
         return trelloClient.createCard(todayCodeReviewListId, card);
     }
 
