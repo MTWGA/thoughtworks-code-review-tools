@@ -9,7 +9,7 @@ import com.julienvey.trello.TrelloBadRequestException;
 import com.julienvey.trello.domain.Card;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.FeedBackAndMemberList;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackAndMemberList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState;

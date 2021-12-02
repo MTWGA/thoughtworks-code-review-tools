@@ -31,7 +31,7 @@ public class TrelloClient {
         return board.fetchLists();
     }
 
-    public String createListIfNotExist(String trelloListName) {
+    public String createList(String trelloListName) {
         RestTemplate restTemplate = new RestTemplate();
         String url = TrelloUrl.API_URL + TrelloUrl.GET_BOARD_LISTS;
         URI fullUri = UriComponentsBuilder.fromUriString(url)

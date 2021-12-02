@@ -1,6 +1,5 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
-import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.FeedBackAndMemberList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
@@ -38,7 +37,7 @@ public class CodeReviewFeedbackPanel {
     public FeedBackAndMemberList getFeedbackAndMemberList() {
         return FeedBackAndMemberList.builder()
                 .feedback(feedbackTextField.getText())
-                .memberList(tableModel.getSelectMembers())
+                .memberList(tableModel.getSelectedMembers())
                 .build();
     }
 }

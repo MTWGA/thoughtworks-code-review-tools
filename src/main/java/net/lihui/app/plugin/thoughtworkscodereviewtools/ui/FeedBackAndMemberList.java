@@ -1,4 +1,4 @@
-package net.lihui.app.plugin.thoughtworkscodereviewtools.entity;
+package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
 import com.julienvey.trello.domain.Member;
 import lombok.Builder;

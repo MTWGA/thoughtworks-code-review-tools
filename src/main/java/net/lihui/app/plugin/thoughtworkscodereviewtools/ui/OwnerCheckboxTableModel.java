@@ -63,9 +63,10 @@ public class OwnerCheckboxTableModel extends AbstractTableModel {
         fireTableCellUpdated(rowIndex, columnIndex);
     }
 
-    public List<Member> getSelectMembers() {
+    public List<Member> getSelectedMembers() {
         List<OwnerCheckboxDTO> selectedOwnerCheckboxDTOS = ownerCheckboxDTOList.stream()
-                .filter(OwnerCheckboxDTO::isSelected).collect(Collectors.toList());
+                .filter(OwnerCheckboxDTO::isSelected)
+                .collect(Collectors.toList());
 
         return MEMBER_MAPPER.toMemberList(selectedOwnerCheckboxDTOS);
     }

@@ -2,7 +2,6 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.FeedBackAndMemberList;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
