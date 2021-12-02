@@ -10,8 +10,8 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMe
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloMemberProperties;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.TwCodeReviewSettingsComponent;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.TwCodeReviewSettingsComponent;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 

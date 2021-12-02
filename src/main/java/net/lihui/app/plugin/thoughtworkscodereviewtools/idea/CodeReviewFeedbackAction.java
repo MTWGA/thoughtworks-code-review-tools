@@ -5,8 +5,10 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
 import com.julienvey.trello.NotAuthorizedException;
+import com.julienvey.trello.TrelloBadRequestException;
 import com.julienvey.trello.domain.Card;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.FeedBackAndMemberList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
@@ -54,6 +56,11 @@ public class CodeReviewFeedbackAction extends AnAction {
             todayCodeReviewListId = codeReviewBoardService.getTodayCodeReviewListId();
         } catch (NotAuthorizedException notAuthorizedException) {
             Notifier.notifyError(project, AUTHORIZED_FAIL_EXCEPTION);
+            return;
+        } catch (TrelloBadRequestException trelloBadRequestException) {
+            if (trelloBadRequestException.getMessage().equals("invalid id")) {
+                Notifier.notifyError(project, TrelloRequestErrorConstant.INVALID_ID);
+            }
             return;
         }
         Card codeReviewCard = codeReviewBoardService.createCodeReviewCard(codeReviewFeedbackAndMemberList, cardDesc, todayCodeReviewListId);
