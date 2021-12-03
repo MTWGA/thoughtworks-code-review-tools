@@ -29,6 +29,7 @@ public class CodeReviewFeedbackPanel {
         ownerListTable.setModel(new OwnerCheckboxTableModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers)));
         ownerListTable.setDefaultRenderer(OwnerCheckboxDTO.class, new TableCheckboxCellRenderer());
         ownerListTable.setDefaultEditor(OwnerCheckboxDTO.class, new TableCheckboxCellEditor());
+        ownerListTable.setShowGrid(true);
 
         refreshOwnerListButton.addActionListener(actionEvent -> refreshBoardMemberList());
     }
