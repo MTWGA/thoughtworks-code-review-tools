@@ -1,4 +1,4 @@
-package net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store;
+package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;

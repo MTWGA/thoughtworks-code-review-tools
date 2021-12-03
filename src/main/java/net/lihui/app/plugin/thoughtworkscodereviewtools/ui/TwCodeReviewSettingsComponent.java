@@ -6,7 +6,7 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 
 import javax.swing.*;
 

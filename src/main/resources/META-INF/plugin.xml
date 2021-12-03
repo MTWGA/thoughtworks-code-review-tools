@@ -14,13 +14,13 @@
         <!--  显示提示框  -->
         <notificationGroup id="Custom Notification Group" displayType="BALLOON"/>
         <applicationConfigurable parentId="root"
-                                 instance="net.lihui.app.plugin.thoughtworkscodereviewtools.idea.controller.TwCodeReviewSettingsConfigurable"
-                                 id="net.lihui.app.plugin.thoughtworkscodereviewtools.idea.controller.TwCodeReviewSettingsConfigurable"
+                                 instance="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller.TwCodeReviewSettingsConfigurable"
+                                 id="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller.TwCodeReviewSettingsConfigurable"
                                  displayName="Tw Code Review Tools"/>
         <applicationService
-                serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState"/>
+                serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState"/>
         <applicationService
-                serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMemberState"/>
+                serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState"/>
     </extensions>
 
     <applicationListeners>
@@ -30,8 +30,8 @@
 
     <!--  设置Action  -->
     <actions>
-        <action id="net.lihui.app.plugin.thoughtworkscodereviewtools.idea.CodeReviewFeedbackAction"
-                class="net.lihui.app.plugin.thoughtworkscodereviewtools.idea.CodeReviewFeedbackAction" text="Code Review Feedback"
+        <action id="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.CodeReviewFeedbackAction"
+                class="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.CodeReviewFeedbackAction" text="Code Review Feedback"
                 description="Submit code review message">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="control alt I"/>

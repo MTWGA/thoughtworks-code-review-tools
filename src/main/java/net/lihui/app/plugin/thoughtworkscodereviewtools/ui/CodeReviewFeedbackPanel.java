@@ -2,11 +2,11 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
 import com.julienvey.trello.domain.Member;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMember;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMemberState;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloMemberProperties;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloMemberProperties;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
 

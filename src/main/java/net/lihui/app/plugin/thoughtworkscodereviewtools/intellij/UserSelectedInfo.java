@@ -1,4 +1,4 @@
-package net.lihui.app.plugin.thoughtworkscodereviewtools.idea;
+package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;

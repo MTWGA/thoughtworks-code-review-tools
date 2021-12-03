@@ -9,7 +9,7 @@ import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.TrelloUrl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloList;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 

@@ -1,7 +1,7 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.mapper;
 
 import com.julienvey.trello.domain.Member;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMember;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
