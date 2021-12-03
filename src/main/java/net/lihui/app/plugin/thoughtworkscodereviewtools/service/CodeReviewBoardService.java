@@ -5,6 +5,7 @@ import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
 
 import java.util.Date;
@@ -14,8 +15,8 @@ import java.util.stream.Collectors;
 public class CodeReviewBoardService {
     private final TrelloClient trelloClient;
 
-    public CodeReviewBoardService(TrelloClient trelloClient) {
-        this.trelloClient = trelloClient;
+    public CodeReviewBoardService(TrelloConfiguration trelloConfiguration) {
+        this.trelloClient = new TrelloClient(trelloConfiguration);
     }
 
     public String getTodayCodeReviewListId() {

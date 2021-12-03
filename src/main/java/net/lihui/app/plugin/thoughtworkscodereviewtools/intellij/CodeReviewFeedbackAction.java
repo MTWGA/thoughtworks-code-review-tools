@@ -7,14 +7,13 @@ import com.intellij.openapi.project.Project;
 import com.julienvey.trello.NotAuthorizedException;
 import com.julienvey.trello.TrelloBadRequestException;
 import com.julienvey.trello.domain.Card;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDialog;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +47,7 @@ public class CodeReviewFeedbackAction extends AnAction {
             return;
         }
 
-        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(new TrelloClient(trelloConfiguration));
+        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
 
         String cardDesc = buildCardDesc(userSelectedInfo);
         String todayCodeReviewListId;

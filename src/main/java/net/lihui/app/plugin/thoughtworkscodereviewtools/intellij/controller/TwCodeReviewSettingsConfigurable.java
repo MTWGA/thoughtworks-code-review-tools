@@ -5,7 +5,6 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller;
 
 import com.intellij.openapi.options.Configurable;
 import com.julienvey.trello.domain.Member;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloMemberProperties;
@@ -67,7 +66,7 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
         TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
 
-        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(new TrelloClient(trelloConfiguration));
+        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
         List<Member> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
         boardMemberState.setTrelloMemberProperties(new TrelloMemberProperties(MEMBER_MAPPER.toStateList(trelloBoardMembers)));
     }
