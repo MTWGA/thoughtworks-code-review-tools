@@ -13,18 +13,21 @@ import javax.swing.*;
 /**
  * Supports creating and managing a {@link JPanel} for the Settings Dialog.
  */
+
 public class TwCodeReviewSettingsComponent {
 
     private final JPanel mainPanel;
     private final JBTextField trelloApiKeyTextField = new JBTextField();
     private final JBTextField trelloApiTokenTextField = new JBTextField();
     private final JBTextField trelloBoardIdTextField = new JBTextField();
+    private final JBLabel trelloSettingStatusLabel = new JBLabel("");
 
     public TwCodeReviewSettingsComponent() {
         mainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Enter trello key: "), trelloApiKeyTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter trello token: "), trelloApiTokenTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter trello code review board: "), trelloBoardIdTextField, 1, false)
+                .addLabeledComponent(new JBLabel("Setting status: "), trelloSettingStatusLabel, 1, false)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -48,6 +51,10 @@ public class TwCodeReviewSettingsComponent {
 
     public void setTrelloBoardId(String trelloBoardId) {
         this.trelloBoardIdTextField.setText(trelloBoardId);
+    }
+
+    public void setTrelloSettingStatusLabel(String trelloSettingStatusLabel) {
+        this.trelloSettingStatusLabel.setText(trelloSettingStatusLabel);
     }
 
     public TrelloConfiguration getCurrentTrelloConfiguration() {

@@ -4,6 +4,7 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller;
 
 import com.intellij.openapi.options.Configurable;
+import com.julienvey.trello.TrelloBadRequestException;
 import com.julienvey.trello.domain.Member;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
@@ -58,7 +59,14 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
         TrelloState trelloState = TrelloState.getInstance();
         trelloState.setState(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
 
-        updateBoardMemberList();
+        try {
+            updateBoardMemberList();
+            twCodeReviewSettingsComponent.setTrelloSettingStatusLabel("OK");
+        } catch (TrelloBadRequestException trelloBadRequestException) {
+            if (trelloBadRequestException.getMessage().equals("invalid id")) {
+                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel("You board id is invalid id, please check it.");
+            }
+        }
     }
 
     private void updateBoardMemberList() {
