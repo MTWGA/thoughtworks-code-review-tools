@@ -23,7 +23,7 @@ public class CodeReviewFeedbackDialog extends DialogWrapper {
         return codeReviewFeedbackPanel.getMainPanel();
     }
 
-    public FeedBackAndMemberList getCodeReviewFeedbackAndMemberList() {
-        return codeReviewFeedbackPanel.getFeedbackAndMemberList();
+    public FeedBackContext getFeedbackContext() {
+        return codeReviewFeedbackPanel.getFeedbackContext();
     }
 }

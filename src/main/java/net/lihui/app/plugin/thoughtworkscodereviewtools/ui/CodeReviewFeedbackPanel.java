@@ -2,7 +2,6 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
 import com.julienvey.trello.domain.Member;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
@@ -12,8 +11,6 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardS
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
@@ -32,20 +29,15 @@ public class CodeReviewFeedbackPanel {
     OwnerCheckboxTableModel tableModel = new OwnerCheckboxTableModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
 
     public CodeReviewFeedbackPanel() {
-
-
         ownerListTable.setModel(tableModel);
         ownerListTable.setDefaultRenderer(OwnerCheckboxDTO.class, new TableCheckboxCellRenderer());
         ownerListTable.setDefaultEditor(OwnerCheckboxDTO.class, new TableCheckboxCellEditor());
-        refreshOwnerListButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Notifier.notifyInfo(null, "hello");
-                fetchBoardMemberList();
-                trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
-                tableModel = new OwnerCheckboxTableModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
-                ownerListTable.setModel(tableModel);
-            }
+
+        refreshOwnerListButton.addActionListener(actionEvent -> {
+            fetchBoardMemberList();
+            trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
+            tableModel = new OwnerCheckboxTableModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
+            ownerListTable.setModel(tableModel);
         });
     }
 
@@ -62,8 +54,8 @@ public class CodeReviewFeedbackPanel {
         return mainPanel;
     }
 
-    public FeedBackAndMemberList getFeedbackAndMemberList() {
-        return FeedBackAndMemberList.builder()
+    public FeedBackContext getFeedbackContext() {
+        return FeedBackContext.builder()
                 .feedback(feedbackTextField.getText())
                 .memberList(tableModel.getSelectedMembers())
                 .build();

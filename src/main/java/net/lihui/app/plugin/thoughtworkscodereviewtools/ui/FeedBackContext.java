@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class FeedBackAndMemberList {
+public class FeedBackContext {
     private String feedback;
     private List<Member> memberList;
 }

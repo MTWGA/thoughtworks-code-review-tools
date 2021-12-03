@@ -5,7 +5,7 @@ import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackAndMemberList;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
 
 import java.util.Date;
 import java.util.List;
@@ -28,11 +28,11 @@ public class CodeReviewBoardService {
                 .orElseGet(() -> trelloClient.createList(codeReviewListName));
     }
 
-    public Card createCodeReviewCard(FeedBackAndMemberList feedBackAndMemberList, String cardDesc, String todayCodeReviewListId) {
+    public Card createCodeReviewCard(FeedBackContext feedBackContext, String cardDesc, String todayCodeReviewListId) {
         Card card = new Card();
-        card.setName(feedBackAndMemberList.getFeedback());
+        card.setName(feedBackContext.getFeedback());
         card.setDesc(cardDesc);
-        List<String> submitMemberIdList = feedBackAndMemberList.getMemberList().stream()
+        List<String> submitMemberIdList = feedBackContext.getMemberList().stream()
                 .map(Member::getId)
                 .collect(Collectors.toList());
 

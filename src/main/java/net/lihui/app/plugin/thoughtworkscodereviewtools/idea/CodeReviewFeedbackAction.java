@@ -9,7 +9,7 @@ import com.julienvey.trello.TrelloBadRequestException;
 import com.julienvey.trello.domain.Card;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackAndMemberList;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.idea.store.TrelloState;
@@ -43,8 +43,8 @@ public class CodeReviewFeedbackAction extends AnAction {
         if (!isCommitFeedback) {
             return;
         }
-        FeedBackAndMemberList codeReviewFeedbackAndMemberList = codeReviewFeedbackDialog.getCodeReviewFeedbackAndMemberList();
-        if (isEmpty(codeReviewFeedbackAndMemberList.getFeedback())) {
+        FeedBackContext feedBackContext = codeReviewFeedbackDialog.getFeedbackContext();
+        if (isEmpty(feedBackContext.getFeedback())) {
             return;
         }
 
@@ -63,9 +63,9 @@ public class CodeReviewFeedbackAction extends AnAction {
             }
             return;
         }
-        Card codeReviewCard = codeReviewBoardService.createCodeReviewCard(codeReviewFeedbackAndMemberList, cardDesc, todayCodeReviewListId);
+        Card codeReviewCard = codeReviewBoardService.createCodeReviewCard(feedBackContext, cardDesc, todayCodeReviewListId);
 
-        if (codeReviewCard.getName().equals(codeReviewFeedbackAndMemberList.getFeedback())) {
+        if (codeReviewCard.getName().equals(feedBackContext.getFeedback())) {
             Notifier.notifyInfo(project, "信息发送成功" + codeReviewCard.getName() + ":" + codeReviewCard.getDesc());
         }
     }
