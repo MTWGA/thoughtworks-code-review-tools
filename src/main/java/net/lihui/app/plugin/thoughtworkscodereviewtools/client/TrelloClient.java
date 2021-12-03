@@ -8,7 +8,7 @@ import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.TrelloUrl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloList;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.client.response.TrelloBoardListResponse;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,15 +39,15 @@ public class TrelloClient {
                 .queryParam("token", trelloConfiguration.getTrelloApiToken())
                 .buildAndExpand(trelloConfiguration.getTrelloBoardId()).toUri();
 
-        TrelloList trelloList = restTemplate.postForObject(fullUri, null, TrelloList.class);
-        return trelloList.getId();
+        TrelloBoardListResponse trelloBoardListResponse = restTemplate.postForObject(fullUri, null, TrelloBoardListResponse.class);
+        return trelloBoardListResponse.getId();
     }
 
     public List<Member> getBoardMembers() {
         return trelloApi.getBoardMembers(trelloConfiguration.getTrelloBoardId());
     }
 
-    public Card createCard(String todayCodeReviewListId, Card card) {
-        return trelloApi.createCard(todayCodeReviewListId, card);
+    public Card createCard(String boardListId, Card card) {
+        return trelloApi.createCard(boardListId, card);
     }
 }

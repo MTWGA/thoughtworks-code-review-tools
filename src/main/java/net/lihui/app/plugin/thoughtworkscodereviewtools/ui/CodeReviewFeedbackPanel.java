@@ -1,6 +1,5 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
-import com.julienvey.trello.domain.Member;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
@@ -37,9 +36,8 @@ public class CodeReviewFeedbackPanel {
     private void refreshBoardMemberList() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
         CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
-        List<Member> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
 
-        List<TrelloBoardMember> refreshedMemberList = MEMBER_MAPPER.toStateList(trelloBoardMembers);
+        List<TrelloBoardMember> refreshedMemberList = codeReviewBoardService.getTrelloBoardMembers();
         TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
         boardMemberState.updateTrelloBoardMemberList(refreshedMemberList);
 

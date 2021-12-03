@@ -2,7 +2,7 @@ package thoughtworkscodereviewtools;
 
 import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloUrl;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.entity.TrelloList;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.client.response.TrelloBoardListResponse;
 import org.junit.Test;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -35,9 +35,9 @@ public class UtilTest {
 
     @Test
     public void should_return_exist_id_when_map_to_get_list_id_given_list_is_exist() {
-        Optional<TrelloList> todayCard = Optional.of(new TrelloList("exist id"));
+        Optional<TrelloBoardListResponse> todayCard = Optional.of(TrelloBoardListResponse.builder().id("exist id").build());
 
-        String todayListId = todayCard.map(TrelloList::getId).orElse("new Id");
+        String todayListId = todayCard.map(TrelloBoardListResponse::getId).orElse("new Id");
 
         assertEquals("exist id", todayListId);
     }

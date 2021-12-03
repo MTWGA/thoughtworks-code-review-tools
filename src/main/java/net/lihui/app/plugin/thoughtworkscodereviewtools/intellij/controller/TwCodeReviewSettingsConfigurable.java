@@ -4,6 +4,7 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller;
 
 import com.intellij.openapi.options.Configurable;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import com.julienvey.trello.TrelloBadRequestException;
 import com.julienvey.trello.domain.Member;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
@@ -16,8 +17,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.List;
-
-import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 /**
  * Provides controller functionality for application settings.
@@ -72,10 +71,10 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
     private void updateBoardMemberList() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
         CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
-        List<Member> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
+        List<TrelloBoardMember> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
 
         TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
-        boardMemberState.updateTrelloBoardMemberList(MEMBER_MAPPER.toStateList(trelloBoardMembers));
+        boardMemberState.updateTrelloBoardMemberList(trelloBoardMembers);
     }
 
     @Override

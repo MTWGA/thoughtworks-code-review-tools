@@ -5,12 +5,15 @@ import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 public class CodeReviewBoardService {
     private final TrelloClient trelloClient;
@@ -41,8 +44,9 @@ public class CodeReviewBoardService {
         return trelloClient.createCard(todayCodeReviewListId, card);
     }
 
-    public List<Member> getTrelloBoardMembers() {
-        return trelloClient.getBoardMembers();
+    public List<TrelloBoardMember> getTrelloBoardMembers() {
+        List<Member> boardMembers = trelloClient.getBoardMembers();
+        return MEMBER_MAPPER.toStateList(boardMembers);
     }
 
     private String buildTodayCodeReviewListName() {
