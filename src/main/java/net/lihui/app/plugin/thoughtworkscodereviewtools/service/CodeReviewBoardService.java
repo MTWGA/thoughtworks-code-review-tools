@@ -26,7 +26,7 @@ public class CodeReviewBoardService {
                 .filter(list -> list.getName().equals(codeReviewListName))
                 .findFirst()
                 .map(TList::getId)
-                .orElseGet(() -> trelloClient.createList(codeReviewListName));
+                .orElseGet(() -> trelloClient.createBoardList(codeReviewListName));
     }
 
     public Card createCodeReviewCard(FeedBackContext feedBackContext, String cardDesc, String todayCodeReviewListId) {

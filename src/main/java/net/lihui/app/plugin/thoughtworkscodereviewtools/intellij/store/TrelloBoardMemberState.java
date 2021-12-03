@@ -5,11 +5,11 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Setter
+import java.util.List;
+
 @State(
         name = "net.lihui.app.plugin.thoughtworkscodereviewtools.settings.TrelloBoardMemberState",
         storages = @Storage("$APP_CONFIG$/TwCodeReviewToolsSetting.xml")
@@ -19,6 +19,10 @@ public class TrelloBoardMemberState implements PersistentStateComponent<TrelloMe
 
     public static TrelloBoardMemberState getInstance() {
         return ApplicationManager.getApplication().getService(TrelloBoardMemberState.class);
+    }
+
+    public void updateTrelloBoardMemberList(List<TrelloBoardMember> trelloBoardMemberList) {
+        this.trelloMemberProperties.setTrelloBoardMembers(trelloBoardMemberList);
     }
 
     @Override

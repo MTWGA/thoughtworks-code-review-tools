@@ -7,7 +7,6 @@ import com.intellij.openapi.options.Configurable;
 import com.julienvey.trello.domain.Member;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloMemberProperties;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.TwCodeReviewSettingsComponent;
@@ -57,18 +56,18 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
     @Override
     public void apply() {
         TrelloState trelloState = TrelloState.getInstance();
-        trelloState.setTrelloConfiguration(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
+        trelloState.setState(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
 
-        fetchBoardMemberList();
+        updateBoardMemberList();
     }
 
-    private void fetchBoardMemberList() {
+    private void updateBoardMemberList() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
-        TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
-
         CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
         List<Member> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
-        boardMemberState.setTrelloMemberProperties(new TrelloMemberProperties(MEMBER_MAPPER.toStateList(trelloBoardMembers)));
+
+        TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
+        boardMemberState.updateTrelloBoardMemberList(MEMBER_MAPPER.toStateList(trelloBoardMembers));
     }
 
     @Override
