@@ -25,7 +25,6 @@ public class TrelloClient {
         this.trelloApi = new TrelloImpl(trelloConfiguration.getTrelloApiKey(), trelloConfiguration.getTrelloApiToken(), new JDKTrelloHttpClient());
     }
 
-    // TODO add cache
     public List<TList> getBoardListCollection() {
         Board board = trelloApi.getBoard(trelloConfiguration.getTrelloBoardId());
         return board.fetchLists();
@@ -44,24 +43,11 @@ public class TrelloClient {
         return trelloList.getId();
     }
 
-    // TODO add cache
     public List<Member> getBoardMembers() {
         return trelloApi.getBoardMembers(trelloConfiguration.getTrelloBoardId());
     }
 
     public Card createCard(String todayCodeReviewListId, Card card) {
         return trelloApi.createCard(todayCodeReviewListId, card);
-    }
-
-    public Member getAuthorMember() {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "https://api.trello.com/1/tokens/" + trelloConfiguration.getTrelloApiToken() + "/member";
-        URI fullUri = UriComponentsBuilder.fromUriString(url)
-                .queryParam("key", trelloConfiguration.getTrelloApiKey())
-                .queryParam("token", trelloConfiguration.getTrelloApiToken())
-                .queryParam("fields", "id")
-                .buildAndExpand().toUri();
-        Member authorMember = restTemplate.getForObject(fullUri, Member.class);
-        return authorMember;
     }
 }
