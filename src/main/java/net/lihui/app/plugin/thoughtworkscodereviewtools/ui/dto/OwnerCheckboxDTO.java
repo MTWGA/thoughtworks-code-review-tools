@@ -14,4 +14,14 @@ public class OwnerCheckboxDTO {
     private String username;
     private String fullName;
     private boolean selected = false;
+
+    @Override
+    public String toString() {
+        return "OwnerCheckboxDTO{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", selected=" + selected +
+                '}';
+    }
 }

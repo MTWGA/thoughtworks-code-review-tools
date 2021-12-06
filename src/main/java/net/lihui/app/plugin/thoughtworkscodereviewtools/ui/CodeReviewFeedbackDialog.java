@@ -9,10 +9,12 @@ import javax.swing.*;
 public class CodeReviewFeedbackDialog extends DialogWrapper {
     public static final String DIALOG_TITLE = "code review feedback";
     private final CodeReviewFeedbackPanel codeReviewFeedbackPanel;
+    private final CodeReviewPanel codeReviewPanel;
 
     public CodeReviewFeedbackDialog(@Nullable Project project) {
         super(project);
         codeReviewFeedbackPanel = new CodeReviewFeedbackPanel();
+        codeReviewPanel = new CodeReviewPanel();
         setTitle(DIALOG_TITLE);
         setOKButtonText("OK");
         init();
@@ -20,10 +22,12 @@ public class CodeReviewFeedbackDialog extends DialogWrapper {
 
     @Override
     protected @Nullable JComponent createCenterPanel() {
-        return codeReviewFeedbackPanel.getMainPanel();
+        return codeReviewPanel.getPanel();
+
     }
 
     public FeedBackContext getFeedbackContext() {
+        codeReviewPanel.getOwnerComboBox();
         return codeReviewFeedbackPanel.getFeedbackContext();
     }
 }
