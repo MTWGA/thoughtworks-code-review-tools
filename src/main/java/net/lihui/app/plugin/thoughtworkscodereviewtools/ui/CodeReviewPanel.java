@@ -13,14 +13,16 @@ import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.util.Collections;
 import java.util.List;
 
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 @Slf4j
 public class CodeReviewPanel {
-    JPanel panel = new JPanel();
-    ComboBox<OwnerCheckboxDTO> comboBox;
+    private JPanel panel = new JPanel();
+    private ComboBox<OwnerCheckboxDTO> comboBox;
+    private JTextField feedBackText;
 
     public CodeReviewPanel() {
         List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
@@ -35,7 +37,9 @@ public class CodeReviewPanel {
         comboBox.setEditor(editor);
         comboBox.getItem();
         log.info("comboBox.getItem is: {}", comboBox.getItem());
+        feedBackText = new JTextField();
         panel.add(comboBox);
+        panel.add(feedBackText);
     }
 
     public JPanel getPanel() {
@@ -47,4 +51,10 @@ public class CodeReviewPanel {
         return comboBox;
     }
 
+    public FeedBackContext getFeedbackContext() {
+        return FeedBackContext.builder()
+                .feedback(feedBackText.getText())
+                .memberList(Collections.singletonList(MEMBER_MAPPER.toMember(comboBox.getItem())))
+                .build();
+    }
 }

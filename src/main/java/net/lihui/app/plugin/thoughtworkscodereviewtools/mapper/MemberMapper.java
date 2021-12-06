@@ -18,6 +18,8 @@ public interface MemberMapper {
 
     OwnerCheckboxDTO toDto(TrelloBoardMember trelloBoardMember);
 
+    Member toMember(OwnerCheckboxDTO ownerCheckboxDTO);
+
     List<OwnerCheckboxDTO> toDtoList(List<TrelloBoardMember> trelloBoardMember);
 
     List<Member> toMemberList(List<OwnerCheckboxDTO> ownerCheckboxDTO);
