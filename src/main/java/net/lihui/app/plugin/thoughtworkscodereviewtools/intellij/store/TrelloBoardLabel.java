@@ -15,4 +15,6 @@ public class TrelloBoardLabel {
     private String color;
     @Tag("name")
     private String name;
+    @Tag("idBoard")
+    private String idBoard;
 }

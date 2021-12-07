@@ -1,5 +1,6 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
+import com.julienvey.trello.domain.Label;
 import com.julienvey.trello.domain.Member;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,4 +14,5 @@ import java.util.List;
 public class FeedBackContext {
     private String feedback;
     private List<Member> memberList;
+    private List<Label> labelList;
 }

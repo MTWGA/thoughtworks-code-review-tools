@@ -42,6 +42,7 @@ public class CodeReviewBoardService {
                 .collect(Collectors.toList());
 
         card.setIdMembers(submitMemberIdList);
+        card.setLabels(feedBackContext.getLabelList());
         return trelloClient.createCard(todayCodeReviewListId, card);
     }
 

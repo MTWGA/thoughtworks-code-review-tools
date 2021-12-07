@@ -9,7 +9,6 @@ import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.TrelloUrl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
-import lombok.extern.slf4j.Slf4j;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.response.TrelloBoardListResponse;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-@Slf4j
 public class TrelloClient {
     private final TrelloConfiguration trelloConfiguration;
     private final Trello trelloApi;

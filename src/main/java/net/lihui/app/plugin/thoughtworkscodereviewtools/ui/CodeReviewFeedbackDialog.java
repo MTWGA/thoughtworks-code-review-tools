@@ -25,7 +25,6 @@ public class CodeReviewFeedbackDialog extends DialogWrapper {
     }
 
     public FeedBackContext getFeedbackContext() {
-        codeReviewPanel.getOwnerComboBox();
         return codeReviewPanel.getFeedbackContext();
     }
 }

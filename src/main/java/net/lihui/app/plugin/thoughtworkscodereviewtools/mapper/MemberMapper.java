@@ -4,6 +4,7 @@ import com.julienvey.trello.domain.Label;
 import com.julienvey.trello.domain.Member;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.LabelDTO;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -27,4 +28,8 @@ public interface MemberMapper {
     List<Member> toMemberList(List<OwnerDTO> ownerDTO);
 
     List<TrelloBoardLabel> toLabelList(List<Label> labels);
+
+    List<LabelDTO> toLabelDtoList(List<TrelloBoardLabel> trelloBoardLabels);
+
+    Label toLabel(LabelDTO labelDTOS);
 }

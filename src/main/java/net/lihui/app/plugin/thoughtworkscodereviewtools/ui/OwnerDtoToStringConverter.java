@@ -3,7 +3,7 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerDTO;
 import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
-public class CustomizedObjectToStringConverter extends ObjectToStringConverter {
+public class OwnerDtoToStringConverter extends ObjectToStringConverter {
     @Override
     public String getPreferredStringForItem(Object o) {
         if (o == null) {
