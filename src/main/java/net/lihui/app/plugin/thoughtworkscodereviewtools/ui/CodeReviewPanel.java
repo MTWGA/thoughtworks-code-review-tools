@@ -9,13 +9,10 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerDTO;
 import org.jdesktop.swingx.autocomplete.AutoCompleteComboBoxEditor;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDocument;
 import org.jdesktop.swingx.autocomplete.ComboBoxAdaptor;
-import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,11 +31,8 @@ public class CodeReviewPanel {
         feedBackText.setPreferredSize(new Dimension(200, 30));
         panel.add(feedBackText);
         refreshButton = new JButton("refresh");
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                // refresh the member and the label data
-            }
+        refreshButton.addActionListener(actionEvent -> {
+            // refresh the member and the label data
         });
         panel.add(refreshButton);
 
@@ -51,7 +45,7 @@ public class CodeReviewPanel {
         comboBox.setEditable(true);
         comboBox.setMaximumRowCount(3);
         comboBox.setSelectedItem(null); // remember last selected user
-        AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
+        AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), new OwnerDTOToStringConverter());
         JTextComponent editorComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
         editorComponent.setDocument(new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), true));
         comboBox.setEditor(editor);
