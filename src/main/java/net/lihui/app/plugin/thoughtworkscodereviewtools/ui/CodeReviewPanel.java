@@ -42,13 +42,16 @@ public class CodeReviewPanel {
         List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
         CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
         comboBox = new ComboBox(comboBoxModel);
+        comboBox.setRenderer(new OwnerComboboxRenderer());
         comboBox.setEditable(true);
+        CustomizedObjectToStringConverter stringConverter = new CustomizedObjectToStringConverter();
+        AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), stringConverter);
+        JTextComponent editorComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
+        AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), false, stringConverter);
+        editorComponent.setDocument(autoCompleteDocument);
+        comboBox.setEditor(editor);
         comboBox.setMaximumRowCount(3);
         comboBox.setSelectedItem(null); // remember last selected user
-        AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), new OwnerDTOToStringConverter());
-        JTextComponent editorComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
-        editorComponent.setDocument(new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), true));
-        comboBox.setEditor(editor);
         comboBox.setToolTipText("owner");
         panel.add(comboBox);
     }
