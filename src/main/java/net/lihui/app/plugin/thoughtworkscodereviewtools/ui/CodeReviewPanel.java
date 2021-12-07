@@ -57,8 +57,7 @@ public class CodeReviewPanel {
         AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(ownerComboBox), false, stringConverter);
         editorComponent.setDocument(autoCompleteDocument);
         ownerComboBox.setEditor(editor);
-        ownerComboBox.setMaximumRowCount(3);
-        ownerComboBox.setSelectedItem(null); // remember last selected user
+        ownerComboBox.setMaximumRowCount(5);
         ownerComboBox.setToolTipText("owner");
         panel.add(ownerComboBox);
     }
