@@ -25,7 +25,6 @@ public interface MemberMapper {
     List<OwnerDTO> toDtoList(List<TrelloBoardMember> trelloBoardMember);
 
     List<Member> toMemberList(List<OwnerDTO> ownerDTO);
-    List<Member> toMemberList(List<OwnerCheckboxDTO> ownerCheckboxDTO);
 
     List<TrelloBoardLabel> toLabelList(List<Label> labels);
 }
