@@ -5,7 +5,7 @@ import com.intellij.ui.CollectionComboBoxModel;
 import lombok.extern.slf4j.Slf4j;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerCheckboxDTO;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerDTO;
 import org.jdesktop.swingx.autocomplete.AutoCompleteComboBoxEditor;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDocument;
 import org.jdesktop.swingx.autocomplete.ComboBoxAdaptor;
@@ -24,13 +24,12 @@ import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapp
 @Slf4j
 public class CodeReviewPanel {
     private JPanel panel = new JPanel();
-    private ComboBox<OwnerCheckboxDTO> comboBox;
+    private ComboBox<OwnerDTO> comboBox;
     private JTextField feedBackText;
     private JButton refreshButton;
 
     public CodeReviewPanel() {
         initOwnerComboBox();
-//        initLabelComboBox();
         feedBackText = new JTextField();
         feedBackText.setPreferredSize(new Dimension(200, 30));
         panel.add(feedBackText);
@@ -47,8 +46,8 @@ public class CodeReviewPanel {
 
     private void initOwnerComboBox() {
         List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
-        comboBox = new ComboBox(new CollectionComboBoxModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers)));
-        comboBox.setRenderer(new OwnerComboBoxRenderer());
+        CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
+        comboBox = new ComboBox(comboBoxModel);
         comboBox.setEditable(true);
         comboBox.setMaximumRowCount(3);
         comboBox.setSelectedItem(null); // remember last selected user
@@ -59,20 +58,6 @@ public class CodeReviewPanel {
         comboBox.setToolTipText("owner");
         panel.add(comboBox);
     }
-//    private void initLabelComboBox() {
-//        List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
-//        comboBox = new ComboBox(new CollectionComboBoxModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers)));
-//        comboBox.setRenderer(new OwnerComboBoxRenderer());
-//        comboBox.setEditable(true);
-//        comboBox.setMaximumRowCount(3);
-//        comboBox.setSelectedItem(null); // remember last selected user
-//        AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
-//        JTextComponent editorComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
-//        editorComponent.setDocument(new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), true));
-//        comboBox.setEditor(editor);
-//        comboBox.setToolTipText("label");
-//        panel.add(comboBox);
-//    }
 
     public JPanel getPanel() {
         return panel;
