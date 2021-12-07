@@ -92,7 +92,7 @@ public class CodeReviewPanel {
         return FeedBackContext.builder()
                 .feedback(feedBackText.getText())
                 .memberList(Collections.singletonList(MEMBER_MAPPER.toMember(ownerComboBox.getItem())))
-                .labelList(Collections.singletonList(MEMBER_MAPPER.toLabel(labelComboBox.getItem())))
+                .label(MEMBER_MAPPER.toLabel(labelComboBox.getItem()))
                 .build();
     }
 }

@@ -14,5 +14,5 @@ import java.util.List;
 public class FeedBackContext {
     private String feedback;
     private List<Member> memberList;
-    private List<Label> labelList;
+    private Label label;
 }

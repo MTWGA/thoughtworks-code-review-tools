@@ -48,8 +48,10 @@ public class TrelloClient {
         return trelloApi.getBoardMembers(trelloConfiguration.getTrelloBoardId());
     }
 
-    public Card createCard(String boardListId, Card card) {
-        return trelloApi.createCard(boardListId, card);
+    public Card createCard(String boardListId, Card card, String labelId) {
+        Card returnCard = trelloApi.createCard(boardListId, card);
+        trelloApi.addLabelToCard(returnCard.getId(),labelId);
+        return returnCard;
     }
 
     public List<Label> getLabels() {

@@ -40,10 +40,9 @@ public class CodeReviewBoardService {
         List<String> submitMemberIdList = feedBackContext.getMemberList().stream()
                 .map(Member::getId)
                 .collect(Collectors.toList());
-
         card.setIdMembers(submitMemberIdList);
-        card.setLabels(feedBackContext.getLabelList());
-        return trelloClient.createCard(todayCodeReviewListId, card);
+
+        return trelloClient.createCard(todayCodeReviewListId, card, feedBackContext.getLabel().getId());
     }
 
     public List<TrelloBoardMember> getTrelloBoardMembers() {
