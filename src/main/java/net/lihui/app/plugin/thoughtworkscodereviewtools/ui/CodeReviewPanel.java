@@ -9,7 +9,6 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoa
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.LabelDTO;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerDTO;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.settingView.LabelComboboxRenderer;
 import org.jdesktop.swingx.autocomplete.AutoCompleteComboBoxEditor;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDocument;
 import org.jdesktop.swingx.autocomplete.ComboBoxAdaptor;

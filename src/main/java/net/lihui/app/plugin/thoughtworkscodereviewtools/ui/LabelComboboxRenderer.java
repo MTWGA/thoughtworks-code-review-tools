@@ -1,4 +1,4 @@
-package net.lihui.app.plugin.thoughtworkscodereviewtools.ui.settingView;
+package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
 
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.LabelDTO;
