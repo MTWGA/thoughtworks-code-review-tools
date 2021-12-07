@@ -48,20 +48,9 @@ public class CodeReviewPanel {
     private void initOwnerComboBox() {
         List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
         CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
-        OwnerDtoToStringConverter stringConverter = new OwnerDtoToStringConverter();
         ownerComboBox = new ComboBox(comboBoxModel);
-        ownerComboBox.setRenderer(new OwnerComboboxRenderer());
-        ownerComboBox.setEditable(true);
         OwnerDtoToStringConverter stringConverter = new OwnerDtoToStringConverter();
-        AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(ownerComboBox.getEditor(), stringConverter);
-        JTextComponent editorComponent = (JTextComponent) ownerComboBox.getEditor().getEditorComponent();
-        AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(ownerComboBox), false, stringConverter);
-        editorComponent.setDocument(autoCompleteDocument);
-        ownerComboBox.setEditor(editor);
-        ownerComboBox.setMaximumRowCount(5);
-        ownerComboBox.setToolTipText("owner");
-        panel.add(ownerComboBox);
-        setComboBox(stringConverter, ownerComboBox);
+        setComboBox(stringConverter, ownerComboBox, new OwnerComboboxRenderer(), "owner");
     }
 
     private void initLabelComboBox() {
@@ -69,20 +58,20 @@ public class CodeReviewPanel {
         CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toLabelDtoList(trelloBoardLabels));
         LabelDtoToStringConverter stringConverter = new LabelDtoToStringConverter();
         labelComboBox = new ComboBox(comboBoxModel);
-        labelComboBox.setRenderer(new LabelComboboxRenderer());
-        setComboBox(stringConverter, labelComboBox);
+        setComboBox(stringConverter, labelComboBox, new LabelComboboxRenderer(), "Label");
     }
 
-    private void setComboBox(ObjectToStringConverter converter, ComboBox comboBox) {
+    private void setComboBox(ObjectToStringConverter converter, ComboBox comboBox, ListCellRenderer renderer, String tipText) {
+        comboBox.setRenderer(renderer);
         comboBox.setEditable(true);
         AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), converter);
         JTextComponent editorComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
         AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), false, converter);
         editorComponent.setDocument(autoCompleteDocument);
         comboBox.setEditor(editor);
-        comboBox.setMaximumRowCount(3);
+        comboBox.setMaximumRowCount(5);
         comboBox.setSelectedItem(null);
-        comboBox.setToolTipText("label");
+        comboBox.setToolTipText(tipText);
         panel.add(comboBox);
     }
 
