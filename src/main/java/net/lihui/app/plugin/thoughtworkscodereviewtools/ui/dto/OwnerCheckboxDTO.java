@@ -17,11 +17,6 @@ public class OwnerCheckboxDTO {
 
     @Override
     public String toString() {
-        return "OwnerCheckboxDTO{" +
-                "id='" + id + '\'' +
-                ", username='" + username + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", selected=" + selected +
-                '}';
+        return fullName;
     }
 }
