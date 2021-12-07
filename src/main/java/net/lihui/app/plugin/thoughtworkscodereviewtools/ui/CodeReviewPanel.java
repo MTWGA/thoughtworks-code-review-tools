@@ -48,6 +48,7 @@ public class CodeReviewPanel {
     private void initOwnerComboBox() {
         List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
         CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
+        OwnerDtoToStringConverter stringConverter = new OwnerDtoToStringConverter();
         ownerComboBox = new ComboBox(comboBoxModel);
         ownerComboBox.setRenderer(new OwnerComboboxRenderer());
         ownerComboBox.setEditable(true);
@@ -60,31 +61,33 @@ public class CodeReviewPanel {
         ownerComboBox.setMaximumRowCount(5);
         ownerComboBox.setToolTipText("owner");
         panel.add(ownerComboBox);
+        setComboBox(stringConverter, ownerComboBox);
     }
 
     private void initLabelComboBox() {
         List<TrelloBoardLabel> trelloBoardLabels = TrelloBoardLabelState.getInstance().getState().getTrelloBoardLabels();
         CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toLabelDtoList(trelloBoardLabels));
+        LabelDtoToStringConverter stringConverter = new LabelDtoToStringConverter();
         labelComboBox = new ComboBox(comboBoxModel);
         labelComboBox.setRenderer(new LabelComboboxRenderer());
-        labelComboBox.setEditable(true);
-        AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(labelComboBox.getEditor(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
-        JTextComponent editorComponent = (JTextComponent) labelComboBox.getEditor().getEditorComponent();
-        AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(labelComboBox), false, ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
+        setComboBox(stringConverter, labelComboBox);
+    }
+
+    private void setComboBox(ObjectToStringConverter converter, ComboBox comboBox) {
+        comboBox.setEditable(true);
+        AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), converter);
+        JTextComponent editorComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
+        AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), false, converter);
         editorComponent.setDocument(autoCompleteDocument);
-        labelComboBox.setEditor(editor);
-        labelComboBox.setMaximumRowCount(3);
-        labelComboBox.setSelectedItem(null);
-        labelComboBox.setToolTipText("label");
-        panel.add(labelComboBox);
+        comboBox.setEditor(editor);
+        comboBox.setMaximumRowCount(3);
+        comboBox.setSelectedItem(null);
+        comboBox.setToolTipText("label");
+        panel.add(comboBox);
     }
 
     public JPanel getPanel() {
         return panel;
-    }
-
-    public ComboBox getOwnerComboBox() {
-        return ownerComboBox;
     }
 
     public FeedBackContext getFeedbackContext() {

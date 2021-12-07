@@ -14,9 +14,4 @@ public class LabelDTO {
     private String idBoard;
     private String color;
     private String name;
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }

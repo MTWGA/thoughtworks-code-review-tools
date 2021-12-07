@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TrelloClient {
     private final TrelloConfiguration trelloConfiguration;
@@ -55,6 +56,6 @@ public class TrelloClient {
     }
 
     public List<Label> getLabels() {
-        return trelloApi.getBoardLabels(trelloConfiguration.getTrelloBoardId());
+        return trelloApi.getBoardLabels(trelloConfiguration.getTrelloBoardId()).stream().filter(label -> !label.getName().isEmpty()).collect(Collectors.toList());
     }
 }
