@@ -21,6 +21,8 @@
                 serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState"/>
         <applicationService
                 serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState"/>
+        <applicationService
+                serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState"/>
     </extensions>
 
     <applicationListeners>

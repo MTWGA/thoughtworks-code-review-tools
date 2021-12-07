@@ -1,6 +1,8 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.mapper;
 
+import com.julienvey.trello.domain.Label;
 import com.julienvey.trello.domain.Member;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerDTO;
 import org.mapstruct.Mapper;
@@ -23,4 +25,7 @@ public interface MemberMapper {
     List<OwnerDTO> toDtoList(List<TrelloBoardMember> trelloBoardMember);
 
     List<Member> toMemberList(List<OwnerDTO> ownerDTO);
+    List<Member> toMemberList(List<OwnerCheckboxDTO> ownerCheckboxDTO);
+
+    List<TrelloBoardLabel> toLabelList(List<Label> labels);
 }

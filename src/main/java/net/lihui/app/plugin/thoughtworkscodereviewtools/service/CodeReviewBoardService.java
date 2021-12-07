@@ -5,6 +5,7 @@ import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
@@ -47,6 +48,10 @@ public class CodeReviewBoardService {
     public List<TrelloBoardMember> getTrelloBoardMembers() {
         List<Member> boardMembers = trelloClient.getBoardMembers();
         return MEMBER_MAPPER.toStateList(boardMembers);
+    }
+
+    public List<TrelloBoardLabel> getTrelloBoardLabels() {
+        return MEMBER_MAPPER.toLabelList(trelloClient.getLabels());
     }
 
     private String buildTodayCodeReviewListName() {

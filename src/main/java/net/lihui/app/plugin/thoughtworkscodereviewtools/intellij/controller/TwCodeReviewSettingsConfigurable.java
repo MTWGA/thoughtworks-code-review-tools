@@ -4,6 +4,8 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller;
 
 import com.intellij.openapi.options.Configurable;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import com.julienvey.trello.TrelloBadRequestException;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
@@ -58,7 +60,7 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
         trelloState.setState(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
 
         try {
-            updateBoardMemberList();
+            updateBoard();
             twCodeReviewSettingsComponent.setTrelloSettingStatusLabel("OK");
         } catch (TrelloBadRequestException trelloBadRequestException) {
             if (trelloBadRequestException.getMessage().equals("invalid id")) {
@@ -67,13 +69,17 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
         }
     }
 
-    private void updateBoardMemberList() {
+    private void updateBoard() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
         CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
-        List<TrelloBoardMember> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
 
+        List<TrelloBoardMember> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
         TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
         boardMemberState.updateTrelloBoardMemberList(trelloBoardMembers);
+
+        List<TrelloBoardLabel> trelloBoardLabels = codeReviewBoardService.getTrelloBoardLabels();
+        TrelloBoardLabelState boardLabelState = TrelloBoardLabelState.getInstance();
+        boardLabelState.updateTrelloBoardLabelList(trelloBoardLabels);
     }
 
     @Override
