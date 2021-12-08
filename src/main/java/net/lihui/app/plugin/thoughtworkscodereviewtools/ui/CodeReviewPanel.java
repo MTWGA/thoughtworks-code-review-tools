@@ -17,6 +17,8 @@ import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,7 +51,7 @@ public class CodeReviewPanel {
         CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers));
         ownerComboBox = new ComboBox(comboBoxModel);
         OwnerDtoToStringConverter stringConverter = new OwnerDtoToStringConverter();
-        setComboBox(stringConverter, ownerComboBox, new OwnerComboboxRenderer(), "owner");
+        setupComboBox(ownerComboBox, stringConverter, new OwnerComboboxRenderer(), "owner");
     }
 
     private void initLabelComboBox() {
@@ -57,16 +59,27 @@ public class CodeReviewPanel {
         CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toLabelDtoList(trelloBoardLabels));
         LabelDtoToStringConverter stringConverter = new LabelDtoToStringConverter();
         labelComboBox = new ComboBox(comboBoxModel);
-        setComboBox(stringConverter, labelComboBox, new LabelComboboxRenderer(), "Label");
+        setupComboBox(labelComboBox, stringConverter, new LabelComboboxRenderer(), "Label");
     }
 
-    private void setComboBox(ObjectToStringConverter converter, ComboBox comboBox, ListCellRenderer renderer, String tipText) {
+    private void setupComboBox(ComboBox comboBox, ObjectToStringConverter converter, ListCellRenderer renderer, String tipText) {
         comboBox.setRenderer(renderer);
         comboBox.setEditable(true);
         AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), converter);
         JTextComponent editorComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
         AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), false, converter);
         editorComponent.setDocument(autoCompleteDocument);
+        editorComponent.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                comboBox.showPopup();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                comboBox.hidePopup();
+            }
+        });
         comboBox.setEditor(editor);
         comboBox.setMaximumRowCount(5);
         comboBox.setSelectedItem(null);
