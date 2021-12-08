@@ -26,6 +26,7 @@ import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapp
 
 @Slf4j
 public class CodeReviewPanel {
+    private static final int DEFAULT_COMBO_BOX_DISPLAY_COUNT = 5;
     private JPanel panel = new JPanel();
     private ComboBox<OwnerDTO> ownerComboBox;
     private JTextField feedBackText;
@@ -57,8 +58,8 @@ public class CodeReviewPanel {
     private void initLabelComboBox() {
         List<TrelloBoardLabel> trelloBoardLabels = TrelloBoardLabelState.getInstance().getState().getTrelloBoardLabels();
         CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toLabelDtoList(trelloBoardLabels));
-        LabelDtoToStringConverter stringConverter = new LabelDtoToStringConverter();
         labelComboBox = new ComboBox(comboBoxModel);
+        LabelDtoToStringConverter stringConverter = new LabelDtoToStringConverter();
         setupComboBox(labelComboBox, stringConverter, new LabelComboboxRenderer(), "Label");
     }
 
@@ -66,6 +67,7 @@ public class CodeReviewPanel {
         comboBox.setRenderer(renderer);
         comboBox.setEditable(true);
         AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), converter);
+        comboBox.setEditor(editor);
         JTextComponent editorComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
         AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), false, converter);
         editorComponent.setDocument(autoCompleteDocument);
@@ -80,9 +82,7 @@ public class CodeReviewPanel {
                 comboBox.hidePopup();
             }
         });
-        comboBox.setEditor(editor);
-        comboBox.setMaximumRowCount(5);
-        comboBox.setSelectedItem(null);
+        comboBox.setMaximumRowCount(DEFAULT_COMBO_BOX_DISPLAY_COUNT);
         comboBox.setToolTipText(tipText);
         panel.add(comboBox);
     }
