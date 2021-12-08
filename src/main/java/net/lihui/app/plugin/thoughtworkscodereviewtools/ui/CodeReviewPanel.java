@@ -7,6 +7,9 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoa
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.LabelDTO;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.dto.OwnerDTO;
 import org.jdesktop.swingx.autocomplete.AutoCompleteComboBoxEditor;
@@ -39,10 +42,34 @@ public class CodeReviewPanel extends JPanel {
         this.add(feedBackText);
         refreshButton = new JButton("refresh");
         refreshButton.addActionListener(actionEvent -> {
-            // refresh the member and the label data
+            updateBoard();
+            refreshOwners();
+            refreshLabels();
         });
         this.add(refreshButton);
+    }
 
+    private void refreshLabels() {
+        List<TrelloBoardLabel> trelloBoardLabels = TrelloBoardLabelState.getInstance().getState().getTrelloBoardLabels();
+        labelComboBox.setModel(new CollectionComboBoxModel(MEMBER_MAPPER.toLabelDtoList(trelloBoardLabels)));
+    }
+
+    private void refreshOwners() {
+        List<TrelloBoardMember> trelloBoardMembers = TrelloBoardMemberState.getInstance().getState().getTrelloBoardMembers();
+        ownerComboBox.setModel(new CollectionComboBoxModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers)));
+    }
+
+    private void updateBoard() {
+        TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
+        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
+
+        List<TrelloBoardMember> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
+        TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
+        boardMemberState.updateTrelloBoardMemberList(trelloBoardMembers);
+
+        List<TrelloBoardLabel> trelloBoardLabels = codeReviewBoardService.getTrelloBoardLabels();
+        TrelloBoardLabelState boardLabelState = TrelloBoardLabelState.getInstance();
+        boardLabelState.updateTrelloBoardLabelList(trelloBoardLabels);
     }
 
     private void initOwnerComboBox() {
