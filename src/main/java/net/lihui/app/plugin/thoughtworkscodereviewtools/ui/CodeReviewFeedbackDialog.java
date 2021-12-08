@@ -24,6 +24,11 @@ public class CodeReviewFeedbackDialog extends DialogWrapper {
 
     }
 
+    @Override
+    public @Nullable JComponent getPreferredFocusedComponent() {
+        return codeReviewPanel.getPreferredFocusedComponent();
+    }
+
     public FeedBackContext getFeedbackContext() {
         return codeReviewPanel.getFeedbackContext();
     }

@@ -97,4 +97,8 @@ public class CodeReviewPanel {
                 .label(labelComboBox.getItem() instanceof LabelDTO ? MEMBER_MAPPER.toLabel(labelComboBox.getItem()) : null)
                 .build();
     }
+
+    public JComponent getPreferredFocusedComponent() {
+        return ownerComboBox;
+    }
 }
