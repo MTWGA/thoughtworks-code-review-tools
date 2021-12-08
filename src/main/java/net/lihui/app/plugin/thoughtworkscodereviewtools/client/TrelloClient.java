@@ -18,6 +18,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+
 public class TrelloClient {
     private final TrelloConfiguration trelloConfiguration;
     private final Trello trelloApi;
@@ -49,9 +51,11 @@ public class TrelloClient {
         return trelloApi.getBoardMembers(trelloConfiguration.getTrelloBoardId());
     }
 
-    public Card createCard(String boardListId, Card card, String labelId) {
+    public Card createCard(String boardListId, Card card, Label label) {
         Card returnCard = trelloApi.createCard(boardListId, card);
-        trelloApi.addLabelToCard(returnCard.getId(),labelId);
+        if (!isNull(label)) {
+            trelloApi.addLabelToCard(returnCard.getId(), label.getId());
+        }
         return returnCard;
     }
 

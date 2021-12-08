@@ -10,10 +10,11 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoa
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 public class CodeReviewBoardService {
@@ -37,12 +38,11 @@ public class CodeReviewBoardService {
         Card card = new Card();
         card.setName(feedBackContext.getFeedback());
         card.setDesc(cardDesc);
-        List<String> submitMemberIdList = feedBackContext.getMemberList().stream()
-                .map(Member::getId)
-                .collect(Collectors.toList());
-        card.setIdMembers(submitMemberIdList);
+        if (!isNull(feedBackContext.getMember())) {
+            card.setIdMembers(Collections.singletonList(feedBackContext.getMember().getId()));
+        }
 
-        return trelloClient.createCard(todayCodeReviewListId, card, feedBackContext.getLabel().getId());
+        return trelloClient.createCard(todayCodeReviewListId, card, feedBackContext.getLabel());
     }
 
     public List<TrelloBoardMember> getTrelloBoardMembers() {

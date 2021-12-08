@@ -94,8 +94,8 @@ public class CodeReviewPanel {
     public FeedBackContext getFeedbackContext() {
         return FeedBackContext.builder()
                 .feedback(feedBackText.getText())
-                .memberList(Collections.singletonList(MEMBER_MAPPER.toMember(ownerComboBox.getItem())))
-                .label(MEMBER_MAPPER.toLabel(labelComboBox.getItem()))
+                .member(ownerComboBox.getItem() instanceof OwnerDTO ? MEMBER_MAPPER.toMember(ownerComboBox.getItem()) : null)
+                .label(labelComboBox.getItem() instanceof LabelDTO ? MEMBER_MAPPER.toLabel(labelComboBox.getItem()) : null)
                 .build();
     }
 }

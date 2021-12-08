@@ -6,13 +6,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
 public class FeedBackContext {
     private String feedback;
-    private List<Member> memberList;
+    private Member member;
     private Label label;
 }
