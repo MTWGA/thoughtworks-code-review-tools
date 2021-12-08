@@ -24,9 +24,8 @@ import java.util.List;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 @Slf4j
-public class CodeReviewPanel {
+public class CodeReviewPanel extends JPanel {
     private static final int DEFAULT_COMBO_BOX_DISPLAY_COUNT = 5;
-    private JPanel panel = new JPanel();
     private ComboBox<OwnerDTO> ownerComboBox;
     private JTextField feedBackText;
     private JButton refreshButton;
@@ -37,12 +36,12 @@ public class CodeReviewPanel {
         initLabelComboBox();
         feedBackText = new JTextField();
         feedBackText.setPreferredSize(new Dimension(200, 30));
-        panel.add(feedBackText);
+        this.add(feedBackText);
         refreshButton = new JButton("refresh");
         refreshButton.addActionListener(actionEvent -> {
             // refresh the member and the label data
         });
-        panel.add(refreshButton);
+        this.add(refreshButton);
 
     }
 
@@ -83,11 +82,7 @@ public class CodeReviewPanel {
         });
         comboBox.setMaximumRowCount(DEFAULT_COMBO_BOX_DISPLAY_COUNT);
         comboBox.setToolTipText(tipText);
-        panel.add(comboBox);
-    }
-
-    public JPanel getPanel() {
-        return panel;
+        this.add(comboBox);
     }
 
     public FeedBackContext getFeedbackContext() {

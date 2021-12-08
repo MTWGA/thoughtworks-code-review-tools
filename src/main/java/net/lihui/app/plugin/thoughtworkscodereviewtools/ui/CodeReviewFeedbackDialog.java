@@ -20,7 +20,7 @@ public class CodeReviewFeedbackDialog extends DialogWrapper {
 
     @Override
     protected @Nullable JComponent createCenterPanel() {
-        return codeReviewPanel.getPanel();
+        return codeReviewPanel;
 
     }
 
