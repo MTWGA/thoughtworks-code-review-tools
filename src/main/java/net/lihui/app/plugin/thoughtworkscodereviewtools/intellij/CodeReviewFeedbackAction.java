@@ -62,7 +62,13 @@ public class CodeReviewFeedbackAction extends AnAction {
             }
             return;
         }
-        Card codeReviewCard = codeReviewBoardService.createCodeReviewCard(feedBackContext, cardDesc, todayCodeReviewListId);
+        Card codeReviewCard = new Card();
+
+        try {
+            codeReviewCard = codeReviewBoardService.createCodeReviewCard(feedBackContext, cardDesc, todayCodeReviewListId);
+        } catch (Exception e) {
+            Notifier.notifyInfo(project, "信息发送失败，愿消息为：" + feedBackContext.getMember().getFullName() + ":" + cardDesc);
+        }
 
         if (codeReviewCard.getName().equals(feedBackContext.getFeedback())) {
             Notifier.notifyInfo(project, "信息发送成功" + codeReviewCard.getName() + ":" + codeReviewCard.getDesc());
