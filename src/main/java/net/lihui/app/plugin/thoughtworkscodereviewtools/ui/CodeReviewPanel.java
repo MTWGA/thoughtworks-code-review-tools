@@ -2,7 +2,6 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.CollectionComboBoxModel;
-import lombok.extern.slf4j.Slf4j;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState;
@@ -27,7 +26,6 @@ import java.util.List;
 
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
-@Slf4j
 public class CodeReviewPanel extends JPanel {
     private static final int DEFAULT_COMBO_BOX_DISPLAY_COUNT = 5;
     private ComboBox<OwnerDTO> ownerComboBox;
@@ -44,7 +42,7 @@ public class CodeReviewPanel extends JPanel {
         refreshButton = new JButton("refresh");
         refreshButton.addActionListener(actionEvent -> {
             try {
-                updateBoard();
+                updateBoardState();
                 refreshOwners();
                 refreshLabels();
                 Notifier.notifyInfo(null, "refresh data success");
@@ -66,7 +64,7 @@ public class CodeReviewPanel extends JPanel {
         ownerComboBox.setModel(new CollectionComboBoxModel(MEMBER_MAPPER.toDtoList(trelloBoardMembers)));
     }
 
-    private void updateBoard() {
+    private void updateBoardState() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
         CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
 
@@ -100,7 +98,7 @@ public class CodeReviewPanel extends JPanel {
         comboBox.setEditable(true);
         AutoCompleteComboBoxEditor editor = new AutoCompleteComboBoxEditor(comboBox.getEditor(), converter);
         comboBox.setEditor(editor);
-        JTextComponent editorComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
+        JTextComponent editorComponent = (JTextComponent) editor.getEditorComponent();
         AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), false, converter);
         editorComponent.setDocument(autoCompleteDocument);
         editorComponent.addFocusListener(new FocusListener() {
