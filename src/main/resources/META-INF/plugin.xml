@@ -7,10 +7,6 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService
-                serviceImplementation="com.github.tcpgnl.thoughtworkscodereviewtools.services.MyApplicationService"/>
-        <projectService
-                serviceImplementation="com.github.tcpgnl.thoughtworkscodereviewtools.services.MyProjectService"/>
         <!--  显示提示框  -->
         <notificationGroup id="Custom Notification Group" displayType="BALLOON"/>
         <applicationConfigurable parentId="root"
@@ -24,12 +20,6 @@
         <applicationService
                 serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.tcpgnl.thoughtworkscodereviewtools.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
-
     <!--  设置Action  -->
     <actions>
         <action id="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.CodeReviewFeedbackAction"
