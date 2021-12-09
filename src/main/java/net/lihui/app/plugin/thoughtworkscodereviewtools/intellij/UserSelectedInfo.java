@@ -39,6 +39,17 @@ public class UserSelectedInfo {
 
     private String getRelativePath(String canonicalPath) {
         int projectNameIndex = canonicalPath.indexOf(getProjectName());
-        return canonicalPath.substring(projectNameIndex + getProjectName().length() + 1);
+        return canonicalPath.substring(projectNameIndex + getProjectName().length() + 1) + " "
+                + getSelectedTextStartLine()
+                + '-'
+                + getSelectTextEndLine();
+    }
+
+    private int getSelectTextEndLine() {
+        return this.editor.getSelectionModel().getSelectionEndPosition().getLine() + 1;
+    }
+
+    private int getSelectedTextStartLine() {
+        return this.editor.getSelectionModel().getSelectionStartPosition().getLine() + 1;
     }
 }
