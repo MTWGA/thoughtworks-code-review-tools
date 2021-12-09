@@ -3,6 +3,7 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.CollectionComboBoxModel;
 import lombok.extern.slf4j.Slf4j;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
@@ -42,9 +43,15 @@ public class CodeReviewPanel extends JPanel {
         this.add(feedBackText);
         refreshButton = new JButton("refresh");
         refreshButton.addActionListener(actionEvent -> {
-            updateBoard();
-            refreshOwners();
-            refreshLabels();
+            try {
+                updateBoard();
+                refreshOwners();
+                refreshLabels();
+                Notifier.notifyInfo(null, "refresh data success");
+            } catch (Exception e) {
+                Notifier.notifyError(null, "refresh failed please check network connection or check trello setting");
+            }
+
         });
         this.add(refreshButton);
     }
