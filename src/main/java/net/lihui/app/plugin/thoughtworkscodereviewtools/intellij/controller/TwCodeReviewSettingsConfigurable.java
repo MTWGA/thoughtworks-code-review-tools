@@ -4,10 +4,10 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller;
 
 import com.intellij.openapi.options.Configurable;
+import com.julienvey.trello.TrelloBadRequestException;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
-import com.julienvey.trello.TrelloBadRequestException;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
@@ -32,7 +32,7 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "Tw Code Review Tools";
+        return "TW Code Review Tools";
     }
 
     @Override

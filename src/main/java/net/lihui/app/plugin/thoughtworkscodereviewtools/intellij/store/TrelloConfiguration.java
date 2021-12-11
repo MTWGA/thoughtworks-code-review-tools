@@ -18,6 +18,8 @@ public class TrelloConfiguration {
     private String trelloApiToken;
     @Tag("trelloBoardId")
     private String trelloBoardId;
+    @Tag("dueIntervalHours")
+    private long dueIntervalHours = 24;
 
     public boolean isInvalid() {
         return trelloApiKey.isBlank() || trelloApiToken.isBlank() || trelloBoardId.isBlank();

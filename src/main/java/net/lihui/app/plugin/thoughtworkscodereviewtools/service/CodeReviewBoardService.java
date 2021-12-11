@@ -19,9 +19,11 @@ import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapp
 
 public class CodeReviewBoardService {
     private final TrelloClient trelloClient;
+    private final TrelloConfiguration trelloConfiguration;
 
     public CodeReviewBoardService(TrelloConfiguration trelloConfiguration) {
         this.trelloClient = new TrelloClient(trelloConfiguration);
+        this.trelloConfiguration = trelloConfiguration;
     }
 
     public String getTodayCodeReviewListId() {
@@ -38,6 +40,8 @@ public class CodeReviewBoardService {
         Card card = new Card();
         card.setName(feedBackContext.getFeedback());
         card.setDesc(cardDesc);
+        Date dueDate = new Date(new Date().getTime() + trelloConfiguration.getDueIntervalHours() * 60 * 60 * 1000);
+        card.setDue(dueDate);
         if (!isNull(feedBackContext.getMember())) {
             card.setIdMembers(Collections.singletonList(feedBackContext.getMember().getId()));
         }

@@ -21,12 +21,14 @@ public class TwCodeReviewSettingsComponent {
     private final JBTextField trelloApiTokenTextField = new JBTextField();
     private final JBTextField trelloBoardIdTextField = new JBTextField();
     private final JBLabel trelloSettingStatusLabel = new JBLabel("");
+    private final JBTextField trelloDueIntervalTime = new JBTextField("24");
 
     public TwCodeReviewSettingsComponent() {
         mainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Enter trello key: "), trelloApiKeyTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter trello token: "), trelloApiTokenTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter trello code review board: "), trelloBoardIdTextField, 1, false)
+                .addLabeledComponent(new JBLabel("Enter Due time hours after submit"), trelloDueIntervalTime, 1, false)
                 .addLabeledComponent(new JBLabel("Setting status: "), trelloSettingStatusLabel, 1, false)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
@@ -58,7 +60,7 @@ public class TwCodeReviewSettingsComponent {
     }
 
     public TrelloConfiguration getCurrentTrelloConfiguration() {
-        return new TrelloConfiguration(trelloApiKeyTextField.getText(), trelloApiTokenTextField.getText(), trelloBoardIdTextField.getText());
+        return new TrelloConfiguration(trelloApiKeyTextField.getText(), trelloApiTokenTextField.getText(), trelloBoardIdTextField.getText(), Integer.parseInt(trelloDueIntervalTime.getText()));
     }
 
 }
