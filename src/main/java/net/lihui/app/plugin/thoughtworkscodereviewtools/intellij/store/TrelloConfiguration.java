@@ -21,7 +21,7 @@ public class TrelloConfiguration {
     @Tag("dueIntervalHours")
     private long dueIntervalHours = 24;
 
-    public boolean isInvalid() {
+    public boolean isAnyBlank() {
         return trelloApiKey.isBlank() || trelloApiToken.isBlank() || trelloBoardId.isBlank();
     }
 }

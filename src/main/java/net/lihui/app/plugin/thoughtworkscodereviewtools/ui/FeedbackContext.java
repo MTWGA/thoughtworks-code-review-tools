@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class FeedBackContext {
+public class FeedbackContext {
     private String feedback;
     private Member member;
     private Label label;

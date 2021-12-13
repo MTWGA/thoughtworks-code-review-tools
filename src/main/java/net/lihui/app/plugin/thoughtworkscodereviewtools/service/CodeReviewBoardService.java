@@ -8,7 +8,7 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
 
 import java.util.Collections;
 import java.util.Date;
@@ -36,7 +36,7 @@ public class CodeReviewBoardService {
                 .orElseGet(() -> trelloClient.createBoardList(codeReviewListName));
     }
 
-    public Card createCodeReviewCard(FeedBackContext feedBackContext, String cardDesc, String todayCodeReviewListId) {
+    public Card createCodeReviewCard(FeedbackContext feedBackContext, String cardDesc, String todayCodeReviewListId) {
         Card card = new Card();
         card.setName(feedBackContext.getFeedback());
         card.setDesc(cardDesc);

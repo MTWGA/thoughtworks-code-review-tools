@@ -11,6 +11,7 @@ import com.julienvey.trello.impl.TrelloUrl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.response.TrelloBoardListResponse;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class TrelloClient {
     private final TrelloConfiguration trelloConfiguration;
@@ -53,13 +55,15 @@ public class TrelloClient {
 
     public Card createCard(String boardListId, Card card, Label label) {
         Card returnCard = trelloApi.createCard(boardListId, card);
-        if (!isNull(label)) {
+        if (nonNull(label)) {
             trelloApi.addLabelToCard(returnCard.getId(), label.getId());
         }
         return returnCard;
     }
 
     public List<Label> getLabels() {
-        return trelloApi.getBoardLabels(trelloConfiguration.getTrelloBoardId()).stream().filter(label -> !label.getName().isEmpty()).collect(Collectors.toList());
+        return trelloApi.getBoardLabels(trelloConfiguration.getTrelloBoardId()).stream()
+                .filter(label -> StringUtils.isNotBlank(label.getName()))
+                .collect(Collectors.toList());
     }
 }

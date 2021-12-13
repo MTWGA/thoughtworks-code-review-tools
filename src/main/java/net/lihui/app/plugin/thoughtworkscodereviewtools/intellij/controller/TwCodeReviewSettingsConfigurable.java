@@ -64,7 +64,7 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
             twCodeReviewSettingsComponent.setTrelloSettingStatusLabel("OK");
         } catch (TrelloBadRequestException trelloBadRequestException) {
             if (trelloBadRequestException.getMessage().equals("invalid id")) {
-                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel("You board id is invalid id, please check it.");
+                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel("You trello config is invalid, please check them.");
             }
         }
     }
@@ -84,8 +84,7 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
 
     @Override
     public void reset() {
-        TrelloState settings = TrelloState.getInstance();
-        TrelloConfiguration trelloConfiguration = settings.getState();
+        TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
 
         twCodeReviewSettingsComponent.setTrelloApiKey(trelloConfiguration.getTrelloApiKey());
         twCodeReviewSettingsComponent.setTrelloApiToken(trelloConfiguration.getTrelloApiToken());

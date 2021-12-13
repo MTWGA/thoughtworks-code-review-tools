@@ -8,71 +8,88 @@ import com.julienvey.trello.NotAuthorizedException;
 import com.julienvey.trello.TrelloBadRequestException;
 import com.julienvey.trello.domain.Card;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.exception.BaseException;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDialog;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedBackContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CodeReviewFeedbackAction extends AnAction {
     private static final String CARD_DESCRIPTION_TEMPLATE = "### %s%n%s%n%n> %s";
     private static final String SET_UP_NOTIFICATION = "您尚未配置 Trello 信息，请补全 Trello 配置信息 设置路径 Preferences -> Tw Code Review Tools 中设置";
     private static final String AUTHORIZED_FAIL_EXCEPTION = "您配置的 Trello 信息有误，无法获取 Trello 信息，请检查 Trello 配置，设置路径 Preferences -> Tw Code Review Tools";
-    private final Logger log = LoggerFactory.getLogger(CodeReviewFeedbackAction.class);
 
     @Override
     public void actionPerformed(AnActionEvent actionEvent) {
         Project project = actionEvent.getData(CommonDataKeys.PROJECT);
-        log.info("project info : {}", project);
+        try {
+            doAction(actionEvent);
+        } catch (BaseException exception) {
+            Notifier.notifyError(project, exception.getMessage());
+        }
+    }
+
+    private void doAction(AnActionEvent actionEvent) {
+        Project project = actionEvent.getData(CommonDataKeys.PROJECT);
 
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
-        if (trelloConfiguration.isInvalid()) {
-            Notifier.notifyError(project, SET_UP_NOTIFICATION);
-            return;
+        if (trelloConfiguration.isAnyBlank()) {
+            throw new BaseException(SET_UP_NOTIFICATION);
         }
 
         UserSelectedInfo userSelectedInfo = new UserSelectedInfo(actionEvent);
+
+        FeedbackContext feedbackContext = showFeedbackDialog(project);
+        if (isNull(feedbackContext)) return;
+
+        String todayCodeReviewListId = getTodayCodeReviewListId(trelloConfiguration);
+
+        String cardDesc = buildCardDesc(userSelectedInfo);
+        createCodeReviewFeedbackCard(project, trelloConfiguration, feedbackContext, cardDesc, todayCodeReviewListId);
+    }
+
+    private void createCodeReviewFeedbackCard(Project project, TrelloConfiguration trelloConfiguration, FeedbackContext feedbackContext, String cardDesc, String todayCodeReviewListId) {
+        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
+        try {
+            Card codeReviewCard = codeReviewBoardService.createCodeReviewCard(feedbackContext, cardDesc, todayCodeReviewListId);
+            Notifier.notifyInfo(project, "信息发送成功" + codeReviewCard.getName() + ":" + codeReviewCard.getDesc());
+        } catch (Exception e) {
+            throw new BaseException("信息发送失败，原消息为：" + feedbackContext.getMember().getFullName() + ":" + cardDesc);
+        }
+    }
+
+    private String getTodayCodeReviewListId(TrelloConfiguration trelloConfiguration) {
+        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
+        try {
+            return  codeReviewBoardService.getTodayCodeReviewListId();
+        } catch (NotAuthorizedException notAuthorizedException) {
+            throw new BaseException(AUTHORIZED_FAIL_EXCEPTION);
+        } catch (TrelloBadRequestException trelloBadRequestException) {
+            if (trelloBadRequestException.getMessage().equals("invalid id")) {
+                throw new BaseException(TrelloRequestErrorConstant.INVALID_ID);
+            } else {
+                throw new BaseException("please check your network");
+            }
+        }
+    }
+
+    private FeedbackContext showFeedbackDialog(Project project) {
         CodeReviewFeedbackDialog codeReviewFeedbackDialog = new CodeReviewFeedbackDialog(project);
         boolean isCommitFeedback = codeReviewFeedbackDialog.showAndGet();
         if (!isCommitFeedback) {
-            return;
-        }
-        FeedBackContext feedBackContext = codeReviewFeedbackDialog.getFeedbackContext();
-        if (isEmpty(feedBackContext.getFeedback())) {
-            return;
+            return null;
         }
 
-        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
-
-        String cardDesc = buildCardDesc(userSelectedInfo);
-        String todayCodeReviewListId;
-        try {
-            todayCodeReviewListId = codeReviewBoardService.getTodayCodeReviewListId();
-        } catch (NotAuthorizedException notAuthorizedException) {
-            Notifier.notifyError(project, AUTHORIZED_FAIL_EXCEPTION);
-            return;
-        } catch (TrelloBadRequestException trelloBadRequestException) {
-            if (trelloBadRequestException.getMessage().equals("invalid id")) {
-                Notifier.notifyError(project, TrelloRequestErrorConstant.INVALID_ID);
-            }
-            return;
+        FeedbackContext feedbackContext = codeReviewFeedbackDialog.getFeedbackContext();
+        if (isBlank(feedbackContext.getFeedback())) {
+            throw new BaseException("feedback can not be blank, please input your feedback!");
         }
-        Card codeReviewCard = new Card();
-
-        try {
-            codeReviewCard = codeReviewBoardService.createCodeReviewCard(feedBackContext, cardDesc, todayCodeReviewListId);
-        } catch (Exception e) {
-            Notifier.notifyInfo(project, "信息发送失败，愿消息为：" + feedBackContext.getMember().getFullName() + ":" + cardDesc);
-        }
-
-        if (codeReviewCard.getName().equals(feedBackContext.getFeedback())) {
-            Notifier.notifyInfo(project, "信息发送成功" + codeReviewCard.getName() + ":" + codeReviewCard.getDesc());
-        }
+        return feedbackContext;
     }
 
     private String buildCardDesc(UserSelectedInfo userSelectedInfo) {

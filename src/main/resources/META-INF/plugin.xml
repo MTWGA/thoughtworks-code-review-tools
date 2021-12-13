@@ -12,7 +12,7 @@
         <applicationConfigurable parentId="root"
                                  instance="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller.TwCodeReviewSettingsConfigurable"
                                  id="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller.TwCodeReviewSettingsConfigurable"
-                                 displayName="Tw Code Review Tools"/>
+                                 displayName="TW Code Review Tools"/>
         <applicationService
                 serviceImplementation="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState"/>
         <applicationService

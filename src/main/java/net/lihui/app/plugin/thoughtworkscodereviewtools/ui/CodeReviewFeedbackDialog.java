@@ -29,7 +29,7 @@ public class CodeReviewFeedbackDialog extends DialogWrapper {
         return codeReviewPanel.getPreferredFocusedComponent();
     }
 
-    public FeedBackContext getFeedbackContext() {
+    public FeedbackContext getFeedbackContext() {
         return codeReviewPanel.getFeedbackContext();
     }
 }

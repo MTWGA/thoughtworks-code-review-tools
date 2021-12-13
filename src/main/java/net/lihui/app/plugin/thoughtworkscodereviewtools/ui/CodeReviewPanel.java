@@ -117,8 +117,8 @@ public class CodeReviewPanel extends JPanel {
         this.add(comboBox);
     }
 
-    public FeedBackContext getFeedbackContext() {
-        return FeedBackContext.builder()
+    public FeedbackContext getFeedbackContext() {
+        return FeedbackContext.builder()
                 .feedback(feedBackText.getText())
                 .member(ownerComboBox.getItem() instanceof OwnerDTO ? MEMBER_MAPPER.toMember(ownerComboBox.getItem()) : null)
                 .label(labelComboBox.getItem() instanceof LabelDTO ? MEMBER_MAPPER.toLabel(labelComboBox.getItem()) : null)
