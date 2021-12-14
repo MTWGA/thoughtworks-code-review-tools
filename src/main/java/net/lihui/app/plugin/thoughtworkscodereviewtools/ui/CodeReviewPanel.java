@@ -2,6 +2,7 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.CollectionComboBoxModel;
+import com.julienvey.trello.domain.Member;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState;
@@ -20,6 +21,7 @@ import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
@@ -28,30 +30,29 @@ import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapp
 
 public class CodeReviewPanel extends JPanel {
     private static final int DEFAULT_COMBO_BOX_DISPLAY_COUNT = 5;
+    private static final String REFRESH_BUTTON_TEXT = "refresh";
     private ComboBox<OwnerDTO> ownerComboBox;
-    private JTextField feedBackText;
+    private JTextField feedbackTextField;
     private JButton refreshButton;
     private ComboBox<LabelDTO> labelComboBox;
 
     public CodeReviewPanel() {
         initOwnerComboBox();
         initLabelComboBox();
-        feedBackText = new JTextField();
-        feedBackText.setPreferredSize(new Dimension(200, 30));
-        this.add(feedBackText);
-        refreshButton = new JButton("refresh");
-        refreshButton.addActionListener(actionEvent -> {
-            try {
-                updateBoardState();
-                refreshOwners();
-                refreshLabels();
-                Notifier.notifyInfo(null, "refresh data success");
-            } catch (Exception e) {
-                Notifier.notifyError(null, "refresh failed please check network connection or check trello setting");
-            }
+        initFeedbackTextField();
+        initRefreshButton();
+    }
 
-        });
+    private void initRefreshButton() {
+        refreshButton = new JButton(REFRESH_BUTTON_TEXT);
+        refreshButton.addActionListener(this::refreshAction);
         this.add(refreshButton);
+    }
+
+    private void initFeedbackTextField() {
+        feedbackTextField = new JTextField();
+        feedbackTextField.setPreferredSize(new Dimension(200, 30));
+        this.add(feedbackTextField);
     }
 
     private void refreshLabels() {
@@ -101,7 +102,14 @@ public class CodeReviewPanel extends JPanel {
         JTextComponent editorComponent = (JTextComponent) editor.getEditorComponent();
         AutoCompleteDocument autoCompleteDocument = new AutoCompleteDocument(new ComboBoxAdaptor(comboBox), false, converter);
         editorComponent.setDocument(autoCompleteDocument);
-        editorComponent.addFocusListener(new FocusListener() {
+        editorComponent.addFocusListener(createFocusListener(comboBox));
+        comboBox.setMaximumRowCount(DEFAULT_COMBO_BOX_DISPLAY_COUNT);
+        comboBox.setToolTipText(tipText);
+        this.add(comboBox);
+    }
+
+    private FocusListener createFocusListener(ComboBox comboBox) {
+        return new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
                 comboBox.showPopup();
@@ -111,21 +119,38 @@ public class CodeReviewPanel extends JPanel {
             public void focusLost(FocusEvent e) {
                 comboBox.hidePopup();
             }
-        });
-        comboBox.setMaximumRowCount(DEFAULT_COMBO_BOX_DISPLAY_COUNT);
-        comboBox.setToolTipText(tipText);
-        this.add(comboBox);
+        };
     }
 
     public FeedbackContext getFeedbackContext() {
         return FeedbackContext.builder()
-                .feedback(feedBackText.getText())
-                .member(ownerComboBox.getItem() instanceof OwnerDTO ? MEMBER_MAPPER.toMember(ownerComboBox.getItem()) : null)
-                .label(labelComboBox.getItem() instanceof LabelDTO ? MEMBER_MAPPER.toLabel(labelComboBox.getItem()) : null)
+                .feedback(feedbackTextField.getText())
+                .member(getSelectedMember())
+                .label(getSelectedLabel())
                 .build();
+    }
+
+    private com.julienvey.trello.domain.Label getSelectedLabel() {
+        return labelComboBox.getItem() instanceof LabelDTO ? MEMBER_MAPPER.toLabel(labelComboBox.getItem()) : null;
+    }
+
+    private Member getSelectedMember() {
+        return ownerComboBox.getItem() instanceof OwnerDTO ? MEMBER_MAPPER.toMember(ownerComboBox.getItem()) : null;
     }
 
     public JComponent getPreferredFocusedComponent() {
         return ownerComboBox;
+    }
+
+    private void refreshAction(ActionEvent actionEvent) {
+        try {
+            updateBoardState();
+            refreshOwners();
+            refreshLabels();
+            Notifier.notifyInfo(null, "refresh data success");
+        } catch (Exception e) {
+            Notifier.notifyError(null, "refresh failed please check network connection or check trello setting");
+        }
+
     }
 }

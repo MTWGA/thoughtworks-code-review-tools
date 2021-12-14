@@ -2,13 +2,13 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.service;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.julienvey.trello.domain.Card;
-import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
+import org.apache.commons.lang.time.DateUtils;
 
 import java.util.Collections;
 import java.util.Date;
@@ -40,7 +40,7 @@ public class CodeReviewBoardService {
         Card card = new Card();
         card.setName(feedBackContext.getFeedback());
         card.setDesc(cardDesc);
-        Date dueDate = new Date(new Date().getTime() + trelloConfiguration.getDueIntervalHours() * 60 * 60 * 1000);
+        Date dueDate = DateUtils.addHours(new Date(), trelloConfiguration.getDueIntervalHours());
         card.setDue(dueDate);
         if (!isNull(feedBackContext.getMember())) {
             card.setIdMembers(Collections.singletonList(feedBackContext.getMember().getId()));
@@ -50,8 +50,7 @@ public class CodeReviewBoardService {
     }
 
     public List<TrelloBoardMember> getTrelloBoardMembers() {
-        List<Member> boardMembers = trelloClient.getBoardMembers();
-        return MEMBER_MAPPER.toStateList(boardMembers);
+        return MEMBER_MAPPER.toStateList(trelloClient.getBoardMembers());
     }
 
     public List<TrelloBoardLabel> getTrelloBoardLabels() {
@@ -61,7 +60,6 @@ public class CodeReviewBoardService {
     private String buildTodayCodeReviewListName() {
         SimpleDateFormat sdf = new SimpleDateFormat();
         sdf.applyPattern("yyyy-MM-dd");
-        Date date = new Date();
-        return sdf.format(date);
+        return sdf.format(new Date());
     }
 }

@@ -2,6 +2,7 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store;
 
 import com.intellij.util.xmlb.annotations.Tag;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
+@Builder
 public class TrelloConfiguration {
     @Tag("trelloApiKey")
     private String trelloApiKey;
@@ -19,7 +21,7 @@ public class TrelloConfiguration {
     @Tag("trelloBoardId")
     private String trelloBoardId;
     @Tag("dueIntervalHours")
-    private long dueIntervalHours = 24;
+    private int dueIntervalHours = 24;
 
     public boolean isAnyBlank() {
         return trelloApiKey.isBlank() || trelloApiToken.isBlank() || trelloBoardId.isBlank();

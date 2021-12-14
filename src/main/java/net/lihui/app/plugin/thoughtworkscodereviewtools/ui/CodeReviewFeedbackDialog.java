@@ -7,21 +7,21 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 
 public class CodeReviewFeedbackDialog extends DialogWrapper {
-    public static final String DIALOG_TITLE = "code review feedback";
+    private static final String DIALOG_TITLE = "code review feedback";
+    private static final String OK_BUTTON_TEXT = "OK";
     private final CodeReviewPanel codeReviewPanel;
 
     public CodeReviewFeedbackDialog(@Nullable Project project) {
         super(project);
         codeReviewPanel = new CodeReviewPanel();
         setTitle(DIALOG_TITLE);
-        setOKButtonText("OK");
+        setOKButtonText(OK_BUTTON_TEXT);
         init();
     }
 
     @Override
     protected @Nullable JComponent createCenterPanel() {
         return codeReviewPanel;
-
     }
 
     @Override
