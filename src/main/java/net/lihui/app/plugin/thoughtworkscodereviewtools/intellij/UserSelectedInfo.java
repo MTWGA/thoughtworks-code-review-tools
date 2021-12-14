@@ -40,6 +40,7 @@ public class UserSelectedInfo {
     private String getRelativePath(String canonicalPath) {
         int projectNameIndex = canonicalPath.indexOf(getProjectName());
         return canonicalPath.substring(projectNameIndex + getProjectName().length() + 1)
+                + ' '
                 + getSelectedTextStartLine()
                 + '-'
                 + getSelectTextEndLine();
