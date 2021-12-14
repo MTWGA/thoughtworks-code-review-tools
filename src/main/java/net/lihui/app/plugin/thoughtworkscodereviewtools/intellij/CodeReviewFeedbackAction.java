@@ -22,8 +22,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CodeReviewFeedbackAction extends AnAction {
     private static final String CARD_DESCRIPTION_TEMPLATE = "### %s%n%s%n%n> %s";
-    private static final String SET_UP_NOTIFICATION = "您尚未配置 Trello 信息，请补全 Trello 配置信息 设置路径 Preferences -> Tw Code Review Tools 中设置";
-    private static final String AUTHORIZED_FAIL_EXCEPTION = "您配置的 Trello 信息有误，无法获取 Trello 信息，请检查 Trello 配置，设置路径 Preferences -> Tw Code Review Tools";
+    private static final String SET_UP_NOTIFICATION = "Please fill in your trello configuration in: Preferences -> Tw Code Review Tools";
+    private static final String AUTHORIZED_FAIL_EXCEPTION = "Can not access your trello board, please check your trello configuration in: Preferences -> Tw Code Review Tools";
 
     @Override
     public void actionPerformed(AnActionEvent actionEvent) {
