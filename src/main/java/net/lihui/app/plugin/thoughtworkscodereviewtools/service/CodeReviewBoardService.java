@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.LabelMapper.LABEL_MAPPER;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 public class CodeReviewBoardService {
@@ -54,7 +55,7 @@ public class CodeReviewBoardService {
     }
 
     public List<TrelloBoardLabel> getTrelloBoardLabels() {
-        return MEMBER_MAPPER.toLabelList(trelloClient.getLabels());
+        return LABEL_MAPPER.toLabelList(trelloClient.getLabels());
     }
 
     private String buildTodayCodeReviewListName() {

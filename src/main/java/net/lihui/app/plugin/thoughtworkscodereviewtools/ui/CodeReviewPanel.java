@@ -26,6 +26,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
 
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.LabelMapper.LABEL_MAPPER;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
 public class CodeReviewPanel extends JPanel {
@@ -57,7 +58,7 @@ public class CodeReviewPanel extends JPanel {
 
     private void refreshLabels() {
         List<TrelloBoardLabel> trelloBoardLabels = TrelloBoardLabelState.getInstance().getState().getTrelloBoardLabels();
-        labelComboBox.setModel(new CollectionComboBoxModel(MEMBER_MAPPER.toLabelDtoList(trelloBoardLabels)));
+        labelComboBox.setModel(new CollectionComboBoxModel(LABEL_MAPPER.toLabelDtoList(trelloBoardLabels)));
     }
 
     private void refreshOwners() {
@@ -88,7 +89,7 @@ public class CodeReviewPanel extends JPanel {
 
     private void initLabelComboBox() {
         List<TrelloBoardLabel> trelloBoardLabels = TrelloBoardLabelState.getInstance().getState().getTrelloBoardLabels();
-        CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(MEMBER_MAPPER.toLabelDtoList(trelloBoardLabels));
+        CollectionComboBoxModel comboBoxModel = new CollectionComboBoxModel(LABEL_MAPPER.toLabelDtoList(trelloBoardLabels));
         labelComboBox = new ComboBox(comboBoxModel);
         LabelDtoToStringConverter stringConverter = new LabelDtoToStringConverter();
         setupComboBox(labelComboBox, stringConverter, new LabelComboboxRenderer(), "Label");
@@ -131,7 +132,7 @@ public class CodeReviewPanel extends JPanel {
     }
 
     private com.julienvey.trello.domain.Label getSelectedLabel() {
-        return labelComboBox.getItem() instanceof LabelDTO ? MEMBER_MAPPER.toLabel(labelComboBox.getItem()) : null;
+        return labelComboBox.getItem() instanceof LabelDTO ? LABEL_MAPPER.toLabel(labelComboBox.getItem()) : null;
     }
 
     private Member getSelectedMember() {
