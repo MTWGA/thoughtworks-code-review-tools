@@ -15,7 +15,6 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloSta
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDialog;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
-import org.jetbrains.annotations.NotNull;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -53,8 +52,13 @@ public class CodeReviewFeedbackAction extends AnAction {
 
     private TrelloConfiguration getTrelloConfiguration() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
-        if (trelloConfiguration.isAnyBlank()) {
+        try {
+            if (trelloConfiguration.isAnyBlank()) {
+                throw new BaseException(SET_UP_NOTIFICATION);
+            }
+        } catch (NullPointerException e) {
             throw new BaseException(SET_UP_NOTIFICATION);
+
         }
         return trelloConfiguration;
     }
@@ -72,7 +76,7 @@ public class CodeReviewFeedbackAction extends AnAction {
     private String getTodayCodeReviewListId(TrelloConfiguration trelloConfiguration) {
         CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
         try {
-            return  codeReviewBoardService.getTodayCodeReviewListId();
+            return codeReviewBoardService.getTodayCodeReviewListId();
         } catch (NotAuthorizedException notAuthorizedException) {
             throw new BaseException(AUTHORIZED_FAIL_EXCEPTION);
         } catch (TrelloBadRequestException trelloBadRequestException) {
