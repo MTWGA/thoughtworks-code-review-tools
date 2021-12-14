@@ -24,6 +24,10 @@ import java.util.List;
  */
 public class TwCodeReviewSettingsConfigurable implements Configurable {
 
+    private static final String SETTING_STATUS_LABEL_OK = "OK";
+    private static final String SETTING_STATUS_ERROR_INVALID_ID = "invalid id";
+    private static final String SETTING_STATUS_ERROR_INVALID_ID_TIPS = "You trello config is invalid, please check them.";
+    private static final String CODE_REVIEW_PLUGIN_DISPLAY_NAME = "TW Code Review Tools";
     private TwCodeReviewSettingsComponent twCodeReviewSettingsComponent;
 
     // A default constructor with no arguments is required because this implementation
@@ -32,7 +36,7 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "TW Code Review Tools";
+        return CODE_REVIEW_PLUGIN_DISPLAY_NAME;
     }
 
     @Override
@@ -61,10 +65,10 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
 
         try {
             updateBoard();
-            twCodeReviewSettingsComponent.setTrelloSettingStatusLabel("OK");
+            twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(SETTING_STATUS_LABEL_OK);
         } catch (TrelloBadRequestException trelloBadRequestException) {
-            if (trelloBadRequestException.getMessage().equals("invalid id")) {
-                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel("You trello config is invalid, please check them.");
+            if (trelloBadRequestException.getMessage().equals(SETTING_STATUS_ERROR_INVALID_ID)) {
+                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(SETTING_STATUS_ERROR_INVALID_ID_TIPS);
             }
         }
     }
