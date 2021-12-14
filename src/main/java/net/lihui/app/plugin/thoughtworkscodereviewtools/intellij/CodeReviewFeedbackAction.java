@@ -15,6 +15,7 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloSta
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDialog;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
+import org.jetbrains.annotations.NotNull;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -37,10 +38,7 @@ public class CodeReviewFeedbackAction extends AnAction {
     private void doAction(AnActionEvent actionEvent) {
         Project project = actionEvent.getData(CommonDataKeys.PROJECT);
 
-        TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
-        if (trelloConfiguration.isAnyBlank()) {
-            throw new BaseException(SET_UP_NOTIFICATION);
-        }
+        TrelloConfiguration trelloConfiguration = getTrelloConfiguration();
 
         UserSelectedInfo userSelectedInfo = new UserSelectedInfo(actionEvent);
 
@@ -51,6 +49,14 @@ public class CodeReviewFeedbackAction extends AnAction {
 
         String cardDesc = buildCardDesc(userSelectedInfo);
         createCodeReviewFeedbackCard(project, trelloConfiguration, feedbackContext, cardDesc, todayCodeReviewListId);
+    }
+
+    private TrelloConfiguration getTrelloConfiguration() {
+        TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
+        if (trelloConfiguration.isAnyBlank()) {
+            throw new BaseException(SET_UP_NOTIFICATION);
+        }
+        return trelloConfiguration;
     }
 
     private void createCodeReviewFeedbackCard(Project project, TrelloConfiguration trelloConfiguration, FeedbackContext feedbackContext, String cardDesc, String todayCodeReviewListId) {
