@@ -81,7 +81,7 @@ public class CodeReviewFeedbackAction extends AnAction {
             throw new BaseException(AUTHORIZED_FAIL_EXCEPTION);
         } catch (TrelloBadRequestException trelloBadRequestException) {
             if (trelloBadRequestException.getMessage().equals("invalid id")) {
-                throw new BaseException(TrelloRequestErrorConstant.INVALID_ID);
+                throw new BaseException(TrelloRequestErrorConstant.INVALID_CONFIGURATION);
             } else {
                 throw new BaseException("please check your network");
             }
