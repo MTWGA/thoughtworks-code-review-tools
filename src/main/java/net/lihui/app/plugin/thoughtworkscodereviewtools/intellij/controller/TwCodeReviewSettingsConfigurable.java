@@ -71,16 +71,14 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
     }
 
     private void doApply() {
-        TrelloState trelloState = TrelloState.getInstance();
-        trelloState.setState(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
-
-        updateBoardState();
+        updateLocalState();
         twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(SETTING_STATUS_LABEL_OK);
     }
 
-    private void updateBoardState() {
-        TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
-        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
+    private void updateLocalState() {
+        TrelloState trelloState = TrelloState.getInstance();
+        trelloState.setState(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
+        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloState.getState());
         codeReviewBoardService.updateBoardState();
     }
 
