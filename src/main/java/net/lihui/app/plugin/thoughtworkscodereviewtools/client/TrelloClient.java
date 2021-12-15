@@ -2,7 +2,6 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.client;
 
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.Board;
-import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.Label;
 import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
@@ -18,9 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 public class TrelloClient {
     private final TrelloConfiguration trelloConfiguration;
@@ -53,12 +49,15 @@ public class TrelloClient {
         return trelloApi.getBoardMembers(trelloConfiguration.getTrelloBoardId());
     }
 
-    public Card createCard(String boardListId, Card card, Label label) {
-        Card returnCard = trelloApi.createCard(boardListId, card);
-        if (nonNull(label)) {
-            trelloApi.addLabelToCard(returnCard.getId(), label.getId());
-        }
-        return returnCard;
+    public Card createCard(Card card) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = TrelloUrl.API_URL + TrelloUrl.CREATE_CARD;
+        URI fullUri = UriComponentsBuilder.fromUriString(url)
+                .queryParam("key", trelloConfiguration.getTrelloApiKey())
+                .queryParam("token", trelloConfiguration.getTrelloApiToken())
+                .build().toUri();
+
+        return restTemplate.postForObject(fullUri, card, Card.class);
     }
 
     public List<Label> getLabels() {

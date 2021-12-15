@@ -27,10 +27,13 @@ public class CodeReviewFeedbackAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent actionEvent) {
+        // should get project instance before pop up any dialog
+        Project project = actionEvent.getProject();
+
         try {
             doAction(actionEvent);
         } catch (BaseException exception) {
-            Notifier.notifyError(actionEvent.getProject(), exception.getMessage());
+            Notifier.notifyError(project, exception.getMessage());
         }
     }
 

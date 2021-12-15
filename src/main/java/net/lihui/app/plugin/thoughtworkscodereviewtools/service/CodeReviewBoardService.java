@@ -1,8 +1,8 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.service;
 
 import com.ibm.icu.text.SimpleDateFormat;
-import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.TList;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.client.Card;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState;
@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.LabelMapper.LABEL_MAPPER;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
 
@@ -40,16 +40,21 @@ public class CodeReviewBoardService {
     }
 
     public Card createCodeReviewCard(FeedbackContext feedBackContext, String cardDesc, String todayCodeReviewListId) {
-        Card card = new Card();
-        card.setName(feedBackContext.getFeedback());
-        card.setDesc(cardDesc);
         Date dueDate = DateUtils.addHours(new Date(), trelloConfiguration.getDueIntervalHours());
-        card.setDue(dueDate);
-        if (!isNull(feedBackContext.getMember())) {
+        Card card = Card.builder()
+                .idList(todayCodeReviewListId)
+                .name(feedBackContext.getFeedback())
+                .desc(cardDesc)
+                .due(dueDate)
+                .build();
+        if (nonNull(feedBackContext.getMember())) {
             card.setIdMembers(Collections.singletonList(feedBackContext.getMember().getId()));
         }
+        if (nonNull(feedBackContext.getLabel())) {
+            card.setIdLabels(Collections.singletonList(feedBackContext.getLabel().getId()));
+        }
 
-        return trelloClient.createCard(todayCodeReviewListId, card, feedBackContext.getLabel());
+        return trelloClient.createCard(card);
     }
 
     public List<TrelloBoardMember> getTrelloBoardMembers() {
