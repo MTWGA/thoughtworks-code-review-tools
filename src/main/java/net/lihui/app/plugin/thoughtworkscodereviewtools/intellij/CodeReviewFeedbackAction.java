@@ -19,6 +19,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CodeReviewFeedbackAction extends AnAction {
     private static final String CARD_DESCRIPTION_TEMPLATE = "### %s%n%s%n%n> %s";
+    private static final String CARD_CREATED_SUCCESSFULLY_MESSAGE_TEMPLATE = "Message sent successfully, %s:%s";
+    private static final String CARD_CREATED_FAILED_MESSAGE_TEMPLATE = "Failed to send message, %s:%s";
     private static final String SET_UP_NOTIFICATION = "Please fill in your trello configuration in: Preferences -> TW Code Review Tools";
     private static final String AUTHORIZED_FAIL_EXCEPTION = "Can not access your trello board, please check your trello configuration in: Preferences -> TW Code Review Tools";
     private CodeReviewBoardService codeReviewBoardService;
@@ -42,7 +44,7 @@ public class CodeReviewFeedbackAction extends AnAction {
         if (isNull(feedbackContext)) return;
 
         createCodeReviewFeedbackCard(feedbackContext, cardDesc);
-        Notifier.notifyInfo(userSelectedInfo.getProject(), "信息发送成功" + feedbackContext.getFeedback() + ":" + cardDesc);
+        Notifier.notifyInfo(userSelectedInfo.getProject(), String.format(CARD_CREATED_SUCCESSFULLY_MESSAGE_TEMPLATE, feedbackContext.getFeedback(), cardDesc));
     }
 
     private void initCodeReviewBoardService() {
@@ -63,7 +65,7 @@ public class CodeReviewFeedbackAction extends AnAction {
         try {
             codeReviewBoardService.createCodeReviewCard(feedbackContext, cardDesc, todayCodeReviewListId);
         } catch (Exception e) {
-            throw new BaseException("信息发送失败，原消息为：" + feedbackContext.getMember().getFullName() + ":" + cardDesc);
+            throw new BaseException(String.format(CARD_CREATED_FAILED_MESSAGE_TEMPLATE, feedbackContext.getFeedback(), cardDesc));
         }
     }
 
