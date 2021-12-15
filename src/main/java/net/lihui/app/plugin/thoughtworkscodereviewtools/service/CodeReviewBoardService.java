@@ -5,7 +5,9 @@ import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.TList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabel;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardLabelState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMember;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoardMemberState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
 import org.apache.commons.lang.time.DateUtils;
@@ -62,5 +64,15 @@ public class CodeReviewBoardService {
         SimpleDateFormat sdf = new SimpleDateFormat();
         sdf.applyPattern("yyyy-MM-dd");
         return sdf.format(new Date());
+    }
+
+    public void updateBoardState() {
+        List<TrelloBoardMember> trelloBoardMembers = getTrelloBoardMembers();
+        TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
+        boardMemberState.updateTrelloBoardMemberList(trelloBoardMembers);
+
+        List<TrelloBoardLabel> trelloBoardLabels = getTrelloBoardLabels();
+        TrelloBoardLabelState boardLabelState = TrelloBoardLabelState.getInstance();
+        boardLabelState.updateTrelloBoardLabelList(trelloBoardLabels);
     }
 }

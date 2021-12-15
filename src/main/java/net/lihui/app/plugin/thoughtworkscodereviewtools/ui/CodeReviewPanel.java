@@ -69,14 +69,7 @@ public class CodeReviewPanel extends JPanel {
     private void updateBoardState() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
         CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
-
-        List<TrelloBoardMember> trelloBoardMembers = codeReviewBoardService.getTrelloBoardMembers();
-        TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
-        boardMemberState.updateTrelloBoardMemberList(trelloBoardMembers);
-
-        List<TrelloBoardLabel> trelloBoardLabels = codeReviewBoardService.getTrelloBoardLabels();
-        TrelloBoardLabelState boardLabelState = TrelloBoardLabelState.getInstance();
-        boardLabelState.updateTrelloBoardLabelList(trelloBoardLabels);
+        codeReviewBoardService.updateBoardState();
     }
 
     private void initOwnerComboBox() {
