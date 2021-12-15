@@ -11,6 +11,7 @@ import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.response.TrelloBoardListResponse;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,10 +22,15 @@ import java.util.stream.Collectors;
 public class TrelloClient {
     private final TrelloConfiguration trelloConfiguration;
     private final Trello trelloApi;
+    private final RestTemplate restTemplate;
 
     public TrelloClient(TrelloConfiguration trelloConfiguration) {
         this.trelloConfiguration = trelloConfiguration;
         this.trelloApi = new TrelloImpl(trelloConfiguration.getTrelloApiKey(), trelloConfiguration.getTrelloApiToken(), new JDKTrelloHttpClient());
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpRequestFactory.setConnectTimeout(8000);
+        httpRequestFactory.setReadTimeout(10000);
+        restTemplate = new RestTemplate(httpRequestFactory);
     }
 
     public List<TList> getBoardListCollection() {
@@ -33,7 +39,6 @@ public class TrelloClient {
     }
 
     public String createBoardList(String trelloListName) {
-        RestTemplate restTemplate = new RestTemplate();
         String url = TrelloUrl.API_URL + TrelloUrl.GET_BOARD_LISTS;
         URI fullUri = UriComponentsBuilder.fromUriString(url)
                 .queryParam("name", trelloListName)
@@ -50,7 +55,6 @@ public class TrelloClient {
     }
 
     public Card createCard(Card card) {
-        RestTemplate restTemplate = new RestTemplate();
         String url = TrelloUrl.API_URL + TrelloUrl.CREATE_CARD;
         URI fullUri = UriComponentsBuilder.fromUriString(url)
                 .queryParam("key", trelloConfiguration.getTrelloApiKey())
