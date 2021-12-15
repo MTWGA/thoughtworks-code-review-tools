@@ -6,20 +6,6 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/17968.svg)](https://plugins.jetbrains.com/plugin/17968)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/17968.svg)](https://plugins.jetbrains.com/plugin/17968)
 
-## Template ToDo list
-
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [x] Get known with the [template documentation][template].
-- [x] Verify the [pluginGroup](/gradle.properties), [plugin ID](/src/main/resources/META-INF/plugin.xml)
-  and [sources package](/src/main/kotlin).
-- [x] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html).
-- [x] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate)
-  for the first time.
-- [x] Set the Plugin ID in the above README badges.
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
-- [x] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified
-  about releases containing new features and fixes.
-
 <!-- Plugin description -->
 The purpose of developing this plug-in is to improve the work efficiency of Code Review and the joy of Code Review. The
 software will be updated quickly in the near future. Please update to the latest version in time.
@@ -37,14 +23,11 @@ software will be updated quickly in the near future. Please update to the latest
 
 - Manually:
 
-  Download the [latest release](https://github.com/tcpgnl/ThoughtworksCodeReviewTools/releases/latest) and install it
+  Download the [latest release](https://github.com/MTWGA/thoughtworks-code-review-tools/releases/latest) and install it
   manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template].
-
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
 
 ## Contributors
 
