@@ -12,7 +12,7 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoa
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.settingView.TwCodeReviewSettingsComponent;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.setting.TwCodeReviewSettingsComponent;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 

@@ -13,4 +13,5 @@ public class FeedbackContext {
     private String feedback;
     private Member member;
     private Label label;
+    private String description;
 }

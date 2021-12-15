@@ -22,6 +22,10 @@ public class UserSelectedInfo {
         this.editor = actionEvent.getData(CommonDataKeys.EDITOR);
     }
 
+    public Project getProject() {
+        return project;
+    }
+
     public String getProjectName() {
         return defaultString(project.getName());
     }
