@@ -40,9 +40,9 @@ software will be updated quickly in the near future. Please update to the latest
 
 ## Setup Trello board
 
-- Add members to the Trello board. Member should be displayed in this tool.
+- Add members to the Trello board. Member should be displayed in this tool
 
-- Add labels to the trello board(menu -> label). Label is using for classifying problems we found in code review.
+- Add labels to the trello board(menu -> label). Label is using for classifying problems found in code review
 
 ## How to use
   1. Select the code
@@ -55,9 +55,9 @@ software will be updated quickly in the near future. Please update to the latest
   
   ![codereviewTool](imgs/codeReviewPanel.png)
 
-  4. A card will be created with the input information. Owner can click done when the problem is solved.
+  4. A card will be created with the input information. Owner can click done when the problem is solved
 
-  4. Use refresh if a new member or label just be added in trello
+  4. Use refresh button if a new member or label just be added to Trello
 
 ---
 
