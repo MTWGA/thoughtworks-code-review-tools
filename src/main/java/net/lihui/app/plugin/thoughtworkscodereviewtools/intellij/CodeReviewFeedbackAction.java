@@ -49,13 +49,8 @@ public class CodeReviewFeedbackAction extends AnAction {
 
     private void initCodeReviewBoardService() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
-        try {
-            if (trelloConfiguration.isAnyBlank()) {
-                throw new BaseException(SET_UP_NOTIFICATION);
-            }
-        } catch (NullPointerException e) {
+        if (trelloConfiguration.isAnyBlank()) {
             throw new BaseException(SET_UP_NOTIFICATION);
-
         }
         codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
     }
