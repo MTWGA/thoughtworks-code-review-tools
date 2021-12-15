@@ -4,7 +4,7 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.controller;
 
 import com.intellij.openapi.options.Configurable;
-import com.julienvey.trello.TrelloBadRequestException;
+import com.julienvey.trello.NotAuthorizedException;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
@@ -14,14 +14,16 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.AUTHORIZED_FAILED_NOTIFICATION;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.BOARD_ID_INVALID_ERROR_MESSAGE;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.INVALID_BOARD_ID_NOTIFICATION;
+
 /**
  * Provides controller functionality for application settings.
  */
 public class TwCodeReviewSettingsConfigurable implements Configurable {
 
     private static final String SETTING_STATUS_LABEL_OK = "OK";
-    private static final String SETTING_STATUS_ERROR_INVALID_ID = "invalid id";
-    private static final String SETTING_STATUS_ERROR_INVALID_ID_TIPS = "You trello config is invalid, please check them.";
     private static final String CODE_REVIEW_PLUGIN_DISPLAY_NAME = "TW Code Review Tools";
     private TwCodeReviewSettingsComponent twCodeReviewSettingsComponent;
 
@@ -55,20 +57,28 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
 
     @Override
     public void apply() {
-        TrelloState trelloState = TrelloState.getInstance();
-        trelloState.setState(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
-
         try {
-            updateBoard();
-            twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(SETTING_STATUS_LABEL_OK);
-        } catch (TrelloBadRequestException trelloBadRequestException) {
-            if (trelloBadRequestException.getMessage().equals(SETTING_STATUS_ERROR_INVALID_ID)) {
-                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(SETTING_STATUS_ERROR_INVALID_ID_TIPS);
+            doApply();
+        } catch (Exception exception) {
+            if (exception.getMessage().equals(BOARD_ID_INVALID_ERROR_MESSAGE)) {
+                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(INVALID_BOARD_ID_NOTIFICATION);
+            } else if (exception instanceof NotAuthorizedException) {
+                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(AUTHORIZED_FAILED_NOTIFICATION);
+            } else {
+                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(exception.getMessage());
             }
         }
     }
 
-    private void updateBoard() {
+    private void doApply() {
+        TrelloState trelloState = TrelloState.getInstance();
+        trelloState.setState(twCodeReviewSettingsComponent.getCurrentTrelloConfiguration());
+
+        updateBoardState();
+        twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(SETTING_STATUS_LABEL_OK);
+    }
+
+    private void updateBoardState() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
         CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
         codeReviewBoardService.updateBoardState();

@@ -4,8 +4,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.julienvey.trello.NotAuthorizedException;
-import com.julienvey.trello.TrelloBadRequestException;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.exception.BaseException;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.notification.Notifier;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
@@ -15,14 +13,16 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDia
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
 
 import static java.util.Objects.isNull;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.AUTHORIZED_FAILED_NOTIFICATION;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.BOARD_ID_INVALID_ERROR_MESSAGE;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.INVALID_BOARD_ID_NOTIFICATION;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.SET_UP_NOTIFICATION;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CodeReviewFeedbackAction extends AnAction {
     private static final String CARD_DESCRIPTION_TEMPLATE = "### %s%n%s%n%n> %s";
     private static final String CARD_CREATED_SUCCESSFULLY_MESSAGE_TEMPLATE = "Message sent successfully, %s:%s";
     private static final String CARD_CREATED_FAILED_MESSAGE_TEMPLATE = "Failed to send message, %s:%s";
-    private static final String SET_UP_NOTIFICATION = "Please fill in your trello configuration in: Preferences -> TW Code Review Tools";
-    private static final String AUTHORIZED_FAIL_EXCEPTION = "Can not access your trello board, please check your trello configuration in: Preferences -> TW Code Review Tools";
     private CodeReviewBoardService codeReviewBoardService;
 
     @Override
@@ -32,8 +32,14 @@ public class CodeReviewFeedbackAction extends AnAction {
 
         try {
             doAction(actionEvent);
-        } catch (BaseException exception) {
-            Notifier.notifyError(project, exception.getMessage());
+        } catch (Exception exception) {
+            if (exception.getMessage().equals(BOARD_ID_INVALID_ERROR_MESSAGE)) {
+                Notifier.notifyError(project, INVALID_BOARD_ID_NOTIFICATION);
+            } else if (exception instanceof NotAuthorizedException) {
+                Notifier.notifyError(project, AUTHORIZED_FAILED_NOTIFICATION);
+            } else {
+                Notifier.notifyError(project, exception.getMessage());
+            }
         }
     }
 
@@ -59,25 +65,11 @@ public class CodeReviewFeedbackAction extends AnAction {
     }
 
     private void createCodeReviewFeedbackCard(FeedbackContext feedbackContext, String cardDesc) {
-        String todayCodeReviewListId = getTodayCodeReviewListId();
+        String todayCodeReviewListId = codeReviewBoardService.getTodayCodeReviewListId();
         try {
             codeReviewBoardService.createCodeReviewCard(feedbackContext, cardDesc, todayCodeReviewListId);
         } catch (Exception e) {
             throw new BaseException(String.format(CARD_CREATED_FAILED_MESSAGE_TEMPLATE, feedbackContext.getFeedback(), cardDesc));
-        }
-    }
-
-    private String getTodayCodeReviewListId() {
-        try {
-            return codeReviewBoardService.getTodayCodeReviewListId();
-        } catch (NotAuthorizedException notAuthorizedException) {
-            throw new BaseException(AUTHORIZED_FAIL_EXCEPTION);
-        } catch (TrelloBadRequestException trelloBadRequestException) {
-            if (trelloBadRequestException.getMessage().equals("invalid id")) {
-                throw new BaseException(TrelloRequestErrorConstant.INVALID_CONFIGURATION);
-            } else {
-                throw new BaseException("please check your network");
-            }
         }
     }
 
