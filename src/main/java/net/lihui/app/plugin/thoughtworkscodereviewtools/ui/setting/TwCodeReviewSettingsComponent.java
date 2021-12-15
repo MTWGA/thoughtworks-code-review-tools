@@ -59,6 +59,10 @@ public class TwCodeReviewSettingsComponent {
         this.trelloSettingStatusLabel.setText(trelloSettingStatusLabel);
     }
 
+    public void setTrelloDueIntervalTime(String dueIntervalTimeText) {
+        this.trelloDueIntervalTimeTextField.setText(dueIntervalTimeText);
+    }
+
     public TrelloConfiguration getCurrentTrelloConfiguration() {
         return TrelloConfiguration.builder()
                 .trelloApiKey(trelloApiKeyTextField.getText())
