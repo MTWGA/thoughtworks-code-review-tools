@@ -4,9 +4,15 @@
 
 ## [Unreleased]
 
+## [0.0.9]
+
+- adjust submit style and add label element
+- 更换提交风格并添加标签元素
+
+## [0.0.8]
+
 - Add select multiple people to Trello to the card
 - 添加选择多个人到 Trello 到卡中
--
 
 ## [0.0.7]
 
