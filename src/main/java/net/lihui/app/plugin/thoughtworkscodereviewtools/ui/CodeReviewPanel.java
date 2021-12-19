@@ -1,5 +1,6 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.ui;
 
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.CollectionComboBoxModel;
 import com.julienvey.trello.domain.Member;
@@ -31,7 +32,6 @@ import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapp
 
 public class CodeReviewPanel extends JPanel {
     private static final int DEFAULT_COMBO_BOX_DISPLAY_COUNT = 5;
-    private static final String REFRESH_BUTTON_TEXT = "refresh";
     private ComboBox<OwnerDTO> ownerComboBox;
     private JTextField feedbackTextField;
     private JButton refreshButton;
@@ -45,8 +45,9 @@ public class CodeReviewPanel extends JPanel {
     }
 
     private void initRefreshButton() {
-        refreshButton = new JButton(REFRESH_BUTTON_TEXT);
+        refreshButton = new JButton(AllIcons.Actions.Refresh);
         refreshButton.addActionListener(this::refreshAction);
+        refreshButton.setPreferredSize(new Dimension(30, 30));
         this.add(refreshButton);
     }
 
