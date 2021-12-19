@@ -34,7 +34,6 @@ public class CodeReviewPanel extends JPanel {
     private static final int DEFAULT_COMBO_BOX_DISPLAY_COUNT = 5;
     private ComboBox<OwnerDTO> ownerComboBox;
     private JTextField feedbackTextField;
-    private JButton refreshButton;
     private ComboBox<LabelDTO> labelComboBox;
 
     public CodeReviewPanel() {
@@ -45,7 +44,7 @@ public class CodeReviewPanel extends JPanel {
     }
 
     private void initRefreshButton() {
-        refreshButton = new JButton(AllIcons.Actions.Refresh);
+        JButton refreshButton = new JButton(AllIcons.Actions.Refresh);
         refreshButton.addActionListener(this::refreshAction);
         refreshButton.setPreferredSize(new Dimension(30, 30));
         this.add(refreshButton);
