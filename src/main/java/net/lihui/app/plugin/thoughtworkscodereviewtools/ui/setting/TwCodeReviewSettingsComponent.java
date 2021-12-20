@@ -7,8 +7,11 @@ import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
+import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Supports creating and managing a {@link JPanel} for the Settings Dialog.
@@ -20,18 +23,42 @@ public class TwCodeReviewSettingsComponent {
     private final JBTextField trelloApiKeyTextField = new JBTextField();
     private final JBTextField trelloApiTokenTextField = new JBTextField();
     private final JBTextField trelloBoardIdTextField = new JBTextField();
-    private final JBLabel trelloSettingStatusLabel = new JBLabel("");
     private final JBTextField trelloDueIntervalTimeTextField = new JBTextField("24");
+    private final JBLabel trelloSettingStatusLabel = new JBLabel("");
+    private final JButton testTrelloConfigurationButton = new JButton("Test Connection");
+    private final JBLabel trelloSettingStatusTipsLabel = new JBLabel("Setting status:");
+    private final String CONNECTION_SUCCESS_TIPS = "Connection Success!";
+    private final String CONNECTION_FAIL_TIPS = "Connection Fail";
 
     public TwCodeReviewSettingsComponent() {
+        testTrelloConfigurationButton.addActionListener(e -> {
+            doTrelloTestConnection();
+        });
+        trelloSettingStatusTipsLabel.setVisible(false);
         mainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Enter trello key: "), trelloApiKeyTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter trello token: "), trelloApiTokenTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter trello code review board: "), trelloBoardIdTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter Due time hours after submit"), trelloDueIntervalTimeTextField, 1, false)
-                .addLabeledComponent(new JBLabel("Setting status: "), trelloSettingStatusLabel, 1, false)
+                .addComponent(testTrelloConfigurationButton)
+                .addLabeledComponent(testTrelloConfigurationButton, trelloSettingStatusLabel, 1, false)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
+    }
+
+    private void doTrelloTestConnection() {
+        trelloSettingStatusLabel.setVisible(true);
+        try {
+            TrelloState trelloState = TrelloState.getInstance();
+            trelloState.setState(this.getCurrentTrelloConfiguration());
+            CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloState.getState());
+            codeReviewBoardService.updateBoardState();
+            trelloSettingStatusLabel.setForeground(Color.GREEN);
+            trelloSettingStatusLabel.setText(CONNECTION_SUCCESS_TIPS);
+        } catch (Exception e) {
+            trelloSettingStatusLabel.setForeground(Color.RED);
+            trelloSettingStatusLabel.setText(CONNECTION_FAIL_TIPS);
+        }
     }
 
 
