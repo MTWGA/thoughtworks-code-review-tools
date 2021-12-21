@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.AUTHORIZED_FAILED_NOTIFICATION;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.AUTHORIZED_FAILED_FILL_SETTING_NOTIFICATION;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.BOARD_ID_INVALID_ERROR_MESSAGE;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.INVALID_BOARD_ID_NOTIFICATION;
 
@@ -63,7 +63,7 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
             if (exception.getMessage().equals(BOARD_ID_INVALID_ERROR_MESSAGE)) {
                 twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(INVALID_BOARD_ID_NOTIFICATION);
             } else if (exception instanceof NotAuthorizedException) {
-                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(AUTHORIZED_FAILED_NOTIFICATION);
+                twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(AUTHORIZED_FAILED_FILL_SETTING_NOTIFICATION);
             } else {
                 twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(exception.getMessage());
             }

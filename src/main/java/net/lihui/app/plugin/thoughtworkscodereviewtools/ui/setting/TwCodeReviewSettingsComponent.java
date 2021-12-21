@@ -6,12 +6,16 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.ui.setting;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
+import com.julienvey.trello.NotAuthorizedException;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
-import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloState;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.service.CodeReviewBoardService;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.AUTHORIZED_FAILED_NOTIFICATION;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.BOARD_ID_INVALID_ERROR_MESSAGE;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.INVALID_BOARD_ID_NOTIFICATION;
 
 /**
  * Supports creating and managing a {@link JPanel} for the Settings Dialog.
@@ -48,16 +52,21 @@ public class TwCodeReviewSettingsComponent {
 
     private void doTrelloTestConnection() {
         trelloSettingStatusLabel.setVisible(true);
+        TrelloConfiguration trelloConfiguration = this.getCurrentTrelloConfiguration();
+        CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);
         try {
-            TrelloState trelloState = TrelloState.getInstance();
-            trelloState.setState(this.getCurrentTrelloConfiguration());
-            CodeReviewBoardService codeReviewBoardService = new CodeReviewBoardService(trelloState.getState());
-            codeReviewBoardService.updateBoardState();
+            codeReviewBoardService.getTrelloBoardMembers();
             trelloSettingStatusLabel.setForeground(Color.GREEN);
             trelloSettingStatusLabel.setText(CONNECTION_SUCCESS_TIPS);
-        } catch (Exception e) {
+        } catch (Exception exception) {
             trelloSettingStatusLabel.setForeground(Color.RED);
-            trelloSettingStatusLabel.setText(CONNECTION_FAIL_TIPS);
+            if (exception.getMessage().equals(BOARD_ID_INVALID_ERROR_MESSAGE)) {
+                trelloSettingStatusLabel.setText(INVALID_BOARD_ID_NOTIFICATION);
+            } else if (exception instanceof NotAuthorizedException) {
+                trelloSettingStatusLabel.setText(AUTHORIZED_FAILED_NOTIFICATION);
+            } else {
+                trelloSettingStatusLabel.setText(exception.getMessage());
+            }
         }
     }
 

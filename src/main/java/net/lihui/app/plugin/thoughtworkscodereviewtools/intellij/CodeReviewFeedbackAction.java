@@ -13,7 +13,7 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDia
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
 
 import static java.util.Objects.isNull;
-import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.AUTHORIZED_FAILED_NOTIFICATION;
+import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.AUTHORIZED_FAILED_FILL_SETTING_NOTIFICATION;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.BOARD_ID_INVALID_ERROR_MESSAGE;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.INVALID_BOARD_ID_NOTIFICATION;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.SET_UP_NOTIFICATION;
@@ -36,7 +36,7 @@ public class CodeReviewFeedbackAction extends AnAction {
             if (exception.getMessage().equals(BOARD_ID_INVALID_ERROR_MESSAGE)) {
                 Notifier.notifyError(project, INVALID_BOARD_ID_NOTIFICATION);
             } else if (exception instanceof NotAuthorizedException) {
-                Notifier.notifyError(project, AUTHORIZED_FAILED_NOTIFICATION);
+                Notifier.notifyError(project, AUTHORIZED_FAILED_FILL_SETTING_NOTIFICATION);
             } else {
                 Notifier.notifyError(project, exception.getMessage());
             }
