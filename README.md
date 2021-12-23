@@ -7,11 +7,9 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/17968.svg)](https://plugins.jetbrains.com/plugin/17968)
 
 <!-- Plugin description -->
-The purpose of developing this plug-in is to improve the work efficiency of Code Review and the joy of Code Review. The
-software will be updated quickly in the near future. Please update to the latest version in time.
+The purpose of developing this plug-in is to improve the work efficiency of Code Review and the joy of Code Review.
 
 开发本插件的目的是 Code Review 提高工作效率，插件需要和Trello配合使用，我们希望在code review中发现问题，在Trello中记录问题，并用Trello统计出现的问题，以此为方向给团队赋能。
-<!-- Plugin description end -->
 
 ## Installation
 
@@ -63,6 +61,8 @@ software will be updated quickly in the near future. Please update to the latest
 ## Refresh
 
 - Use refresh button if a new member or label just be added to Trello board
+
+<!-- Plugin description end -->
 
 ---
 
