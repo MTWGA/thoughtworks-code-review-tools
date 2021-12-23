@@ -1,8 +1,8 @@
 # Thoughtworks code review tools
 
-[![Build](https://github.com/tcpgnl/thoughtworks-code-review-tools/actions/workflows/build.yml/badge.svg)](https://github.com/tcpgnl/thoughtworks-code-review-tools/actions/workflows/build.yml)
-[![CodeQL](https://github.com/tcpgnl/thoughtworks-code-review-tools/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/tcpgnl/thoughtworks-code-review-tools/actions/workflows/codeql-analysis.yml)
-[![Release](https://github.com/tcpgnl/thoughtworks-code-review-tools/actions/workflows/release.yml/badge.svg)](https://github.com/tcpgnl/thoughtworks-code-review-tools/actions/workflows/release.yml)
+[![Build](https://github.com/MTWGA/thoughtworks-code-review-tools/actions/workflows/build.yml/badge.svg)](https://github.com/MTWGA/thoughtworks-code-review-tools/actions/workflows/build.yml)
+[![CodeQL](https://github.com/MTWGA/thoughtworks-code-review-tools/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/MTWGA/thoughtworks-code-review-tools/actions/workflows/codeql-analysis.yml)
+[![Release](https://github.com/MTWGA/thoughtworks-code-review-tools/actions/workflows/release.yml/badge.svg)](https://github.com/MTWGA/thoughtworks-code-review-tools/actions/workflows/release.yml)
 [![Version](https://img.shields.io/jetbrains/plugin/v/17968.svg)](https://plugins.jetbrains.com/plugin/17968)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/17968.svg)](https://plugins.jetbrains.com/plugin/17968)
 
@@ -68,6 +68,6 @@ The purpose of developing this plug-in is to improve the work efficiency of Code
 
 ## Contributors
 
-<a href="https://github.com/tcpgnl/thoughtworks-code-review-tools/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=tcpgnl/thoughtworks-code-review-tools" />
+<a href="https://github.com/MTWGA/thoughtworks-code-review-tools/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=MTWGA/thoughtworks-code-review-tools" />
 </a>
