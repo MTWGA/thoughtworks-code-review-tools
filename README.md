@@ -28,11 +28,12 @@ The purpose of developing this plug-in is to improve the work efficiency of Code
 ## Configuration
 - Set up your Trello configuration here:
 
-  ![configuration](imgs/configuration.png)
-  
+  ![configuration](https://cdn.jsdelivr.net/gh/MTWGA/thoughtworks-code-review-tools@master/imgs/configuration.png)
+
 - Trello key & token can be got here: [https://trello.com/app-key](https://trello.com/app-key)
-  
-- Board id can be found in url: ![boardId](imgs/boardID.png)
+
+- Board id can be found in
+  url: ![boardId](https://cdn.jsdelivr.net/gh/MTWGA/thoughtworks-code-review-tools@master/imgs/boardID.png)
 
 - Due time will be added to card for marking as done when problem solved
 
@@ -45,17 +46,17 @@ The purpose of developing this plug-in is to improve the work efficiency of Code
 ## How to use
   1. Select the code
 
-  ![selectCode](./imgs/selectCoed.png)
+![selectCode](https://cdn.jsdelivr.net/gh/MTWGA/thoughtworks-code-review-tools@master/imgs/selectCoed.png)
   
   2. Call the tool by default shortcut: cmd + option + i
 
   3. Enter Owner, Label, feedback, then press enter
-  
-  ![codereviewTool](imgs/codeReviewPanel.png)
+
+![codereviewTool](https://cdn.jsdelivr.net/gh/MTWGA/thoughtworks-code-review-tools@master/imgs/codeReviewPanel.png)
 
   4. A notification will display if the Trello card created
 
-  ![receipt](./imgs/receipt.png)
+![receipt](https://cdn.jsdelivr.net/gh/MTWGA/thoughtworks-code-review-tools@master/imgs/receipt.png)
 
 
 ## Refresh
