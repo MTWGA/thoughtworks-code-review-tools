@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.1.0]
+
+- update README
+- 更新README
+
 ## [0.0.9]
 
 - adjust submit style and add label element
