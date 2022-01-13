@@ -31,6 +31,8 @@ The purpose of developing this plug-in is to improve the work efficiency of Code
   ![configuration](https://cdn.jsdelivr.net/gh/MTWGA/thoughtworks-code-review-tools@master/imgs/configuration.png)
 
 - Trello key & token can be got here: [https://trello.com/app-key](https://trello.com/app-key)
+  
+  trello key and token: ![trelloKeyAndToken](https://cdn.jsdelivr.net/gh/Afaren/thoughtworks-code-review-tools@master/imgs/trelloKeyAndToken.png)
 
 - Board id can be found in
   url: ![boardId](https://cdn.jsdelivr.net/gh/MTWGA/thoughtworks-code-review-tools@master/imgs/boardID.png)
