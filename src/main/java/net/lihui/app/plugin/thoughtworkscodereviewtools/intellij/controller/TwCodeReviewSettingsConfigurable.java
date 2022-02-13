@@ -23,7 +23,6 @@ import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRe
  */
 public class TwCodeReviewSettingsConfigurable implements Configurable {
 
-    private static final String SETTING_STATUS_LABEL_OK = "OK";
     private static final String CODE_REVIEW_PLUGIN_DISPLAY_NAME = "TW Code Review Tools";
     private TwCodeReviewSettingsComponent twCodeReviewSettingsComponent;
 
@@ -72,7 +71,6 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
 
     private void doApply() {
         updateLocalState();
-        twCodeReviewSettingsComponent.setTrelloSettingStatusLabel(SETTING_STATUS_LABEL_OK);
     }
 
     private void updateLocalState() {

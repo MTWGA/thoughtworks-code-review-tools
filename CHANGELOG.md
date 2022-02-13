@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+- fix apply message bug
+- 修复应用配置信息时的显示提示信息的bug
+
 ## [0.1.0]
 
 - update README
