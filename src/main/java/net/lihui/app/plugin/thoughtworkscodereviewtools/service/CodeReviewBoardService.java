@@ -16,9 +16,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.LabelMapper.LABEL_MAPPER;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapper.MEMBER_MAPPER;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CodeReviewBoardService {
     private final TrelloClient trelloClient;
@@ -41,6 +43,9 @@ public class CodeReviewBoardService {
 
     public Card createCodeReviewCard(FeedbackContext feedBackContext, String cardDesc, String todayCodeReviewListId) {
         Date dueDate = DateUtils.addHours(new Date(), trelloConfiguration.getDueIntervalHours());
+        if (isBlank(feedBackContext.getFeedback()) && !isNull(feedBackContext.getLabel())) {
+            feedBackContext.setFeedback(feedBackContext.getLabel().getName());
+        }
         Card card = Card.builder()
                 .idList(todayCodeReviewListId)
                 .name(feedBackContext.getFeedback())
