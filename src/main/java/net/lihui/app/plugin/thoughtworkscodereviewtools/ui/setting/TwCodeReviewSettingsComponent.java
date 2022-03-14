@@ -29,15 +29,13 @@ public class TwCodeReviewSettingsComponent {
     private final JBTextField trelloBoardIdTextField = new JBTextField();
     private final JBTextField trelloDueIntervalTimeTextField = new JBTextField("24");
     private final JBLabel trelloSettingStatusLabel = new JBLabel("");
-    private final JButton testTrelloConfigurationButton = new JButton("Test Connection");
-    private final JBLabel trelloSettingStatusTipsLabel = new JBLabel("Setting status:");
-    private final String CONNECTION_SUCCESS_TIPS = "Connection Success!";
-    private final String CONNECTION_FAIL_TIPS = "Connection Fail";
+    private static final String CONNECTION_SUCCESS_TIPS = "Connection Success!";
+
 
     public TwCodeReviewSettingsComponent() {
-        testTrelloConfigurationButton.addActionListener(e -> {
-            doTrelloTestConnection();
-        });
+        JButton testTrelloConfigurationButton = new JButton("Test Connection");
+        testTrelloConfigurationButton.addActionListener(e -> doTrelloTestConnection());
+        JBLabel trelloSettingStatusTipsLabel = new JBLabel("Setting status:");
         trelloSettingStatusTipsLabel.setVisible(false);
         mainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Enter trello key: "), trelloApiKeyTextField, 1, false)
