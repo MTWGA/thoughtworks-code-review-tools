@@ -17,7 +17,6 @@ import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRe
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.BOARD_ID_INVALID_ERROR_MESSAGE;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.INVALID_BOARD_ID_NOTIFICATION;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.SET_UP_NOTIFICATION;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CodeReviewFeedbackAction extends AnAction {
     private static final String CARD_DESCRIPTION_TEMPLATE = "### %s%n%s%n%n> %s";
@@ -80,11 +79,7 @@ public class CodeReviewFeedbackAction extends AnAction {
             return null;
         }
 
-        FeedbackContext feedbackContext = codeReviewFeedbackDialog.getFeedbackContext();
-        if (isBlank(feedbackContext.getFeedback())) {
-            throw new BaseException("feedback can not be blank, please input your feedback!");
-        }
-        return feedbackContext;
+        return codeReviewFeedbackDialog.getFeedbackContext();
     }
 
     private String buildCardDesc(UserSelectedInfo userSelectedInfo) {

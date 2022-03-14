@@ -14,6 +14,8 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.0"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.12"
+    id("org.sonarqube") version "2.7"
+
 }
 
 group = properties("pluginGroup")
@@ -85,15 +87,15 @@ tasks {
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
         pluginDescription.set(
-            projectDir.resolve("README.md").readText().lines().run {
-                val start = "<!-- Plugin description -->"
-                val end = "<!-- Plugin description end -->"
+                projectDir.resolve("README.md").readText().lines().run {
+                    val start = "<!-- Plugin description -->"
+                    val end = "<!-- Plugin description end -->"
 
-                if (!containsAll(listOf(start, end))) {
-                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                }
-                subList(indexOf(start) + 1, indexOf(end))
-            }.joinToString("\n").run { markdownToHTML(this) }
+                    if (!containsAll(listOf(start, end))) {
+                        throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                    }
+                    subList(indexOf(start) + 1, indexOf(end))
+                }.joinToString("\n").run { markdownToHTML(this) }
         )
 
         // Get the latest available change notes from the changelog file

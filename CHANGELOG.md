@@ -3,6 +3,9 @@
 # ThoughtworksCodeReviewTools Changelog
 
 ## [Unreleased]
+
+## [0.1.1]
+
 - add tag name when no feedback
 - 当未输入 feedback 时, 将 tag 名称做填充
 - fix apply message bug
