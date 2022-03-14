@@ -3,6 +3,9 @@
 # ThoughtworksCodeReviewTools Changelog
 
 ## [Unreleased]
+- fix memory leak error when build in 2020.3.4 [link](https://youtrack.jetbrains.com/issue/KTIJ-699)
+- 修复基于2020.3.4 编译时的内存溢出问题 [相关链接](https://youtrack.jetbrains.com/issue/KTIJ-699)
+-
 
 ## [0.1.1]
 
