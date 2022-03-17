@@ -171,4 +171,5 @@ jobs:
           gh release create v${{ needs.build.outputs.version }} \
             --draft \
             --title "v${{ needs.build.outputs.version }}" \
-            --notes "${{ needs.build.outputs.changelog }}"
+            --notes "${{ needs.build.outputs.changelog }}" \
+            ./build/distributions/*
