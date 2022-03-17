@@ -45,14 +45,16 @@ public class CodeReviewPanel extends JPanel {
 
     private void initRefreshButton() {
         JButton refreshButton = new JButton(AllIcons.Actions.Refresh);
+        Dimension oldPreferredSize = refreshButton.getPreferredSize();
+        Dimension squareSize = new Dimension(oldPreferredSize.height, oldPreferredSize.height);
+        refreshButton.setPreferredSize(squareSize);
+
         refreshButton.addActionListener(this::refreshAction);
-        refreshButton.setPreferredSize(new Dimension(30, 30));
         this.add(refreshButton);
     }
 
     private void initFeedbackTextField() {
-        feedbackTextField = new JTextField();
-        feedbackTextField.setPreferredSize(new Dimension(200, 30));
+        feedbackTextField = new JTextField(20);
         this.add(feedbackTextField);
     }
 
