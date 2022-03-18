@@ -138,7 +138,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew sonarqube -Dsonar.projectKey=thoughtworks-code-review-tools
+        run: ./gradlew sonarqube -Dsonar.projectKey=thoughtworks-code-review-tools -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
       # Store built plugin as an artifact for downloading
       - name: Upload artifacts
