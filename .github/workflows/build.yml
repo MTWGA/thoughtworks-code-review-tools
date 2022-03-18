@@ -134,6 +134,12 @@ jobs:
       - name: Build Plugin
         run: ./gradlew buildPlugin
 
+      - name: run sonar
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: ./gradlew sonarqube -Dsonar.projectKey=thoughtworks-code-review-tools
+
       # Store built plugin as an artifact for downloading
       - name: Upload artifacts
         uses: actions/upload-artifact@v2.2.4
