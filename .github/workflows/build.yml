@@ -142,7 +142,7 @@ jobs:
 
       # Store built plugin as an artifact for downloading
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3
         with:
           name: "${{ steps.properties.outputs.name }} - ${{ steps.properties.outputs.version }}"
           path: ./build/distributions/*
