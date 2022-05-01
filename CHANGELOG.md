@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [1.0.1]
+
+- support idea 2022.1
+- 支持 idea 2022.1
+
 ## [1.0.0]
 
 - official release 1.0.0 version
