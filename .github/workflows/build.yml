@@ -76,7 +76,7 @@ jobs:
 
       # Run Qodana inspections
       - name: Qodana - Code Inspection
-        uses: JetBrains/qodana-action@v2022.2.1
+        uses: JetBrains/qodana-action@v2022.2.3
 
       # Run tests
       - name: Run Tests
