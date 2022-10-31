@@ -14,7 +14,7 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.1"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.13"
-    id("org.sonarqube") version "3.3"
+    id("org.sonarqube") version "3.5.0.2730"
 
 }
 
