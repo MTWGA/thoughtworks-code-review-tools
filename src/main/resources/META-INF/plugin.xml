@@ -26,6 +26,7 @@
                 class="net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.CodeReviewFeedbackAction" text="Code Review Feedback"
                 description="Submit code review message">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="control alt I"/>
         </action>
     </actions>

@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+- update gradle wrapper 7.3
+- 升级 gradle wrapper 7.3
+- add actions trigger in editor popup menus
+- 在编辑器弹出框中加入触发器
+
+
 ## [1.0.3]
 
 - support idea 2022.3
