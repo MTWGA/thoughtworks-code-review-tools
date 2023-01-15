@@ -3,6 +3,7 @@ package net.lihui.app.plugin.thoughtworkscodereviewtools.intellij;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -43,18 +44,21 @@ public class UserSelectedInfo {
 
     private String getRelativePath(String canonicalPath) {
         int projectNameIndex = canonicalPath.indexOf(getProjectName());
+        boolean isExistedFolded = this.editor.getFoldingModel().getAllFoldRegions().length > 0;
         return canonicalPath.substring(projectNameIndex + getProjectName().length() + 1)
                 + ' '
-                + getSelectedTextStartLine()
+                + getSelectedTextStartLine(isExistedFolded)
                 + '-'
-                + getSelectTextEndLine();
+                + getSelectTextEndLine(isExistedFolded);
     }
 
-    private int getSelectTextEndLine() {
-        return this.editor.getSelectionModel().getSelectionEndPosition().getLine() + 1;
+    private int getSelectedTextStartLine(boolean isExistedFolded) {
+        VisualPosition selectionStartPosition = this.editor.getSelectionModel().getSelectionStartPosition();
+        return isExistedFolded ? this.editor.visualToLogicalPosition(selectionStartPosition).line + 1 : selectionStartPosition.getLine() + 1;
     }
 
-    private int getSelectedTextStartLine() {
-        return this.editor.getSelectionModel().getSelectionStartPosition().getLine() + 1;
+    private int getSelectTextEndLine(boolean isExistedFolded) {
+        VisualPosition selectionEndPosition = this.editor.getSelectionModel().getSelectionEndPosition();
+        return isExistedFolded ? this.editor.visualToLogicalPosition(selectionEndPosition).line + 1 : selectionEndPosition.getLine() + 1;
     }
 }
