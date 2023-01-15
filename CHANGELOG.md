@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [1.0.3]
+
+- support idea 2022.3
+- 支持 idea 2022.3
+
 ## [1.0.2]
 
 - support idea 2022.2
