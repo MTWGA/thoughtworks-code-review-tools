@@ -9,6 +9,12 @@
 - add actions trigger in editor popup menus
 - 在编辑器弹出框中加入触发器
 
+## [1.0.5]
+
+- support idea to any number
+- 支持 idea 未来的任意版本
+
+
 ## [1.0.4]
 
 - support idea 2023.1
