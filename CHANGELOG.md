@@ -9,6 +9,10 @@
 - add actions trigger in editor popup menus
 - 在编辑器弹出框中加入触发器
 
+## [1.0.4]
+
+- support idea 2023.1
+- 支持 idea 2023.1
 
 ## [1.0.3]
 
