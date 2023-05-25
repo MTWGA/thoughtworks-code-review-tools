@@ -30,13 +30,13 @@ dependencies {
         exclude("org.slf4j", "slf4j-api")
     }
     implementation("org.springframework:spring-web:3.1.4.RELEASE")
-    compileOnly("org.projectlombok:lombok:1.18.26")
+    compileOnly("org.projectlombok:lombok:1.18.28")
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
-    annotationProcessor("org.projectlombok:lombok:1.18.22")
+    annotationProcessor("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.4.2.Final")
 
-    testCompileOnly("org.projectlombok:lombok:1.18.22")
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.22")
+    testCompileOnly("org.projectlombok:lombok:1.18.28")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.28")
 }
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
