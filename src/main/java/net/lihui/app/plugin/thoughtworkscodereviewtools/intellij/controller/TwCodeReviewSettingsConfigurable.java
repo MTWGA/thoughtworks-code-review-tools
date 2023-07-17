@@ -87,6 +87,7 @@ public class TwCodeReviewSettingsConfigurable implements Configurable {
         twCodeReviewSettingsComponent.setTrelloApiKey(trelloConfiguration.getTrelloApiKey());
         twCodeReviewSettingsComponent.setTrelloApiToken(trelloConfiguration.getTrelloApiToken());
         twCodeReviewSettingsComponent.setTrelloBoardId(trelloConfiguration.getTrelloBoardId());
+        twCodeReviewSettingsComponent.setTrelloDefaultMemberId(trelloConfiguration.getTrelloDefaultMemberId());
         twCodeReviewSettingsComponent.setTrelloDueIntervalTime(String.valueOf(trelloConfiguration.getDueIntervalHours()));
     }
 
