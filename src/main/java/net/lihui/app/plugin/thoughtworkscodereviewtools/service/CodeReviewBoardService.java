@@ -15,6 +15,8 @@ import org.apache.commons.lang.time.DateUtils;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -31,9 +33,9 @@ public class CodeReviewBoardService {
         this.trelloConfiguration = trelloConfiguration;
     }
 
-    public String getTodayCodeReviewListId() {
+    public String getTodayCodeReviewListId(String listName) {
         List<TList> boardListCollection = trelloClient.getBoardListCollection();
-        String codeReviewListName = buildTodayCodeReviewListName();
+        String codeReviewListName = isBlank(listName) ? buildTodayCodeReviewListName() : listName;
         return boardListCollection.stream()
                 .filter(list -> list.getName().equals(codeReviewListName))
                 .findFirst()

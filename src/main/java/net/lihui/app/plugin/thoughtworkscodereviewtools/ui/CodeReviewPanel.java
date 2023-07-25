@@ -33,11 +33,13 @@ import static net.lihui.app.plugin.thoughtworkscodereviewtools.mapper.MemberMapp
 public class CodeReviewPanel extends JPanel {
     private static final int DEFAULT_COMBO_BOX_DISPLAY_COUNT = 5;
     private ComboBox<OwnerDTO> ownerComboBox;
+    private JTextField listNameTextField;
     private JTextField feedbackTextField;
     private ComboBox<LabelDTO> labelComboBox;
 
     public CodeReviewPanel() {
         initOwnerComboBox();
+        initListNameTextField();
         initLabelComboBox();
         initFeedbackTextField();
         initRefreshButton();
@@ -51,6 +53,11 @@ public class CodeReviewPanel extends JPanel {
 
         refreshButton.addActionListener(this::refreshAction);
         this.add(refreshButton);
+    }
+
+    private void initListNameTextField() {
+        listNameTextField = new JTextField(20);
+        this.add(listNameTextField);
     }
 
     private void initFeedbackTextField() {
@@ -120,6 +127,7 @@ public class CodeReviewPanel extends JPanel {
 
     public FeedbackContext getFeedbackContext() {
         return FeedbackContext.builder()
+                .listName(listNameTextField.getText())
                 .feedback(feedbackTextField.getText())
                 .member(getSelectedMember())
                 .label(getSelectedLabel())

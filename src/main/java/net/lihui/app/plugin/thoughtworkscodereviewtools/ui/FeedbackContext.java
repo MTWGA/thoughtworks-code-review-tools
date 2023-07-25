@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class FeedbackContext {
+    private String listName;
     private String feedback;
     private Member member;
     private Label label;

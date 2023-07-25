@@ -64,7 +64,7 @@ public class CodeReviewFeedbackAction extends AnAction {
     }
 
     private void createCodeReviewFeedbackCard(FeedbackContext feedbackContext, String cardDesc) {
-        String todayCodeReviewListId = codeReviewBoardService.getTodayCodeReviewListId();
+        String todayCodeReviewListId = codeReviewBoardService.getTodayCodeReviewListId(feedbackContext.getListName());
         try {
             codeReviewBoardService.createCodeReviewCard(feedbackContext, cardDesc, todayCodeReviewListId);
         } catch (Exception e) {
