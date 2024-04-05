@@ -1,5 +1,9 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.constant;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access= AccessLevel.PRIVATE)
 public class TrelloRequestErrorConstant {
     public static final String BOARD_ID_INVALID_ERROR_MESSAGE = "invalid id";
 

@@ -13,6 +13,7 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.CodeReviewFeedbackDia
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.AUTHORIZED_FAILED_FILL_SETTING_NOTIFICATION;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.BOARD_ID_INVALID_ERROR_MESSAGE;
 import static net.lihui.app.plugin.thoughtworkscodereviewtools.constant.TrelloRequestErrorConstant.INVALID_BOARD_ID_NOTIFICATION;
@@ -57,7 +58,7 @@ public class CodeReviewFeedbackAction extends AnAction {
 
     private void initCodeReviewBoardService() {
         TrelloConfiguration trelloConfiguration = TrelloState.getInstance().getState();
-        if (trelloConfiguration.isAnyBlank()) {
+        if (nonNull(trelloConfiguration) && trelloConfiguration.isAnyBlank()) {
             throw new BaseException(SET_UP_NOTIFICATION);
         }
         codeReviewBoardService = new CodeReviewBoardService(trelloConfiguration);

@@ -67,6 +67,6 @@ public class TrelloClient {
     public List<Label> getLabels() {
         return trelloApi.getBoardLabels(trelloConfiguration.getTrelloBoardId()).stream()
                 .filter(label -> StringUtils.isNotBlank(label.getName()))
-                .collect(Collectors.toList());
+                .toList();
     }
 }
