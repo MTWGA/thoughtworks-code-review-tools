@@ -15,7 +15,7 @@ import java.util.List;
         storages = @Storage("$APP_CONFIG$/TwCodeReviewToolsSetting.xml")
 )
 public class TrelloBoardLabelState implements PersistentStateComponent<TrelloLabelProperties> {
-    private TrelloLabelProperties trelloLabelProperties = new TrelloLabelProperties();
+    private final TrelloLabelProperties trelloLabelProperties = new TrelloLabelProperties();
 
     public static TrelloBoardLabelState getInstance() {
         return ApplicationManager.getApplication().getService(TrelloBoardLabelState.class);

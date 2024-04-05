@@ -15,7 +15,7 @@ import java.util.List;
         storages = @Storage("$APP_CONFIG$/TwCodeReviewToolsSetting.xml")
 )
 public class TrelloBoardMemberState implements PersistentStateComponent<TrelloMemberProperties> {
-    private TrelloMemberProperties trelloMemberProperties = new TrelloMemberProperties();
+    private final TrelloMemberProperties trelloMemberProperties = new TrelloMemberProperties();
 
     public static TrelloBoardMemberState getInstance() {
         return ApplicationManager.getApplication().getService(TrelloBoardMemberState.class);
