@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE)
 public interface LabelMapper {
     LabelMapper LABEL_MAPPER = Mappers.getMapper(LabelMapper.class);
 

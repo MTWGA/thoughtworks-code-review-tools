@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE)
 public interface MemberMapper {
     MemberMapper MEMBER_MAPPER = Mappers.getMapper(MemberMapper.class);
 
