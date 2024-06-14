@@ -27,6 +27,7 @@ public class TwCodeReviewSettingsComponent {
     private final JBTextField trelloApiKeyTextField = new JBTextField();
     private final JBTextField trelloApiTokenTextField = new JBTextField();
     private final JBTextField trelloBoardIdTextField = new JBTextField();
+    private final JBTextField trelloDefaultMemberIdTextField = new JBTextField();
     private final JBTextField trelloDueIntervalTimeTextField = new JBTextField("24");
     private final JBLabel trelloSettingStatusLabel = new JBLabel("");
     private static final String CONNECTION_SUCCESS_TIPS = "Connection Success!";
@@ -41,6 +42,7 @@ public class TwCodeReviewSettingsComponent {
                 .addLabeledComponent(new JBLabel("Enter trello key: "), trelloApiKeyTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter trello token: "), trelloApiTokenTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter trello code review board: "), trelloBoardIdTextField, 1, false)
+                .addLabeledComponent(new JBLabel("Enter trello default member id: "), trelloDefaultMemberIdTextField, 1, false)
                 .addLabeledComponent(new JBLabel("Enter Due time hours after submit"), trelloDueIntervalTimeTextField, 1, false)
                 .addComponent(testTrelloConfigurationButton)
                 .addLabeledComponent(testTrelloConfigurationButton, trelloSettingStatusLabel, 1, false)
@@ -89,6 +91,10 @@ public class TwCodeReviewSettingsComponent {
         this.trelloBoardIdTextField.setText(trelloBoardId);
     }
 
+    public void setTrelloDefaultMemberId(String trelloDefaultMemberId) {
+        this.trelloDefaultMemberIdTextField.setText(trelloDefaultMemberId);
+    }
+
     public void setTrelloSettingStatusLabel(String trelloSettingStatusLabel) {
         this.trelloSettingStatusLabel.setText(trelloSettingStatusLabel);
     }
@@ -102,6 +108,7 @@ public class TwCodeReviewSettingsComponent {
                 .trelloApiKey(trelloApiKeyTextField.getText())
                 .trelloApiToken(trelloApiTokenTextField.getText())
                 .trelloBoardId(trelloBoardIdTextField.getText())
+                .trelloDefaultMemberId(trelloDefaultMemberIdTextField.getText())
                 .dueIntervalHours(Integer.parseInt(trelloDueIntervalTimeTextField.getText()))
                 .build();
     }
