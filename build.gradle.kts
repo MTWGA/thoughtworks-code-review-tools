@@ -29,7 +29,7 @@ dependencies {
     implementation("com.taskadapter:trello-java-wrapper:0.14") {
         exclude("org.slf4j", "slf4j-api")
     }
-    implementation("org.springframework:spring-web:3.1.4.RELEASE")
+    implementation("org.springframework:spring-web:6.1.10")
     compileOnly("org.projectlombok:lombok:1.18.32")
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     annotationProcessor("org.projectlombok:lombok:1.18.32")
