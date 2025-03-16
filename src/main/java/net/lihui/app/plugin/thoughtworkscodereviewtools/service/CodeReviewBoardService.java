@@ -1,6 +1,8 @@
 package net.lihui.app.plugin.thoughtworkscodereviewtools.service;
 
+import com.google.common.collect.Lists;
 import com.ibm.icu.text.SimpleDateFormat;
+import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.domain.TList;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.Card;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.client.TrelloClient;
@@ -11,10 +13,14 @@ import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloBoa
 import net.lihui.app.plugin.thoughtworkscodereviewtools.intellij.store.TrelloConfiguration;
 import net.lihui.app.plugin.thoughtworkscodereviewtools.ui.FeedbackContext;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -63,7 +69,24 @@ public class CodeReviewBoardService {
     }
 
     public List<TrelloBoardMember> getTrelloBoardMembers() {
-        return MEMBER_MAPPER.toStateList(trelloClient.getBoardMembers());
+        List<Member> boardMembers = trelloClient.getBoardMembers();
+        if (StringUtils.isNotBlank(trelloConfiguration.getTrelloDefaultMemberId())) {
+            return MEMBER_MAPPER.toStateList(topDefaultMember(boardMembers));
+        }
+        return MEMBER_MAPPER.toStateList(boardMembers);
+    }
+
+    @NotNull
+    private List<Member> topDefaultMember(List<Member> boardMembers) {
+        Predicate<Member> isDefaultMember = member -> member.getId().equals(trelloConfiguration.getTrelloDefaultMemberId());
+        Optional<Member> defaultMember = boardMembers.stream().filter(isDefaultMember).findFirst();
+        if (defaultMember.isPresent()) {
+            List<Member> sortedMembers = Lists.newArrayList();
+            sortedMembers.add(defaultMember.get());
+            boardMembers.stream().filter(member -> !isDefaultMember.test(member)).forEach(sortedMembers::add);
+            return sortedMembers;
+        }
+        return boardMembers;
     }
 
     public List<TrelloBoardLabel> getTrelloBoardLabels() {
@@ -77,9 +100,8 @@ public class CodeReviewBoardService {
     }
 
     public void updateBoardState() {
-        List<TrelloBoardMember> trelloBoardMembers = getTrelloBoardMembers();
         TrelloBoardMemberState boardMemberState = TrelloBoardMemberState.getInstance();
-        boardMemberState.updateTrelloBoardMemberList(trelloBoardMembers);
+        boardMemberState.updateTrelloBoardMemberList(getTrelloBoardMembers());
 
         List<TrelloBoardLabel> trelloBoardLabels = getTrelloBoardLabels();
         TrelloBoardLabelState boardLabelState = TrelloBoardLabelState.getInstance();
