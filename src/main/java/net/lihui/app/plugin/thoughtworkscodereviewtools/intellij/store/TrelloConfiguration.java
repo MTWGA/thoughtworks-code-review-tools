@@ -20,6 +20,8 @@ public class TrelloConfiguration {
     private String trelloApiToken;
     @Tag("trelloBoardId")
     private String trelloBoardId;
+    @Tag("trelloDefaultMemberId")
+    private String trelloDefaultMemberId;
     @Tag("dueIntervalHours")
     private int dueIntervalHours = 24;
 
